@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sådan fungerer processen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 32px;
+  }
+
+  .widget {
+    max-width: 960px;
+    width: 100%;
+  }
+
+  .widget-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #2a3d2b;
+    line-height: 1.15;
+    margin-bottom: 40px;
+  }
+
+  /* ── Grid layout ── */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr 56px 1fr;
+    grid-template-rows: 130px 64px 130px;
+    align-items: center;
+    position: relative;
+  }
+
+  .box-1 { grid-column: 1; grid-row: 1; }
+  .arrow-1 { grid-column: 2; grid-row: 1; }
+  .box-2 { grid-column: 3; grid-row: 1; }
+  .arrow-2 { grid-column: 4; grid-row: 1; }
+  .box-3 { grid-column: 5; grid-row: 1; }
+
+  .arrow-down { grid-column: 5; grid-row: 2; }
+
+  .box-6 { grid-column: 1; grid-row: 3; }
+  .arrow-5 { grid-column: 2; grid-row: 3; }
+  .box-5 { grid-column: 3; grid-row: 3; }
+  .arrow-4 { grid-column: 4; grid-row: 3; }
+  .box-4 { grid-column: 5; grid-row: 3; }
+
+  /* ── Boxes ── */
+  .step-box {
+    border-radius: 18px;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    height: 130px;
+    line-height: 1.4;
+    cursor: default;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+  }
+
+  .step-box.dark  { background: #3d5a3e; }
+  .step-box.light { background: #8fa882; }
+  .step-box.sage  { background: #A8A396; }
+
+  /* ── Step number badge ── */
+  .step-num {
+    position: absolute;
+    top: -11px;
+    left: -11px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #2a3d2b;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Arrow connector (horizontal) ──
+     The EasyLeave arrow SVG (BrownArrow) has its TAIL at top-left
+     and its SPEAR TIP pointing bottom-left — it's a looping downward shape.
+     We rotate it so the tail goes into the box on the LEFT and
+     the tip points freely to the RIGHT.
+     Tail side overlaps into preceding box via negative left margin.
+  */
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    /* Pull left so the tail of the arrow tucks behind the preceding box */
+    margin-left: -20px;
+    margin-right: 0;
+  }
+
+  .arrow-connector svg {
+    width: 60px;
+    height: 60px;
+    overflow: visible;
+  }
+
+  .arrow-connector.left {
+    margin-left: 0;
+    margin-right: -20px;
+  }
+
+  /* ── Down arrow (col 5, between rows) ── */
+  .arrow-down-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    /* Overlap upward into box-3 */
+    margin-top: -20px;
+    margin-bottom: 0;
+  }
+
+  .arrow-down-container svg {
+    width: 56px;
+    height: 56px;
+    overflow: visible;
+    /* Rotate so arrow points downward, tail tucked behind box above */
+    transform: rotate(0deg);
+  }
+
+  /* ── Wiggle on hover ── */
+  @keyframes wiggle-right {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(10deg); }
+    40%  { transform: rotate(-8deg); }
+    60%  { transform: rotate(5deg); }
+    80%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes wiggle-left {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-5deg); }
+    80%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* The inner <g class="wiggle-inner"> is what animates */
+  .arrow-connector:not(.left):hover .wiggle-inner,
+  .arrow-connector:not(.left).wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .arrow-connector.left:hover .wiggle-inner,
+  .arrow-connector.left.wiggling .wiggle-inner {
+    animation: wiggle-left 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .arrow-down-container:hover .wiggle-inner,
+  .arrow-down-container.wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  /* ── Footer note ── */
+  .footer-note {
+    margin-top: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #6b7c6b;
+    font-size: 0.82rem;
+    font-weight: 600;
+    max-width: 540px;
+  }
+
+  .footer-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #A8A396;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="widget">
+  <h1 class="widget-title">Sådan fungerer processen</h1>
+
+  <div class="flow">
+
+    <!-- ── ROW 1 ── -->
+    <div class="step-box light box-1">
+      <span class="step-num">1</span>
+      Medarbejder tilgår EasyLeave via QR eller intranet
+    </div>
+
+    <div class="arrow-connector arrow-1">
+      <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <!-- scaleX(-1) around center (358.41, 355.68): translate(716.82,0) scaleX(-1) -->
+        <g transform="translate(716.82,0) scale(-1,1)">
+          <g class="wiggle-inner">
+            <path fill="#8fa882" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-box dark box-2">
+      <span class="step-num">2</span>
+      Medarbejder varsler orlov i EasyLeave
+    </div>
+
+    <div class="arrow-connector arrow-2">
+      <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(716.82,0) scale(-1,1)">
+          <g class="wiggle-inner">
+            <path fill="#3d5a3e" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-box sage box-3">
+      <span class="step-num">3</span>
+      Information sendes til Leder &amp; Løn/HR
+    </div>
+
+    <!-- ── DOWN ARROW (col 5) ── -->
+    <div class="arrow-down-container arrow-down">
+      <svg viewBox="0 0 716.82 711.35" style="width:56px;height:56px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rotate 90deg around center to point downward, then flip X so head points down -->
+        <g transform="translate(358.41,355.68) rotate(90) scale(-1,1) translate(-358.41,-355.68)">
+          <g class="wiggle-inner">
+          <path fill="#A8A396" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ── ROW 2 (right → left) ── -->
+    <div class="step-box sage box-6">
+      <span class="step-num">6</span>
+      Information sendes til Leder &amp; Løn/HR
+    </div>
+
+    <div class="arrow-connector left arrow-5">
+      <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(1,1)">
+          <g class="wiggle-inner">
+          <path fill="#3d5a3e" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-box dark box-5">
+      <span class="step-num">5</span>
+      Medarbejder indberetter fuldt orlovsforløb
+    </div>
+
+    <div class="arrow-connector left arrow-4">
+      <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(1,1)">
+          <g class="wiggle-inner">
+          <path fill="#8fa882" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-box light box-4">
+      <span class="step-num">4</span>
+      Automatisk påmindelse til medarbejder og leder om orlovsindberetning
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    <div class="footer-dot"></div>
+    <span>Mulighed for integration med løn-, HR-, tids- og refusionssystemer, så data flyder automatisk og korrekt.</span>
+  </div>
+</div>
+
+<script>
+// Trigger wiggle on the arrow that LEAVES each box when hovering the box
+const boxArrowMap = {
+  'box-1': 'arrow-1',
+  'box-2': 'arrow-2',
+  'box-3': 'arrow-down-container',
+  'box-4': 'arrow-4',
+  'box-5': 'arrow-5',
+  // box-6 has no outgoing arrow
+};
+
+function triggerWiggle(arrowClass) {
+  const el = document.querySelector('.' + arrowClass);
+  if (!el) return;
+  el.classList.remove('wiggling');
+  void el.offsetWidth; // reflow to restart animation
+  el.classList.add('wiggling');
+  el.addEventListener('animationend', () => el.classList.remove('wiggling'), { once: true });
+}
+
+document.querySelectorAll('.step-box').forEach(box => {
+  const boxClass = [...box.classList].find(c => c.startsWith('box-'));
+  const arrowClass = boxArrowMap[boxClass];
+  if (arrowClass) {
+    box.addEventListener('mouseenter', () => triggerWiggle(arrowClass));
+  }
+});
+</script>
+
+</body>
+</html>
