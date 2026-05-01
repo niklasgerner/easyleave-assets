@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/phonewidget3%20(8).html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave App Widget</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 32px;
+  }
+
+  /* ── Animated background ── */
+  .scene {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  /* Soft floating blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.10;
+    pointer-events: none;
+  }
+  .blob-1 {
+    width: 500px; height: 500px;
+    background: #8fa882;
+    top: -120px; left: -100px;
+    animation: floatA 18s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 400px; height: 400px;
+    background: #c4b8a4;
+    bottom: -80px; right: -80px;
+    animation: floatB 22s ease-in-out infinite;
+  }
+  .blob-3 {
+    width: 320px; height: 320px;
+    background: #697f58;
+    top: 40%; left: 55%;
+    animation: floatC 16s ease-in-out infinite;
+  }
+  .blob-4 {
+    width: 280px; height: 280px;
+    background: #99716f;
+    top: 20%; left: 20%;
+    animation: floatD 20s ease-in-out infinite;
+  }
+  .blob-5 {
+    width: 220px; height: 220px;
+    background: #8fa882;
+    top: 30%; left: 45%;
+    animation: floatC 14s ease-in-out 3s infinite;
+    opacity: 0.07;
+  }
+  .blob-6 {
+    width: 180px; height: 180px;
+    background: #c4b8a4;
+    top: 55%; left: 38%;
+    animation: floatA 17s ease-in-out 5s infinite;
+    opacity: 0.08;
+  }
+  .blob-7 {
+    width: 160px; height: 160px;
+    background: #576048;
+    top: 10%; left: 60%;
+    animation: floatB 19s ease-in-out 2s infinite;
+    opacity: 0.06;
+  }
+  .blob-8 {
+    width: 240px; height: 240px;
+    background: #99716f;
+    top: 65%; left: 10%;
+    animation: floatD 21s ease-in-out 7s infinite;
+    opacity: 0.07;
+  }
+
+  @keyframes floatA {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(60px, 40px) scale(1.08); }
+    66% { transform: translate(-30px, 70px) scale(0.95); }
+  }
+  @keyframes floatB {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40% { transform: translate(-50px, -60px) scale(1.1); }
+    70% { transform: translate(30px, -30px) scale(0.92); }
+  }
+  @keyframes floatC {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-80px, 50px) scale(1.12); }
+  }
+  @keyframes floatD {
+    0%,100% { transform: translate(0,0) scale(1); }
+    30% { transform: translate(40px, -50px) scale(0.9); }
+    70% { transform: translate(-20px, 30px) scale(1.05); }
+  }
+
+  /* ── Main container ── */
+  .widget-wrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 52px;
+    padding: 60px 40px;
+  }
+
+  .widget-label {
+    text-align: center;
+  }
+  .widget-label .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8fa882;
+    margin-bottom: 10px;
+  }
+  .widget-label h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+    color: #3a3835;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .widget-label h2 em {
+    font-style: normal;
+    color: #576048;
+  }
+  .widget-label h2 br { display: block; }
+
+  /* ── Phones row ── */
+  .phones {
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+  }
+
+  /* ── Single phone ── */
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .phone-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888580;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .phone-tag .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .phone-tag.start .dot { background: #8fa882; }
+  .phone-tag.end .dot { background: #576048; }
+
+  .phone {
+    width: 240px;
+    height: 490px;
+    border-radius: 38px;
+    background: #3a3a3a;
+    position: relative;
+    box-shadow: 0 0 0 1.5px rgba(255,255,255,0.08) inset;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Left phone: slight tilt left, lower */
+  .phone-wrap.left .phone {
+    transform: rotate(-4deg) translateY(12px);
+    transition: transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .phone-wrap.left:hover .phone {
+    transform: rotate(-1.5deg) translateY(4px);
+  }
+
+  /* Right phone: slight tilt right, higher */
+  .phone-wrap.right .phone {
+    transform: rotate(4deg) translateY(-12px);
+    transition: transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .phone-wrap.right:hover .phone {
+    transform: rotate(1.5deg) translateY(-4px);
+  }
+
+  /* Notch / dynamic island */
+  .phone-notch {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 26px;
+    background: #3a3a3a;
+    border-radius: 13px;
+    z-index: 20;
+    box-shadow: 0 0 0 1.5px rgba(255,255,255,0.06);
+  }
+
+  /* Phone screen */
+  .phone-screen {
+    position: absolute;
+    inset: 3px;
+    border-radius: 36px;
+    background: #f4f3f0;
+    overflow: hidden;
+  }
+
+  /* Force Poppins on all phone content */
+  .phone-screen, .phone-screen * {
+    font-family: 'Poppins', sans-serif !important;
+  }
+
+  /* Subtle edge shine */
+  .phone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 38px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  /* Side buttons */
+  .phone-btn-right {
+    position: absolute;
+    right: -3px;
+    top: 100px;
+    width: 3.5px;
+    height: 50px;
+    background: #4a4a4a;
+    border-radius: 2px 0 0 2px;
+  }
+  .phone-btn-right-2 {
+    position: absolute;
+    right: -3px;
+    top: 165px;
+    width: 3.5px;
+    height: 70px;
+    background: #4a4a4a;
+    border-radius: 2px 0 0 2px;
+  }
+  .phone-btn-left {
+    position: absolute;
+    left: -3px;
+    top: 120px;
+    width: 3.5px;
+    height: 40px;
+    background: #4a4a4a;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── App content inside phone ── */
+  .app-scroll {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .app-inner {
+    width: 100%;
+    will-change: transform;
+  }
+
+  /* ── Shared app UI primitives ── */
+  .app-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 48px 14px 10px;
+    background: #f4f3f0;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .app-logo svg {
+    width: 64px;
+    height: auto;
+  }
+
+  .app-lang {
+    display: flex;
+    gap: 4px;
+  }
+  .lang-chip {
+    font-size: 8.5px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .lang-chip.active {
+    background: #fff;
+    border: 1px solid #e2e0db;
+    color: #3a3835;
+    padding: 2px 5px 2px 3px;
+    border-radius: 6px;
+  }
+  .lang-chip.inactive {
+    color: #888580;
+    padding: 2px 5px 2px 3px;
+    border-radius: 6px;
+  }
+
+  .app-section-title {
+    font-size: 8.5px;
+    font-weight: 600;
+    color: #888580;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 6px 14px 0;
+  }
+
+  .app-hero {
+    padding: 16px 14px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .app-hero-icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: #e8e4df;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .app-hero h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #3a3835;
+    line-height: 1.3;
+  }
+
+  .app-hero p {
+    font-size: 9px;
+    color: #888580;
+    line-height: 1.5;
+    max-width: 170px;
+  }
+
+  .app-card {
+    margin: 10px 10px 0;
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .app-card-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #3a3835;
+    margin-bottom: 4px;
+  }
+
+  .app-card-sub {
+    font-size: 8.5px;
+    color: #888580;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  /* Situation choice rows */
+  .situation-row {
+    background: #f9f8f6;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    border: 1px solid #ede9e4;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .situation-row:last-child { margin-bottom: 0; }
+
+  .sit-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sit-icon.mother { background: #996d6f; }
+  .sit-icon.father { background: #697f58; }
+
+  .sit-text h4 {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #3a3835;
+  }
+  .sit-text p {
+    font-size: 8px;
+    color: #888580;
+    line-height: 1.4;
+    margin-top: 1px;
+  }
+  .sit-text p.father-text { color: #888580; }
+
+  .powered {
+    text-align: center;
+    padding: 12px;
+    font-size: 8px;
+    color: #b0ada8;
+    font-weight: 500;
+  }
+  .powered strong { color: #576048; font-weight: 700; }
+
+  /* ── Right phone: completion screen ── */
+  .complete-hero {
+    margin: 10px 10px 0;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .complete-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .complete-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: #e8e4df;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .complete-icon svg {
+    width: 18px; height: 18px;
+  }
+
+  .complete-header-text h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3a3835;
+  }
+  .complete-header-text p {
+    font-size: 8.5px;
+    color: #888580;
+  }
+
+  .cal-btn {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    background: #f4f3f0;
+    border: 1px solid #e2e0db;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: auto;
+  }
+
+  /* Timeline bar */
+  .timeline-card {
+    background: #f9f8f6;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ede9e4;
+  }
+
+  .timeline-months {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .timeline-months span {
+    font-size: 7.5px;
+    color: #b0ada8;
+    font-weight: 500;
+  }
+
+  .timeline-bar-track {
+    height: 5px;
+    background: #e2e0db;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-bar-fill {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #576048, #8fa882);
+  }
+
+  .leave-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #3a3835;
+    margin-bottom: 1px;
+  }
+  .leave-sub {
+    font-size: 8px;
+    color: #888580;
+  }
+  .leave-dates {
+    font-size: 7.5px;
+    color: #b0ada8;
+    margin-top: 4px;
+    font-weight: 500;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .leave-dates .date-from { color: #888580; }
+
+  .dots-nav {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px 0 2px;
+  }
+  .dot-nav {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #e2e0db;
+  }
+  .dot-nav.active { background: #576048; }
+
+  /* Stats rows */
+  .stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #f0eeeb;
+  }
+  .stat-row:last-child { border-bottom: none; }
+
+  .stat-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    color: #3a3835;
+  }
+  .stat-left .stat-icon {
+    width: 16px; height: 16px;
+    opacity: 0.5;
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .stat-val {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #3a3835;
+  }
+
+  .undo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e0db;
+    background: #fff;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: #888580;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  /* Send card */
+  .send-card {
+    margin: 8px 10px 0;
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .send-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .send-icon {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: #576048;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .send-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #3a3835;
+  }
+  .send-sub {
+    font-size: 8px;
+    color: #888580;
+  }
+
+  .input-field {
+    background: #f9f8f6;
+    border: 1px solid #e2e0db;
+    border-radius: 8px;
+    padding: 7px 9px;
+    font-size: 8.5px;
+    color: #3a3835;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+  .input-field::placeholder { color: #c0bdb8; }
+  .input-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #888580;
+    margin-bottom: 3px;
+    display: flex;
+    gap: 2px;
+  }
+  .input-label span { color: #99716f; }
+
+  .step-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #576048;
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 9px;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(87,96,72,0.35);
+  }
+
+  .varighed-tag {
+    background: #f4f3f0;
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    margin: 8px 10px 0;
+    border: 1px solid #e2e0db;
+  }
+  .varighed-tag .vt-label {
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #b0ada8;
+  }
+  .varighed-tag .vt-val {
+    font-size: 13px;
+    font-weight: 800;
+    color: #3a3835;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Floating connector element between phones ── */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, #8fa882, transparent);
+  }
+
+  .connector-arrow {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid #d4d0ca;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    animation: pulseArrow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulseArrow {
+    0%,100% { transform: scale(1); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    50% { transform: scale(1.1); box-shadow: 0 4px 16px rgba(87,96,72,0.18); }
+  }
+
+  .connector-arrow svg {
+    width: 14px; height: 14px;
+    color: #576048;
+  }
+
+  /* ── Scroll animation for left phone ── */
+  @keyframes scrollLeft {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(0); }
+    45%  { transform: translateY(-120px); }
+    65%  { transform: translateY(-120px); }
+    85%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes scrollRight {
+    0%   { transform: translateY(0); }
+    20%  { transform: translateY(0); }
+    45%  { transform: translateY(-160px); }
+    65%  { transform: translateY(-160px); }
+    85%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+  }
+
+  .phone-wrap.left .app-inner {
+    animation: scrollLeft 8s ease-in-out infinite;
+  }
+  .phone-wrap.right .app-inner {
+    animation: scrollRight 10s ease-in-out 1.5s infinite;
+  }
+
+  /* ── Small floating particles ── */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: particleFloat 12s ease-in-out infinite;
+  }
+
+  @keyframes particleFloat {
+    0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-180px) scale(1.2); }
+  }
+
+  /* ── Bottom caption ── */
+  .widget-footer {
+    text-align: center;
+    font-size: 12px;
+    color: #888580;
+    font-weight: 500;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .widget-footer strong {
+    color: #576048;
+    font-weight: 700;
+  }
+
+</style>
+</head>
+<body style="background-color: rgba(255, 255, 255, 0)">
+
+<div class="scene" style="background-size: cover">
+
+  <!-- Background blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="blob blob-5"></div>
+  <div class="blob blob-6"></div>
+  <div class="blob blob-7"></div>
+  <div class="blob blob-8"></div>
+
+  <!-- Particles - spread all around including between phones -->
+  <div class="particle" style="width:8px;height:8px;background:#8fa882;left:15%;top:80%;animation-delay:0s;animation-duration:14s;"></div>
+  <div class="particle" style="width:5px;height:5px;background:#99716f;left:25%;top:85%;animation-delay:2s;animation-duration:11s;"></div>
+  <div class="particle" style="width:10px;height:10px;background:#576048;left:70%;top:88%;animation-delay:4s;animation-duration:16s;"></div>
+  <div class="particle" style="width:6px;height:6px;background:#c4b8a4;left:80%;top:82%;animation-delay:1.5s;animation-duration:13s;"></div>
+  <div class="particle" style="width:7px;height:7px;background:#8fa882;left:45%;top:90%;animation-delay:3s;animation-duration:12s;"></div>
+  <div class="particle" style="width:4px;height:4px;background:#99716f;left:60%;top:87%;animation-delay:5.5s;animation-duration:15s;"></div>
+  <!-- Between phones -->
+  <div class="particle" style="width:9px;height:9px;background:#8fa882;left:48%;top:40%;animation-delay:1s;animation-duration:13s;"></div>
+  <div class="particle" style="width:6px;height:6px;background:#c4b8a4;left:52%;top:55%;animation-delay:3.5s;animation-duration:10s;"></div>
+  <div class="particle" style="width:5px;height:5px;background:#576048;left:50%;top:70%;animation-delay:6s;animation-duration:14s;"></div>
+  <div class="particle" style="width:8px;height:8px;background:#99716f;left:46%;top:60%;animation-delay:2.5s;animation-duration:12s;"></div>
+  <!-- Left side -->
+  <div class="particle" style="width:7px;height:7px;background:#8fa882;left:8%;top:40%;animation-delay:0.5s;animation-duration:15s;"></div>
+  <div class="particle" style="width:5px;height:5px;background:#c4b8a4;left:12%;top:55%;animation-delay:4s;animation-duration:11s;"></div>
+  <div class="particle" style="width:9px;height:9px;background:#99716f;left:5%;top:65%;animation-delay:7s;animation-duration:13s;"></div>
+  <!-- Right side -->
+  <div class="particle" style="width:6px;height:6px;background:#576048;left:88%;top:35%;animation-delay:1.5s;animation-duration:16s;"></div>
+  <div class="particle" style="width:8px;height:8px;background:#8fa882;left:92%;top:50%;animation-delay:3s;animation-duration:12s;"></div>
+  <div class="particle" style="width:5px;height:5px;background:#c4b8a4;left:85%;top:65%;animation-delay:5s;animation-duration:14s;"></div>
+  <!-- Top area -->
+  <div class="particle" style="width:7px;height:7px;background:#8fa882;left:35%;top:15%;animation-delay:2s;animation-duration:18s;"></div>
+  <div class="particle" style="width:5px;height:5px;background:#99716f;left:55%;top:10%;animation-delay:4.5s;animation-duration:15s;"></div>
+  <div class="particle" style="width:9px;height:9px;background:#c4b8a4;left:65%;top:20%;animation-delay:1s;animation-duration:17s;"></div>
+
+  <div class="widget-wrap" style="opacity: 1;">
+
+    <!-- Heading -->
+    <div class="widget-label">
+      <div class="eyebrow">
+</div>
+      <h2>
+</h2>
+    </div>
+
+    <!-- Phones -->
+    <div class="phones">
+
+      <!-- LEFT PHONE: Start screen -->
+      <div class="phone-wrap left">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-btn-right"></div>
+          <div class="phone-btn-right-2"></div>
+          <div class="phone-btn-left"></div>
+
+          <div class="phone-screen">
+            <div class="app-scroll">
+              <div class="app-inner">
+
+                <!-- Topbar -->
+                <div class="app-topbar">
+                  <div class="app-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050.01 555.14" style="width:64px;height:auto;">
+                      <style>.cls-1{fill:#576048}.cls-2{fill:#99716f}</style>
+                      <path class="cls-2" d="M49.17,112.64C49.17,47.66,96.82,0,164.4,0s113.94,47.66,113.94,112.64v18.2H116.75c5.2,25.12,24.26,36.39,47.66,36.39,18.63,0,32.5-3.9,40.72-15.6h67.15c-13.86,44.19-54.59,73.65-107.87,73.65-67.58,0-115.24-47.65-115.24-112.64ZM211.63,89.68c-7.37-22.1-24.69-31.63-47.22-31.63s-39.86,9.97-46.35,31.63h93.57Z"></path>
+                      <path class="cls-2" d="M278.24,115.24C278.24,46.36,325.89,0,393.91,0s113.94,44.62,113.94,114.81v104.84h-59.79v-35.52c-11.27,26.42-35.53,41.15-66.28,41.15-47.66,0-103.54-35.52-103.54-110.04ZM442.87,112.64c0-30.76-19.93-51.99-49.39-51.99s-49.39,21.23-49.39,51.99,19.93,51.98,49.39,51.98,49.39-21.23,49.39-51.98Z"></path>
+                      <path class="cls-2" d="M516.41,154.66h64.12c.44,11.27,8.66,16.9,26.43,16.9,19.93,0,26.43-6.93,26.43-16.03,0-14.3-15.6-15.6-35.53-18.63-29.46-4.33-77.98-11.7-77.98-63.25,0-43.33,34.22-73.65,87.51-73.65s86.21,30.76,87.51,69.32h-63.25c-1.74-9.96-10.4-15.6-23.39-15.6-16.03,0-22.53,8.23-22.53,16.9,0,13,15.6,14.73,35.52,17.76,30.76,4.33,77.98,12.57,77.98,63.25,0,44.19-36.39,73.65-91.41,73.65s-90.55-29.46-91.41-70.62Z"></path>
+                      <path class="cls-1" d="M0,227.11h64.99v307.6H0V227.11Z"></path>
+                      <path class="cls-1" d="M80.49,427.7c0-64.99,47.65-112.64,115.24-112.64s113.94,47.66,113.94,112.64v18.2h-161.59c5.2,25.12,24.26,36.39,47.66,36.39,18.63,0,32.49-3.9,40.72-15.6h67.15c-13.86,44.19-54.59,73.65-107.87,73.65-67.59,0-115.24-47.65-115.24-112.64ZM242.95,404.73c-7.37-22.1-24.69-31.63-47.22-31.63s-39.86,9.97-46.36,31.63h93.58Z"></path>
+                      <path class="cls-1" d="M309.56,430.29c0-68.88,47.66-115.24,115.67-115.24s113.94,44.62,113.94,114.81v104.84h-59.79v-35.52c-11.26,26.42-35.52,41.15-66.28,41.15-47.66,0-103.54-35.52-103.54-110.04ZM474.19,427.7c0-30.76-19.92-51.99-49.39-51.99s-49.39,21.23-49.39,51.99,19.92,51.98,49.39,51.98,49.39-21.23,49.39-51.98Z"></path>
+                      <polygon class="cls-1" points="693.73 320.68 646.51 472.75 599.29 320.68 529.54 320.68 606.22 534.7 685.07 534.7 761.75 320.68 693.73 320.68"></polygon>
+                      <path class="cls-2" d="M854.23,5.63v107.44c0,32.93-17.33,48.09-40.72,48.09s-40.72-14.29-40.72-48.09V5.63h-64.99v107.44c0,78.42,48.09,108.74,93.14,108.74,22.53,0,41.16-9.96,53.29-28.59v21.23c0,32.5-12.57,45.93-41.16,45.93-11.83,0-20.5-1.91-27.04-6.11l-19.76,54.4c14.1,5.39,29.95,8.04,46.8,8.04,58.49,0,106.14-29.89,106.14-104.41V5.63h-64.99Z"></path>
+                      <path class="cls-1" d="M1039.69,447.59c-8.59-11.31-22.77-17.64-38.15-17.34-14.69.44-27.43,7.18-34.81,18.3-6.67,9.53-6.15,22.7,1.3,32.76,6.22,8.41,15.73,12.54,25.18,11.34-5.97-3.39-10.04-9.73-10.04-17.09,0-10.89,8.83-19.73,19.73-19.73,6.51,0,12.23,3.19,15.83,8.05,2.24,2.61,3.78,5.66,4.23,9.02,2.6,15.04-7.75,29.59-19.15,37.32-22.36,15.13-52.17,20.2-81.71,13.9-32.07-7.19-56.82-30.36-73.02-50.59,24.62-28.96,38.81-57.28,43.26-86.05,4.71-23.35-.92-45.04-15.15-58.13-14.77-13.18-38.32-14-55.53-2.25-20.34,12.12-32.64,36.48-32.09,63.39.05,25.98,7.84,52.64,23.17,79.34-15.1,13.28-33.03,23.77-53.32,31.21-2.2.77-4.49,1.55-6.8,2.32-2.06-9.07-4.55-19.78-7.55-32.45l-.97-4.13-12.17,12.75-42.54,55.56,3.24.94c10.78,3.11,64.66,18.61,66.92,18.95l1.29.15.83-.9c.66-.72,1.47-1.64-2.92-22.93,24.94-8.46,49-21.57,70.33-38.45,20.38,24.4,43.24,41.82,67.98,51.82,14.06,5.85,29.91,8.76,48.22,8.76,6.84,0,14.03-.41,21.6-1.22,30.77-4.65,54.61-16.95,68.68-35.26,14.92-17.64,21.42-47.92,4.14-69.38ZM833.27,448.95c-12.39-23.98-17.65-45.56-16.06-65.7v-.04c1.09-14.46,9.08-31.42,24.83-36.83,1.72-.67,3.58-.99,5.49-.99,2.58,0,5.26.6,7.79,1.78,4.26,2,7.46,5.39,8.82,9.39,3.21,9.2,3.03,20.48-.47,34.21-6.68,23.12-17.09,42.99-30.4,58.18Z"></path>
+                    </svg>
+                  </div>
+                  <div class="app-lang">
+                    <div class="lang-chip active"><span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:13px;border-radius:2px;overflow:hidden;flex-shrink:0;"><svg width="14" height="10" viewBox="0 0 14 10" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="10" fill="#C60C30"></rect><rect x="4" width="2" height="10" fill="white"></rect><rect y="4" width="14" height="2" fill="white"></rect></svg></span> DA</div>
+                    <div class="lang-chip inactive"><span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:13px;border-radius:2px;overflow:hidden;flex-shrink:0;"><svg width="14" height="10" viewBox="0 0 14 10" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="10" fill="#012169"></rect><line x1="0" y1="0" x2="14" y2="10" stroke="white" stroke-width="2.2"></line><line x1="14" y1="0" x2="0" y2="10" stroke="white" stroke-width="2.2"></line><line x1="0" y1="0" x2="14" y2="10" stroke="#C8102E" stroke-width="1.2"></line><line x1="14" y1="0" x2="0" y2="10" stroke="#C8102E" stroke-width="1.2"></line><rect x="5.5" y="0" width="3" height="10" fill="white"></rect><rect x="0" y="3.5" width="14" height="3" fill="white"></rect><rect x="6" y="0" width="2" height="10" fill="#C8102E"></rect><rect x="0" y="4" width="14" height="2" fill="#C8102E"></rect></svg></span> EN</div>
+                  </div>
+                </div>
+
+                <div class="app-section-title">Din situation</div>
+
+                <!-- Hero -->
+                <div class="app-hero">
+                  <div class="app-hero-icon" style="width:56px;height:56px;">
+                    <svg width="36" height="36" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Father -->
+                      <circle cx="20" cy="18" r="8" fill="#888580"></circle>
+                      <path d="M6 52c0-7.732 6.268-14 14-14s14 6.268 14 14v4H6v-4z" fill="#888580"></path>
+                      <!-- Child (center, shorter) -->
+                      <circle cx="40" cy="26" r="6" fill="#888580"></circle>
+                      <path d="M29 56c0-6.075 4.925-11 11-11s11 4.925 11 11v4H29v-4z" fill="#888580"></path>
+                      <!-- Mother -->
+                      <circle cx="60" cy="18" r="8" fill="#888580"></circle>
+                      <!-- Mother body with dress shape -->
+                      <path d="M46 52c0-7.732 6.268-14 14-14s14 6.268 14 14v4H46v-4z" fill="#888580"></path>
+                    </svg>
+                  </div>
+                  <h3>Din orlov<br>med EasyLeave</h3>
+                  <p>Vi guider dig til den rigtige formular for din kommende eller igangværende orlov.</p>
+                </div>
+
+                <!-- Card -->
+                <div class="app-card">
+                  <div class="app-card-title">Hvad beskriver bedst din situation?</div>
+                  <div class="app-card-sub">Vælg det der passer bedst, så finder vi den rigtige formular til dig.</div>
+
+                  <div class="situation-row">
+                    <div class="sit-icon mother">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" fill="white"></circle>
+                        <path d="M4 21c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="white" stroke-width="2" stroke-linecap="round"></path>
+                      </svg>
+                    </div>
+                    <div class="sit-text">
+                      <h4>Jeg er mor</h4>
+                      <p>Du venter barn eller har født, og skal varsle eller planlægge din orlov</p>
+                    </div>
+                  </div>
+
+                  <div class="situation-row">
+                    <div class="sit-icon father">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" fill="white"></circle>
+                        <path d="M4 21c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="white" stroke-width="2" stroke-linecap="round"></path>
+                      </svg>
+                    </div>
+                    <div class="sit-text">
+                      <h4>Jeg er far eller medmor</h4>
+                      <p class="father-text">Du venter barn eller er netop blevet far/medmor, og skal varsle din orlov</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="powered">Powered by <strong>EasyLeave</strong></div>
+
+                <!-- Extra padding so scroll looks natural -->
+                <div style="height: 40px;"></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-tag start" style="padding: 10px 0px 0px;"></div>
+      </div>
+
+      <!-- CONNECTOR -->
+      <div class="connector">
+        <div class="connector-line"></div>
+        <div class="connector-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </div>
+        <div class="connector-line"></div>
+      </div>
+
+      <!-- RIGHT PHONE: Completion screen -->
+      <div class="phone-wrap right">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-btn-right"></div>
+          <div class="phone-btn-right-2"></div>
+          <div class="phone-btn-left"></div>
+
+          <div class="phone-screen">
+            <div class="app-scroll">
+              <div class="app-inner">
+
+                <!-- Topbar -->
+                <div class="app-topbar">
+                  <div class="app-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050.01 555.14" style="width:64px;height:auto;">
+                      <style>.cls-1b{fill:#576048}.cls-2b{fill:#99716f}</style>
+                      <path class="cls-2b" d="M49.17,112.64C49.17,47.66,96.82,0,164.4,0s113.94,47.66,113.94,112.64v18.2H116.75c5.2,25.12,24.26,36.39,47.66,36.39,18.63,0,32.5-3.9,40.72-15.6h67.15c-13.86,44.19-54.59,73.65-107.87,73.65-67.58,0-115.24-47.65-115.24-112.64ZM211.63,89.68c-7.37-22.1-24.69-31.63-47.22-31.63s-39.86,9.97-46.35,31.63h93.57Z"></path>
+                      <path class="cls-2b" d="M278.24,115.24C278.24,46.36,325.89,0,393.91,0s113.94,44.62,113.94,114.81v104.84h-59.79v-35.52c-11.27,26.42-35.53,41.15-66.28,41.15-47.66,0-103.54-35.52-103.54-110.04ZM442.87,112.64c0-30.76-19.93-51.99-49.39-51.99s-49.39,21.23-49.39,51.99,19.93,51.98,49.39,51.98,49.39-21.23,49.39-51.98Z"></path>
+                      <path class="cls-2b" d="M516.41,154.66h64.12c.44,11.27,8.66,16.9,26.43,16.9,19.93,0,26.43-6.93,26.43-16.03,0-14.3-15.6-15.6-35.53-18.63-29.46-4.33-77.98-11.7-77.98-63.25,0-43.33,34.22-73.65,87.51-73.65s86.21,30.76,87.51,69.32h-63.25c-1.74-9.96-10.4-15.6-23.39-15.6-16.03,0-22.53,8.23-22.53,16.9,0,13,15.6,14.73,35.52,17.76,30.76,4.33,77.98,12.57,77.98,63.25,0,44.19-36.39,73.65-91.41,73.65s-90.55-29.46-91.41-70.62Z"></path>
+                      <path class="cls-1b" d="M0,227.11h64.99v307.6H0V227.11Z"></path>
+                      <path class="cls-1b" d="M80.49,427.7c0-64.99,47.65-112.64,115.24-112.64s113.94,47.66,113.94,112.64v18.2h-161.59c5.2,25.12,24.26,36.39,47.66,36.39,18.63,0,32.49-3.9,40.72-15.6h67.15c-13.86,44.19-54.59,73.65-107.87,73.65-67.59,0-115.24-47.65-115.24-112.64ZM242.95,404.73c-7.37-22.1-24.69-31.63-47.22-31.63s-39.86,9.97-46.36,31.63h93.58Z"></path>
+                      <path class="cls-1b" d="M309.56,430.29c0-68.88,47.66-115.24,115.67-115.24s113.94,44.62,113.94,114.81v104.84h-59.79v-35.52c-11.26,26.42-35.52,41.15-66.28,41.15-47.66,0-103.54-35.52-103.54-110.04ZM474.19,427.7c0-30.76-19.92-51.99-49.39-51.99s-49.39,21.23-49.39,51.99,19.92,51.98,49.39,51.98,49.39-21.23,49.39-51.98Z"></path>
+                      <polygon class="cls-1b" points="693.73 320.68 646.51 472.75 599.29 320.68 529.54 320.68 606.22 534.7 685.07 534.7 761.75 320.68 693.73 320.68"></polygon>
+                      <path class="cls-2b" d="M854.23,5.63v107.44c0,32.93-17.33,48.09-40.72,48.09s-40.72-14.29-40.72-48.09V5.63h-64.99v107.44c0,78.42,48.09,108.74,93.14,108.74,22.53,0,41.16-9.96,53.29-28.59v21.23c0,32.5-12.57,45.93-41.16,45.93-11.83,0-20.5-1.91-27.04-6.11l-19.76,54.4c14.1,5.39,29.95,8.04,46.8,8.04,58.49,0,106.14-29.89,106.14-104.41V5.63h-64.99Z"></path>
+                      <path class="cls-1b" d="M1039.69,447.59c-8.59-11.31-22.77-17.64-38.15-17.34-14.69.44-27.43,7.18-34.81,18.3-6.67,9.53-6.15,22.7,1.3,32.76,6.22,8.41,15.73,12.54,25.18,11.34-5.97-3.39-10.04-9.73-10.04-17.09,0-10.89,8.83-19.73,19.73-19.73,6.51,0,12.23,3.19,15.83,8.05,2.24,2.61,3.78,5.66,4.23,9.02,2.6,15.04-7.75,29.59-19.15,37.32-22.36,15.13-52.17,20.2-81.71,13.9-32.07-7.19-56.82-30.36-73.02-50.59,24.62-28.96,38.81-57.28,43.26-86.05,4.71-23.35-.92-45.04-15.15-58.13-14.77-13.18-38.32-14-55.53-2.25-20.34,12.12-32.64,36.48-32.09,63.39.05,25.98,7.84,52.64,23.17,79.34-15.1,13.28-33.03,23.77-53.32,31.21-2.2.77-4.49,1.55-6.8,2.32-2.06-9.07-4.55-19.78-7.55-32.45l-.97-4.13-12.17,12.75-42.54,55.56,3.24.94c10.78,3.11,64.66,18.61,66.92,18.95l1.29.15.83-.9c.66-.72,1.47-1.64-2.92-22.93,24.94-8.46,49-21.57,70.33-38.45,20.38,24.4,43.24,41.82,67.98,51.82,14.06,5.85,29.91,8.76,48.22,8.76,6.84,0,14.03-.41,21.6-1.22,30.77-4.65,54.61-16.95,68.68-35.26,14.92-17.64,21.42-47.92,4.14-69.38ZM833.27,448.95c-12.39-23.98-17.65-45.56-16.06-65.7v-.04c1.09-14.46,9.08-31.42,24.83-36.83,1.72-.67,3.58-.99,5.49-.99,2.58,0,5.26.6,7.79,1.78,4.26,2,7.46,5.39,8.82,9.39,3.21,9.2,3.03,20.48-.47,34.21-6.68,23.12-17.09,42.99-30.4,58.18Z"></path>
+                    </svg>
+                  </div>
+                  <div class="app-lang">
+                    <div class="lang-chip active"><span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:13px;border-radius:2px;overflow:hidden;flex-shrink:0;"><svg width="14" height="10" viewBox="0 0 14 10" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="10" fill="#C60C30"></rect><rect x="4" width="2" height="10" fill="white"></rect><rect y="4" width="14" height="2" fill="white"></rect></svg></span> DA</div>
+                    <div class="lang-chip inactive"><span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:13px;border-radius:2px;overflow:hidden;flex-shrink:0;"><svg width="14" height="10" viewBox="0 0 14 10" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="10" fill="#012169"></rect><line x1="0" y1="0" x2="14" y2="10" stroke="white" stroke-width="2.2"></line><line x1="14" y1="0" x2="0" y2="10" stroke="white" stroke-width="2.2"></line><line x1="0" y1="0" x2="14" y2="10" stroke="#C8102E" stroke-width="1.2"></line><line x1="14" y1="0" x2="0" y2="10" stroke="#C8102E" stroke-width="1.2"></line><rect x="5.5" y="0" width="3" height="10" fill="white"></rect><rect x="0" y="3.5" width="14" height="3" fill="white"></rect><rect x="6" y="0" width="2" height="10" fill="#C8102E"></rect><rect x="0" y="4" width="14" height="2" fill="#C8102E"></rect></svg></span> EN</div>
+                  </div>
+                </div>
+
+                <!-- Varighed tag -->
+                <div class="varighed-tag">
+                  <div class="vt-label">Varighed</div>
+                  <div class="vt-val">36 uger</div>
+                </div>
+
+                <!-- Oversigt card -->
+                <div class="complete-hero">
+                  <div class="complete-header">
+                    <div class="complete-icon">
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 12l2 2 4-4" stroke="#888580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <rect x="3" y="3" width="18" height="18" rx="5" stroke="#888580" stroke-width="1.5"></rect>
+                      </svg>
+                    </div>
+                    <div class="complete-header-text">
+                      <h4>Oversigt</h4>
+                      <p>Dit orlovsforløb er komplet</p>
+                    </div>
+                    <div class="cal-btn">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#888580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                  </div>
+
+                  <!-- Timeline card -->
+                  <div class="timeline-card">
+                    <div class="timeline-months">
+                      <span>maj</span>
+                      <span>jul</span>
+                      <span>sep</span>
+                      <span>nov</span>
+                      <span>jan</span>
+                    </div>
+                    <div class="timeline-bar-track">
+                      <div class="timeline-bar-fill" style="width: 65%;"></div>
+                    </div>
+                    <div class="leave-label">Forældreolov</div>
+                    <div class="leave-sub">16 uger · Fuld løn</div>
+                    <div class="leave-dates">
+                      <span>FRA</span>
+                      <span class="date-from">07-07-2026</span>
+                      <span>TIL</span>
+                      <span class="date-from">26-10-2026</span>
+                    </div>
+                  </div>
+
+                  <div class="dots-nav">
+                    <div class="dot-nav"></div>
+                    <div class="dot-nav active"></div>
+                    <div class="dot-nav"></div>
+                  </div>
+
+                  <!-- Stats -->
+                  <div class="stat-row">
+                    <div class="stat-left">
+                      <span class="stat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                      Samlet orlov
+                    </div>
+                    <div class="stat-val">36 uger</div>
+                  </div>
+                  <div class="stat-row">
+                    <div class="stat-left">
+                      <span class="stat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></span>
+                      Med løn
+                    </div>
+                    <div class="stat-val">26 uger</div>
+                  </div>
+                  <div class="stat-row">
+                    <div class="stat-left">
+                      <span class="stat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                      Andet fravær
+                    </div>
+                    <div class="stat-val">2 uger</div>
+                  </div>
+
+                  <div>
+                    <div class="undo-btn">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#888580" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h13a5 5 0 0 1 0 10H7"></path><polyline points="7 5 3 9 7 13"></polyline></svg>
+                      Fortryd afslutning
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Send card -->
+                <div class="send-card" style="position: relative;">
+                  <div class="send-header">
+                    <div class="send-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,3 19,12 5,21" fill="white"></polygon>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="send-title">Send orlovsforløb til leder og løn</div>
+                      <div class="send-sub">Angiv modtagere og send din meddelelse</div>
+                    </div>
+                  </div>
+
+                  <div class="input-label">Angiv arbejds-e-mail <span>*</span></div>
+                  <div class="input-field" style="color: #c0bdb8; font-size:8px;">medarbejder@virksomhed.dk</div>
+
+                  <div class="input-label">Angiv leders mail <span>*</span></div>
+                  <div class="input-field" style="color: #c0bdb8; font-size:8px;">leder@virksomhed.dk</div>
+
+                  <div class="step-badge">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    6/6
+                  </div>
+                </div>
+
+                <div style="height: 50px;"></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-tag end">
+</div>
+      </div>
+
+    </div><!-- /phones -->
+
+    <!-- Footer caption -->
+    <div class="widget-footer" style="padding: 0px; font-weight: 800; font-size: 18px;">
+</div>
+
+  </div><!-- /widget-wrap -->
+</div><!-- /scene -->
+
+
+
+</body></html>
