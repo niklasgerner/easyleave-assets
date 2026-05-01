@@ -12,16 +12,20 @@
   .track { display: flex; width: max-content; animation: scroll 40s linear infinite; align-items: center; }
   .roller:hover .track { animation-play-state: paused; }
 
-  /* Base box: holds whatever scale% the inner img is set to */
+  /*
+    Each .logo box is a fixed height (so all logos sit on the same baseline).
+    The img inside uses --w (pixels) as its rendered width — height auto
+    keeps the original aspect ratio. This matches the Claude design tweaks
+    where each logo has its own pixel width.
+  */
   .logo {
-    --scale: 100;
+    --w: 200px;
     flex: 0 0 auto;
-    width: 260px;
-    height: 160px;
+    height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 28px;
+    margin: 0 36px;
     opacity: 0.75;
     filter: grayscale(100%);
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
@@ -30,59 +34,59 @@
   }
   .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
   .logo img {
-    width: calc(1% * var(--scale));
-    height: calc(1% * var(--scale));
-    max-width: 100%;
+    width: var(--w);
+    height: auto;
     max-height: 100%;
     object-fit: contain;
     display: block;
   }
 
-  /* Per-logo scale tweaks (matches Claude design tweaks 1:1) */
-  .s-bavarian   { --scale: 150; }
-  .s-bravida    { --scale: 190; }
-  .s-bygma      { --scale: 192; }
-  .s-gard       { --scale: 186; }
-  .s-jamo       { --scale: 156; }
-  .s-kmd        { --scale: 200; }
-  .s-lemvigh    { --scale: 200; }
-  .s-zenegy     { --scale: 200; }
-  .s-novax      { --scale: 192; }
-  .s-nti        { --scale: 142; }
-  .s-wicotec    { --scale: 200; }
-  .s-borneringen{ --scale: 64;  }
+  /* Per-logo width tweaks (matches Claude design tweaks 1:1) */
+  .s-bavarian    { --w: 150px; }
+  .s-bravida     { --w: 190px; }
+  .s-bygma       { --w: 192px; }
+  .s-gard        { --w: 186px; }
+  .s-jamo        { --w: 156px; }
+  .s-kmd         { --w: 200px; }
+  .s-lemvigh     { --w: 200px; }
+  .s-zenegy      { --w: 200px; }
+  .s-novax       { --w: 192px; }
+  .s-nti         { --w: 142px; }
+  .s-wicotec     { --w: 200px; }
+  .s-borneringen { --w: 64px;  }
 
   @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 640px) {
-    .logo { width: 180px; height: 110px; margin: 0 18px; }
+    .logo { height: 140px; margin: 0 22px; }
+    .logo img { width: calc(var(--w) * 0.7); }
   }
 </style>
 </head>
 <body>
 <div class="roller"><div class="track">
-<a class="logo s-bavarian"   href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
-<a class="logo s-bravida"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="bravida-matched.png" alt="Bravida"></a>
-<a class="logo s-bygma"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
-<a class="logo s-gard"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="GARD-matched.png" alt="Gard"></a>
-<a class="logo s-jamo"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
-<a class="logo s-kmd"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
-<a class="logo s-lemvigh"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
-<a class="logo s-zenegy"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
-<a class="logo s-novax"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Novax_logo-matched.png" alt="Novax"></a>
-<a class="logo s-nti"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="nti_primary_black-matched.png" alt="NTI"></a>
-<a class="logo s-wicotec"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
+<a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
+<a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="bravida-matched.png" alt="Bravida"></a>
+<a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
+<a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="GARD-matched.png" alt="Gard"></a>
+<a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
+<a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
+<a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
+<a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
+<a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Novax_logo-matched.png" alt="Novax"></a>
+<a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="nti_primary_black-matched.png" alt="NTI"></a>
+<a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
 <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="logo-dark.png" alt="Børneringen"></a>
-<a class="logo s-bavarian"   href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
-<a class="logo s-bravida"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="bravida-matched.png" alt="Bravida"></a>
-<a class="logo s-bygma"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
-<a class="logo s-gard"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="GARD-matched.png" alt="Gard"></a>
-<a class="logo s-jamo"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
-<a class="logo s-kmd"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
-<a class="logo s-lemvigh"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
-<a class="logo s-zenegy"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
-<a class="logo s-novax"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Novax_logo-matched.png" alt="Novax"></a>
-<a class="logo s-nti"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="nti_primary_black-matched.png" alt="NTI"></a>
-<a class="logo s-wicotec"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
+<a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
+<a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="bravida-matched.png" alt="Bravida"></a>
+<a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
+<a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="GARD-matched.png" alt="Gard"></a>
+<a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
+<a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
+<a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
+<a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
+<a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Novax_logo-matched.png" alt="Novax"></a>
+<a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="nti_primary_black-matched.png" alt="NTI"></a>
+<a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
 <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="logo-dark.png" alt="Børneringen"></a>
 </div></div>
 </body>
