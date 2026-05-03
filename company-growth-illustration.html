@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave — Virksomhedsvækst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --olive:       #576048;
+  --olive-light: #7a8c62;
+  --olive-pale:  #f0f2ec;
+  --sand:        #c8b99a;
+  --sand-light:  #ede5d8;
+  --text:        #2e2e2e;
+  --text-muted:  #7a7a6e;
+  --bg:          #faf9f6;
+  --white:       #ffffff;
+  --accent:      #8fa06e;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── OUTER WRAPPER ── */
+.scene-wrapper {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  height: 500vh;
+}
+
+/* ── STICKY SCENE ── */
+.sticky-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 24px 20px 16px;
+}
+
+/* ── BUILDING ── */
+.building-wrap {
+  position: relative;
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.building {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+  transition: all 0.6s cubic-bezier(.4,0,.15,1);
+}
+
+/* floors */
+.floor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: opacity 0.5s ease, max-height 0.6s cubic-bezier(.4,0,.15,1);
+  overflow: hidden;
+}
+
+.floor-body {
+  background: var(--white);
+  border: 2px solid var(--olive);
+  border-bottom: none;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 52px;
+  position: relative;
+}
+
+.floor-body.ground {
+  border-bottom: 2px solid var(--olive);
+  border-radius: 0 0 6px 6px;
+  min-height: 60px;
+}
+
+.floor-body.top {
+  border-radius: 6px 6px 0 0;
+}
+
+/* windows */
+.win {
+  width: 28px; height: 24px;
+  background: var(--sand-light);
+  border: 1.5px solid var(--sand);
+  border-radius: 3px;
+  position: relative;
+  transition: background 0.4s;
+}
+.win.lit { background: oklch(0.92 0.06 85); border-color: var(--sand); }
+.win::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: calc(100% - 4px);
+  background: var(--sand);
+  opacity: 0.5;
+}
+
+/* roof accent */
+.roof-strip {
+  width: 100%;
+  height: 10px;
+  background: var(--olive-light);
+  border-radius: 6px 6px 0 0;
+  border: 2px solid var(--olive);
+  border-bottom: none;
+}
+
+/* chimney / plant on roof */
+.roof-decor {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+/* ── PEOPLE SCENE ── */
+.people-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0px;
+  margin-bottom: 4px;
+  min-height: 56px;
+  position: relative;
+  width: 240px;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all 0.5s cubic-bezier(.4,0,.15,1);
+  opacity: 0;
+  transform: translateY(12px) scale(0.8);
+}
+.person.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.person-head {
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.person-body {
+  border-radius: 4px 4px 0 0;
+  flex-shrink: 0;
+}
+
+/* sizes */
+.person.sm .person-head { width: 14px; height: 14px; }
+.person.sm .person-body { width: 16px; height: 18px; }
+.person.md .person-head { width: 18px; height: 18px; }
+.person.md .person-body { width: 20px; height: 22px; }
+.person.lg .person-head { width: 22px; height: 22px; }
+.person.lg .person-body { width: 26px; height: 28px; }
+
+/* colors */
+.c1 .person-head { background: #d4a97a; }
+.c1 .person-body { background: var(--olive); }
+.c2 .person-head { background: #c49a72; }
+.c2 .person-body { background: var(--accent); }
+.c3 .person-head { background: #b8845c; }
+.c3 .person-body { background: var(--sand); }
+.c4 .person-head { background: #e0b896; }
+.c4 .person-body { background: #8b7355; }
+.c5 .person-head { background: #cfab88; }
+.c5 .person-body { background: #6b7f54; }
+.c6 .person-head { background: #d9b898; }
+.c6 .person-body { background: var(--olive-light); }
+
+/* ── LABEL / PHASE ── */
+.phase-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 6px;
+  text-align: center;
+  transition: opacity 0.4s;
+  min-height: 16px;
+}
+
+.main-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.25;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  transition: all 0.4s ease;
+  min-height: 48px;
+}
+
+/* ── SAVINGS METER ── */
+.savings-wrap {
+  width: 240px;
+  margin-top: 12px;
+}
+
+.savings-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.savings-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.savings-amount {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--olive);
+  font-variant-numeric: tabular-nums;
+  transition: all 0.3s;
+}
+
+.bar-track {
+  width: 100%;
+  height: 7px;
+  background: var(--sand-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--olive));
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.7s cubic-bezier(.4,0,.15,1);
+}
+
+.savings-sub {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* ── PHASE DOTS ── */
+.phase-dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--sand);
+  transition: background 0.3s, transform 0.3s;
+}
+.dot.active {
+  background: var(--olive);
+  transform: scale(1.3);
+}
+
+/* ── HINT ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.scroll-hint.hidden { opacity: 0; pointer-events: none; }
+.scroll-hint span {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.arrow-down {
+  width: 16px; height: 16px;
+  border-right: 2px solid var(--sand);
+  border-bottom: 2px solid var(--sand);
+  transform: rotate(45deg);
+  animation: bounce 1.4s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(4px); }
+}
+
+/* ROI tag */
+.roi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--olive-pale);
+  border: 1px solid rgba(87,96,72,.18);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--olive);
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.5s cubic-bezier(.4,0,.15,1);
+}
+.roi-tag.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.roi-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--olive-light);
+}
+</style>
+</head>
+<body>
+
+<div class="scene-wrapper">
+
+  <div class="sticky-stage">
+
+    <!-- Phase label -->
+    <div class="phase-label" id="phaseLabel">Lille virksomhed</div>
+
+    <!-- Main title -->
+    <div class="main-title" id="mainTitle">Fra 2 til 200 —<br>EasyLeave skalerer med dig</div>
+
+    <!-- ROI tag -->
+    <div class="roi-tag" id="roiTag">
+      <span class="roi-dot"></span>
+      Tjener sig hjem på under 3 måneder
+    </div>
+
+    <!-- People -->
+    <div class="people-row" id="peopleRow"></div>
+
+    <!-- Building -->
+    <div class="building-wrap">
+      <div class="building" id="building"></div>
+    </div>
+
+    <!-- Savings meter -->
+    <div class="savings-wrap">
+      <div class="savings-label">
+        <span class="savings-text">Estimeret årsbesparelse</span>
+        <span class="savings-amount" id="savingsAmt">0 kr.</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="barFill"></div>
+      </div>
+      <div class="savings-sub" id="savingsSub">Baseret på din virksomhedsstørrelse</div>
+    </div>
+
+    <!-- Dots -->
+    <div class="phase-dots" id="phaseDots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scrollHint">
+      <span>Scroll</span>
+      <div class="arrow-down"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── PHASES ──────────────────────────────────────────────
+const phases = [
+  {
+    label:    'Lille virksomhed',
+    title:    '2–10 ansatte',
+    people:   3,
+    floors:   1,
+    windows:  3,
+    savings:  18000,
+    barPct:   18,
+    sub:      '~15 min sparet pr. fraværssag',
+    roiVisible: false,
+  },
+  {
+    label:    'Voksende team',
+    title:    '10–50 ansatte',
+    people:   7,
+    floors:   2,
+    windows:  4,
+    savings:  95000,
+    barPct:   42,
+    sub:      '~2 timer sparet pr. uge i HR-administration',
+    roiVisible: false,
+  },
+  {
+    label:    'Mellemstor virksomhed',
+    title:    '50–150 ansatte',
+    people:   14,
+    floors:   3,
+    windows:  5,
+    savings:  280000,
+    barPct:   72,
+    sub:      'Fuld compliance og overblik — automatisk',
+    roiVisible: true,
+  },
+  {
+    label:    'Stor organisation',
+    title:    '150+ ansatte',
+    people:   22,
+    floors:   4,
+    windows:  6,
+    savings:  620000,
+    barPct:   100,
+    sub:      'Løsningen betaler sig selv hjem på under 3 mdr.',
+    roiVisible: true,
+  },
+];
+
+const personColors = ['c1','c2','c3','c4','c5','c6'];
+
+// ── BUILD PEOPLE ──────────────────────────────────────────
+function buildPeople(count, container) {
+  container.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const size = count <= 4 ? 'lg' : count <= 10 ? 'md' : 'sm';
+    const color = personColors[i % personColors.length];
+    const p = document.createElement('div');
+    p.className = `person ${size} ${color}`;
+    p.innerHTML = `<div class="person-head"></div><div class="person-body"></div>`;
+    container.appendChild(p);
+    // stagger reveal
+    setTimeout(() => p.classList.add('visible'), i * 40 + 80);
+  }
+}
+
+// ── BUILD BUILDING ───────────────────────────────────────
+function buildBuilding(floors, windows, container) {
+  container.innerHTML = '';
+
+  // roof strip
+  const roof = document.createElement('div');
+  roof.className = 'roof-strip';
+  container.appendChild(roof);
+
+  // floors top→bottom
+  for (let f = floors; f >= 1; f--) {
+    const floor = document.createElement('div');
+    floor.className = 'floor';
+
+    const body = document.createElement('div');
+    const isTop = (f === floors);
+    const isGround = (f === 1);
+    body.className = 'floor-body' + (isGround ? ' ground' : '') + (isTop ? ' top' : '');
+
+    // windows
+    for (let w = 0; w < windows; w++) {
+      const win = document.createElement('div');
+      win.className = 'win' + (Math.random() > 0.35 ? ' lit' : '');
+      body.appendChild(win);
+    }
+
+    floor.appendChild(body);
+    container.appendChild(floor);
+  }
+}
+
+// ── SAVINGS COUNTER ──────────────────────────────────────
+let currentSavings = 0;
+let animFrame = null;
+
+function animateSavings(target, el) {
+  if (animFrame) cancelAnimationFrame(animFrame);
+  const start = currentSavings;
+  const dur = 700;
+  const t0 = performance.now();
+
+  function step(now) {
+    const pct = Math.min((now - t0) / dur, 1);
+    const ease = 1 - Math.pow(1 - pct, 3);
+    const val = Math.round(start + (target - start) * ease);
+    el.textContent = val.toLocaleString('da-DK') + ' kr.';
+    if (pct < 1) animFrame = requestAnimationFrame(step);
+    else currentSavings = target;
+  }
+  requestAnimationFrame(step);
+}
+
+// ── SCROLL LOGIC ─────────────────────────────────────────
+const peopleRow   = document.getElementById('peopleRow');
+const building    = document.getElementById('building');
+const phaseLabel  = document.getElementById('phaseLabel');
+const mainTitle   = document.getElementById('mainTitle');
+const savingsAmt  = document.getElementById('savingsAmt');
+const barFill     = document.getElementById('barFill');
+const savingsSub  = document.getElementById('savingsSub');
+const phaseDots   = document.getElementById('phaseDots').children;
+const scrollHint  = document.getElementById('scrollHint');
+const roiTag      = document.getElementById('roiTag');
+
+let currentPhase = -1;
+
+function applyPhase(idx) {
+  if (idx === currentPhase) return;
+  currentPhase = idx;
+  const p = phases[idx];
+
+  phaseLabel.textContent = p.label;
+  mainTitle.textContent  = p.title;
+  savingsSub.textContent = p.sub;
+
+  buildPeople(p.people, peopleRow);
+  buildBuilding(p.floors, p.windows, building);
+  animateSavings(p.savings, savingsAmt);
+
+  barFill.style.width = p.barPct + '%';
+
+  // dots
+  Array.from(phaseDots).forEach((d, i) => d.classList.toggle('active', i === idx));
+
+  // roi tag
+  roiTag.classList.toggle('visible', p.roiVisible);
+
+  // hide hint after first scroll
+  if (idx > 0) scrollHint.classList.add('hidden');
+  else scrollHint.classList.remove('hidden');
+}
+
+function onScroll() {
+  const wrapper  = document.querySelector('.scene-wrapper');
+  const stageH   = window.innerHeight;
+
+  const scrollTop     = window.scrollY;
+  const wrapperTop    = wrapper.getBoundingClientRect().top + scrollTop;
+  const scrollable    = wrapper.offsetHeight - stageH;
+
+  const progress = Math.max(0, Math.min(1,
+    (scrollTop - wrapperTop) / scrollable
+  ));
+
+  const idx = Math.min(phases.length - 1, Math.floor(progress * phases.length));
+  applyPhase(idx);
+}
+
+// init
+applyPhase(0);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+
+</body>
+</html>
