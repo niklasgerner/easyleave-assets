@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/herowidget1_1.html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave – Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/herowidget1_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --dark-green: #576048;
+    --sage: #869375;
+    --mauve: #99716f;
+    --taupe: #c4b8a4;
+    --charcoal: #3a3835;
+    --muted: #888580;
+    --off-white: #f4f3f0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    padding: clamp(32px, 6vw, 72px) clamp(24px, 5vw, 64px) clamp(32px, 6vw, 72px) 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    max-width: 540px;
+    width: 100%;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 18px 0;
+    line-height: 1.4;
+  }
+
+  .headline {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    color: var(--charcoal);
+    margin: 0 0 22px 0;
+  }
+
+  .headline .line1 {
+    display: block;
+  }
+
+  .headline .accent {
+    display: block;
+    color: var(--dark-green);
+  }
+
+  .subcopy {
+    font-size: clamp(17px, 1.7vw, 20px);
+    line-height: 1.6;
+    color: var(--muted);
+    font-weight: 400;
+    margin: 0 0 32px 0;
+    max-width: 540px;
+    text-wrap: pretty;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    min-height: 48px;
+    background: var(--dark-green);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(87, 96, 72, 0.18);
+    transition: transform 220ms cubic-bezier(.2,.7,.2,1),
+                box-shadow 220ms cubic-bezier(.2,.7,.2,1),
+                background-color 220ms ease;
+    will-change: transform;
+  }
+
+  .cta:hover {
+    background: #474f3a;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(87, 96, 72, 0.28);
+  }
+
+  .cta:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(87, 96, 72, 0.22);
+  }
+
+  .cta:focus-visible {
+    outline: 2px solid var(--dark-green);
+    outline-offset: 3px;
+  }
+
+  .cta .arrow {
+    display: inline-block;
+    transition: transform 220ms cubic-bezier(.2,.7,.2,1);
+    font-weight: 600;
+  }
+
+  .cta:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .stage {
+      justify-content: center;
+      text-align: center;
+      padding: clamp(28px, 8vw, 56px) clamp(20px, 6vw, 40px);
+      min-height: 360px;
+    }
+    .content {
+      max-width: 100%;
+    }
+    .subcopy {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .headline {
+      font-size: clamp(2rem, 8vw, 2.8rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta, .cta .arrow {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <section class="stage" aria-label="EasyLeave hero">
+    <div class="content">
+      <p class="eyebrow">SLIP FOR USIKKERHED, MANUEL HÅNDTERING OG FEJL</p>
+      <h1 class="headline">
+        <span class="line1">Digital orlovshåndtering</span>
+        <span class="accent">for hele organisationen</span>
+      </h1>
+      <p class="subcopy">
+        EasyLeave gør orlov til en god oplevelse for medarbejderen, frigør tid i organisationen og sikrer de data, der skal til for at løfte jeres refusionsgrundlag.
+      </p>
+      <a class="cta" href="https://easyleave.dk/produkt" target="_top" rel="noopener">
+        Se løsningen
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+<script>
+function sendHeight() {
+  var h = document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: h }, '*');
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+if (document.fonts) { document.fonts.ready.then(sendHeight); }
+</script>
+
+
+</body></html>
