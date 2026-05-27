@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/process7_3.html -->
+<html lang="da" style="--green: #576048; --sage: #6d7a5a; --cream: #f4f3f0; --beige: #e2e0db; --text: #3a3835; --box-1: #849173; --box-1-top: #9aa58c; --box-2: #576048; --box-2-top: #757d69; --box-3: #ADADAD; --box-3-top: #bcbcbc; --box-4: #849173; --box-4-top: #9aa58c; --box-5: #576048; --box-5-top: #757d69; --box-6: #ADADAD; --box-6-top: #bcbcbc; --heading-color: #768266;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sådan fungerer processen - EasyLeave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/process7_files/css2" rel="stylesheet">
+<style>
+  :root {
+    /* Brand palette — matcher resten af hjemmesiden */
+    --green: #2D4A3E;
+    --green-dark: #243b32;
+    --sage: #7A9E7E;
+    --sage-soft: #e8efe9;
+    --cream: #F5F2EC;
+    --beige: #E8E2D5;
+    --beige-dark: #d8d1c0;
+    --text: #2D4A3E;
+    --text-muted: #6f7770;
+    --text-soft: #8a8f87;
+    --border: rgba(45, 74, 62, 0.08);
+    --shadow-sm: 0 1px 2px rgba(45, 74, 62, 0.04), 0 2px 8px rgba(45, 74, 62, 0.04);
+    --shadow-md: 0 4px 12px rgba(45, 74, 62, 0.06), 0 12px 28px rgba(45, 74, 62, 0.07);
+
+    /* Step-bokse — hver boks har sin egen jordnære tone */
+    --box-1: #7A9E7E;  /* sage green */
+    --box-2: #4F6552;  /* forest */
+    --box-3: #9C8B74;  /* warm taupe */
+    --box-4: #A47A6E;  /* dusty clay */
+    --box-5: #7C918A;  /* slate sage */
+    --box-6: #B09576;  /* oat tan */
+
+    /* Gradient highlights (toppen af hver boks) */
+    --box-1-top: #8FB293;
+    --box-2-top: #607A65;
+    --box-3-top: #B5A48D;
+    --box-4-top: #BC9388;
+    --box-5-top: #94ABA3;
+    --box-6-top: #C7AE8E;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 24px 40px;
+  }
+
+  .wrap {
+    max-width: 1040px;
+    width: 100%;
+  }
+
+  /* -------- Page header (no card, large type) -------- */
+  .process-header {
+    margin-bottom: 40px;
+    max-width: 880px;
+  }
+
+  .process-header h2 {
+    margin: 0 0 14px;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--heading-color, var(--green));
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .process-header p {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    max-width: 64ch;
+    text-wrap: pretty;
+  }
+
+  /* -------- Flow (no card around it) -------- */
+  .flow-wrap {
+    margin-bottom: 32px;
+  }
+
+  /* -------- Grid layout — uændret fra originalen -------- */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr 64px 1fr;
+    grid-template-rows: 175px 70px 175px;
+    align-items: center;
+    position: relative;
+  }
+
+  .box-1 { grid-column: 1; grid-row: 1; }
+  .arrow-1 { grid-column: 2; grid-row: 1; }
+  .box-2 { grid-column: 3; grid-row: 1; }
+  .arrow-2 { grid-column: 4; grid-row: 1; }
+  .box-3 { grid-column: 5; grid-row: 1; }
+
+  .arrow-down { grid-column: 5; grid-row: 2; }
+
+  .box-6 { grid-column: 1; grid-row: 3; }
+  .arrow-5 { grid-column: 2; grid-row: 3; }
+  .box-5 { grid-column: 3; grid-row: 3; }
+  .arrow-4 { grid-column: 4; grid-row: 3; }
+  .box-4 { grid-column: 5; grid-row: 3; }
+
+  /* -------- Boxes -------- */
+  .step-box {
+    border-radius: 16px;
+    padding: 26px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.45;
+    height: 175px;
+    font-size: 15.5px;
+    color: #ffffff;
+    letter-spacing: -0.005em;
+    cursor: default;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 1px 2px rgba(45, 74, 62, 0.05),
+      0 6px 18px rgba(45, 74, 62, 0.10);
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 220ms ease;
+  }
+
+  .step-box:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 6px 18px rgba(45, 74, 62, 0.14),
+      0 16px 36px rgba(45, 74, 62, 0.14);
+  }
+
+  /* Hver boks har sin egen flade farve */
+  .step-box.box-1 { background: var(--box-1); }
+  .step-box.box-2 { background: var(--box-2); }
+  .step-box.box-3 { background: var(--box-3); }
+  .step-box.box-4 { background: var(--box-4); }
+  .step-box.box-5 { background: var(--box-5); }
+  .step-box.box-6 { background: var(--box-6); }
+
+  /* -------- Step number badge -------- */
+  .step-num {
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--green);
+    font-size: 19px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 12px rgba(45, 74, 62, 0.20), 0 0 0 4px rgba(255, 255, 255, 0.55);
+    z-index: 2;
+  }
+
+  /* -------- Arrow connector (horizontal) --------
+     ⚠️ Pilenes SVG, transforms og retninger er IKKE ændret.
+     Kun farve (fill) er opdateret til brand-paletten.
+  */
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-left: -22px;
+    margin-right: 0;
+  }
+
+  .arrow-connector svg {
+    width: 64px;
+    height: 64px;
+    overflow: visible;
+  }
+
+  .arrow-connector.left {
+    margin-left: 0;
+    margin-right: -22px;
+  }
+
+  /* -------- Down arrow (col 5, between rows) -------- */
+  .arrow-down-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-top: -22px;
+    margin-bottom: 0;
+  }
+
+  .arrow-down-container svg {
+    width: 60px;
+    height: 60px;
+    overflow: visible;
+    transform: rotate(0deg);
+  }
+
+  /* -------- Wiggle on hover (uændret logik) -------- */
+  @keyframes wiggle-right {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(10deg); }
+    40%  { transform: rotate(-8deg); }
+    60%  { transform: rotate(5deg); }
+    80%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes wiggle-left {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-5deg); }
+    80%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .arrow-connector:not(.left):hover .wiggle-inner,
+  .arrow-connector:not(.left).wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .arrow-connector.left:hover .wiggle-inner,
+  .arrow-connector.left.wiggling .wiggle-inner {
+    animation: wiggle-left 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .arrow-down-container:hover .wiggle-inner,
+  .arrow-down-container.wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  /* -------- Footer note -------- */
+  .footer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+
+  .footer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--box-3);
+    box-shadow: 0 0 0 4px rgba(173, 173, 173, 0.22);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    body { padding: 24px 18px 32px; }
+
+    .process-header { margin-bottom: 28px; }
+    .process-header h2 { font-size: 32px; }
+    .process-header p { font-size: 16px; }
+
+    /* Single column stack: box → arrow → box → arrow → ... */
+    .flow {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 0;
+    }
+
+    .box-1  { grid-column: 1; grid-row: 1; }
+    .arrow-1 { grid-column: 1; grid-row: 2; }
+    .box-2  { grid-column: 1; grid-row: 3; }
+    .arrow-2 { grid-column: 1; grid-row: 4; }
+    .box-3  { grid-column: 1; grid-row: 5; }
+    .arrow-down { grid-column: 1; grid-row: 6; }
+    .box-4  { grid-column: 1; grid-row: 7; }
+    .arrow-4 { grid-column: 1; grid-row: 8; }
+    .box-5  { grid-column: 1; grid-row: 9; }
+    .arrow-5 { grid-column: 1; grid-row: 10; }
+    .box-6  { grid-column: 1; grid-row: 11; }
+
+    .arrow-connector,
+    .arrow-connector.left,
+    .arrow-down-container {
+      margin: -10px 0;
+      padding: 6px 0;
+    }
+
+    .step-box {
+      height: auto;
+      min-height: 84px;
+      padding: 18px 18px;
+      font-size: 14.5px;
+    }
+
+    /* Arrow 1+2 — peger ned i mobil */
+    .arrow-connector:not(.left) svg {
+      width: 50px; height: 50px;
+      transform: rotate(90deg);
+    }
+
+    .arrow-down-container svg {
+      width: 50px; height: 50px;
+      transform: rotate(0deg);
+    }
+
+    /* Arrow 4+5 — peger ned i mobil */
+    .arrow-connector.left svg {
+      width: 50px; height: 50px;
+      transform: scaleX(-1) rotate(-90deg);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .process-header h2 { font-size: 26px; }
+    .process-header p { font-size: 14.5px; }
+    .step-box { min-height: 76px; padding: 16px 14px; font-size: 13.8px; }
+    .arrow-connector:not(.left) svg { width: 42px; height: 42px; transform: rotate(90deg); }
+    .arrow-down-container svg       { width: 42px; height: 42px; transform: rotate(0deg); }
+    .arrow-connector.left svg       { width: 42px; height: 42px; transform: scaleX(-1) rotate(-90deg); }
+    .step-num { width: 34px; height: 34px; font-size: 15px; top: -12px; left: -12px; box-shadow: 0 3px 8px rgba(45, 74, 62, 0.22), 0 0 0 3px #ffffff; }
+  }
+
+  /* -------- Tweaks panel -------- */
+  .tweaks-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+    display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .tweaks-panel-head h4 {
+    margin: 0; font-size: 13px; font-weight: 600;
+    color: #2D4A3E; letter-spacing: 0.02em;
+  }
+  .tweaks-close {
+    background: none; border: none; cursor: pointer;
+    color: #888; padding: 4px; font-size: 16px; line-height: 1;
+  }
+  .tweaks-label {
+    font-size: 11px; font-weight: 600; color: #6f7770;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .palette-swatch {
+    border: 2px solid transparent; border-radius: 10px; padding: 8px;
+    background: #f7f5f1; cursor: pointer;
+    transition: border-color 160ms ease, transform 120ms ease;
+    font-family: inherit;
+  }
+  .palette-swatch:hover { transform: translateY(-1px); }
+  .palette-swatch.selected { border-color: #2D4A3E; }
+  .palette-swatch-bar {
+    display: flex; height: 22px; border-radius: 6px;
+    overflow: hidden; margin-bottom: 6px;
+  }
+  .palette-swatch-bar span { flex: 1; }
+  .palette-swatch-name {
+    font-size: 11.5px; font-weight: 500; color: #2D4A3E; text-align: left;
+  }
+
+  .tweaks-divider {
+    height: 1px;
+    background: #eee;
+    margin: 14px 0 12px;
+  }
+
+  .hex-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hex-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hex-swatch input[type="color"] {
+    position: absolute;
+    inset: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .hex-input {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #2D4A3E;
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    outline: none;
+    transition: border-color 160ms ease;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .hex-input:focus { border-color: #7A9E7E; }
+
+  .box-color-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .box-color-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .box-color-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #2D4A3E;
+    width: 50px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Page header -->
+  <header class="process-header">
+    <h2>Sådan fungerer processen</h2>
+    <p>Fra varsling til fuld indberetning – sådan flyder en orlovssag igennem EasyLeave for medarbejder, leder og administration.</p>
+  </header>
+
+  <!-- Flow -->
+  <div class="flow-wrap">
+    <div class="flow">
+
+      <!-- ── ROW 1 ── -->
+      <div class="step-box light box-1">
+        <span class="step-num">1</span>
+        Medarbejder tilgår EasyLeave via QR eller intranet
+      </div>
+
+      <div class="arrow-connector arrow-1">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-1)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box dark box-2">
+        <span class="step-num">2</span>
+        Medarbejder varsler orlov i EasyLeave
+      </div>
+
+      <div class="arrow-connector arrow-2">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-2)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box sage box-3">
+        <span class="step-num">3</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <!-- ── DOWN ARROW (col 5) ── -->
+      <div class="arrow-down-container arrow-down">
+        <svg viewBox="0 0 716.82 711.35" style="width:56px;height:56px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(358.41,355.68) rotate(90) scale(-1,1) translate(-358.41,-355.68)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-3)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ── ROW 2 (right → left) ── -->
+      <div class="step-box sage box-6">
+        <span class="step-num">6</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <div class="arrow-connector left arrow-5">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-5)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box dark box-5">
+        <span class="step-num">5</span>
+        Medarbejder indberetter fuldt orlovsforløb
+      </div>
+
+      <div class="arrow-connector left arrow-4">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-4)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box light box-4">
+        <span class="step-num">4</span>
+        Automatisk påmindelse til medarbejder og leder om orlovsindberetning
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Fodnote -->
+  <div class="footer-note">
+    <div class="footer-dot"></div>
+    <span>Mulighed for integration med administrations-, tids- og refusionssystemer, så data flyder automatisk og korrekt.</span>
+  </div>
+</div>
+
+<!-- Tweaks panel -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <div class="tweaks-panel-head">
+    <h4>Tweaks</h4>
+    <button class="tweaks-close" id="tweaksClose" aria-label="Luk">✕</button>
+  </div>
+  <div class="tweaks-label">Farvepalette</div>
+  <div class="palette-grid" id="paletteGrid"><button type="button" class="palette-swatch"><div class="palette-swatch-bar"><span style="background:#7A9E7E"></span><span style="background:#4F6552"></span><span style="background:#9C8B74"></span><span style="background:#A47A6E"></span><span style="background:#7C918A"></span><span style="background:#B09576"></span></div><div class="palette-swatch-name">Jord (default)</div></button><button type="button" class="palette-swatch"><div class="palette-swatch-bar"><span style="background:#8B9E6E"></span><span style="background:#3B5043"></span><span style="background:#A89674"></span><span style="background:#9C7560"></span><span style="background:#6E8C7A"></span><span style="background:#B89D72"></span></div><div class="palette-swatch-name">Mose</div></button><button type="button" class="palette-swatch"><div class="palette-swatch-bar"><span style="background:#7A93AE"></span><span style="background:#2C4257"></span><span style="background:#8E9AA6"></span><span style="background:#9C7E78"></span><span style="background:#6E8896"></span><span style="background:#A89578"></span></div><div class="palette-swatch-name">Hav</div></button><button type="button" class="palette-swatch"><div class="palette-swatch-bar"><span style="background:#B07A60"></span><span style="background:#6E4C3E"></span><span style="background:#A89074"></span><span style="background:#8C5F52"></span><span style="background:#9C8676"></span><span style="background:#C49A7A"></span></div><div class="palette-swatch-name">Terracotta</div></button><button type="button" class="palette-swatch selected"><div class="palette-swatch-bar"><span style="background:#6d7a5a"></span><span style="background:#3F4636"></span><span style="background:#9C8E76"></span><span style="background:#9C7B6E"></span><span style="background:#7E8779"></span><span style="background:#B09478"></span></div><div class="palette-swatch-name">EasyLeave</div></button></div>
+
+  <div class="tweaks-divider"></div>
+
+  <div class="tweaks-label">Overskrift farve</div>
+  <div class="hex-row">
+    <label class="hex-swatch" id="headingSwatch" style="background: rgb(118, 130, 102);">
+      <input type="color" id="headingColorPicker" value="#2D4A3E" aria-label="Vælg farve">
+    </label>
+    <input class="hex-input" id="headingHex" type="text" value="#2D4A3E" maxlength="7" spellcheck="false" aria-label="Hex-kode">
+  </div>
+
+  <div class="tweaks-divider"></div>
+
+  <div class="tweaks-label">Boks-farver</div>
+  <div class="box-color-list" id="boxColorList"><div class="box-color-row"><span class="box-color-label">Boks 1</span><label class="hex-swatch" id="boxSwatch-1" style="background: rgb(132, 145, 115);"><input type="color" id="boxPicker-1" aria-label="Vælg farve boks 1"></label><input class="hex-input" id="boxHex-1" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 1"></div><div class="box-color-row"><span class="box-color-label">Boks 2</span><label class="hex-swatch" id="boxSwatch-2" style="background: rgb(87, 96, 72);"><input type="color" id="boxPicker-2" aria-label="Vælg farve boks 2"></label><input class="hex-input" id="boxHex-2" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 2"></div><div class="box-color-row"><span class="box-color-label">Boks 3</span><label class="hex-swatch" id="boxSwatch-3" style="background: rgb(173, 173, 173);"><input type="color" id="boxPicker-3" aria-label="Vælg farve boks 3"></label><input class="hex-input" id="boxHex-3" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 3"></div><div class="box-color-row"><span class="box-color-label">Boks 4</span><label class="hex-swatch" id="boxSwatch-4" style="background: rgb(132, 145, 115);"><input type="color" id="boxPicker-4" aria-label="Vælg farve boks 4"></label><input class="hex-input" id="boxHex-4" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 4"></div><div class="box-color-row"><span class="box-color-label">Boks 5</span><label class="hex-swatch" id="boxSwatch-5" style="background: rgb(87, 96, 72);"><input type="color" id="boxPicker-5" aria-label="Vælg farve boks 5"></label><input class="hex-input" id="boxHex-5" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 5"></div><div class="box-color-row"><span class="box-color-label">Boks 6</span><label class="hex-swatch" id="boxSwatch-6" style="background: rgb(176, 148, 120);"><input type="color" id="boxPicker-6" aria-label="Vælg farve boks 6"></label><input class="hex-input" id="boxHex-6" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks 6"></div></div>
+</div>
+
+<script>
+  // Auto-resize: send content height to parent (DanDomain iframe embed)
+  function sendHeight() {
+    const h = document.body.scrollHeight;
+    window.parent.postMessage({ iframeHeight: h }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  if (document.fonts) {
+    document.fonts.ready.then(sendHeight);
+  }
+</script>
+
+<script>
+  // Trigger wiggle on the arrow that LEAVES each box when hovering the box
+  const boxArrowMap = {
+    'box-1': 'arrow-1',
+    'box-2': 'arrow-2',
+    'box-3': 'arrow-down-container',
+    'box-4': 'arrow-4',
+    'box-5': 'arrow-5',
+    // box-6 har ingen udgående pil
+  };
+
+  function triggerWiggle(arrowClass) {
+    const el = document.querySelector('.' + arrowClass);
+    if (!el) return;
+    el.classList.remove('wiggling');
+    void el.offsetWidth;
+    el.classList.add('wiggling');
+    el.addEventListener('animationend', () => el.classList.remove('wiggling'), { once: true });
+  }
+
+  document.querySelectorAll('.step-box').forEach(box => {
+    const boxClass = [...box.classList].find(c => c.startsWith('box-'));
+    const arrowClass = boxArrowMap[boxClass];
+    if (arrowClass) {
+      box.addEventListener('mouseenter', () => triggerWiggle(arrowClass));
+    }
+  });
+</script>
+
+<script>
+  // ============================================================
+  // FARVE-TWEAKS — samme paletter som resten af hjemmesiden
+  // ============================================================
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": 4,
+    "headingColor": "#768266",
+    "boxColors": [
+      "#849173",
+      "#576048",
+      "#ADADAD",
+      "#849173",
+      "#576048",
+      "#ADADAD"
+    ]
+  }/*EDITMODE-END*/;
+
+  // Hjælper: laver et lysere "top" af en hex til gradient-toppen
+  function lighten(hex, amt) {
+    const m = hex.match(/^#?([0-9a-f]{6})$/i);
+    if (!m) return hex;
+    const n = parseInt(m[1], 16);
+    let r = (n >> 16) & 0xff, g = (n >> 8) & 0xff, b = n & 0xff;
+    r = Math.min(255, Math.round(r + (255 - r) * amt));
+    g = Math.min(255, Math.round(g + (255 - g) * amt));
+    b = Math.min(255, Math.round(b + (255 - b) * amt));
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  }
+
+  const PALETTES = [
+    {
+      name: "Jord (default)",
+      // Sage → forest → taupe → clay → slate → tan
+      boxes: ["#7A9E7E", "#4F6552", "#9C8B74", "#A47A6E", "#7C918A", "#B09576"],
+      vars: { "--green": "#2D4A3E", "--sage": "#7A9E7E", "--cream": "#F5F2EC", "--beige": "#E8E2D5", "--text": "#2D4A3E" }
+    },
+    {
+      name: "Mose",
+      boxes: ["#8B9E6E", "#3B5043", "#A89674", "#9C7560", "#6E8C7A", "#B89D72"],
+      vars: { "--green": "#3B5043", "--sage": "#8B9E6E", "--cream": "#F2EEE3", "--beige": "#E2D9C2", "--text": "#3B5043" }
+    },
+    {
+      name: "Hav",
+      boxes: ["#7A93AE", "#2C4257", "#8E9AA6", "#9C7E78", "#6E8896", "#A89578"],
+      vars: { "--green": "#2C4257", "--sage": "#7A93AE", "--cream": "#F1F3F5", "--beige": "#DDE3E8", "--text": "#2C4257" }
+    },
+    {
+      name: "Terracotta",
+      boxes: ["#B07A60", "#6E4C3E", "#A89074", "#8C5F52", "#9C8676", "#C49A7A"],
+      vars: { "--green": "#4A3A30", "--sage": "#B07A60", "--cream": "#F5EFE6", "--beige": "#E8D9C5", "--text": "#4A3A30" }
+    },
+    {
+      name: "EasyLeave",
+      boxes: ["#6d7a5a", "#3F4636", "#9C8E76", "#9C7B6E", "#7E8779", "#B09478"],
+      vars: { "--green": "#576048", "--sage": "#6d7a5a", "--cream": "#f4f3f0", "--beige": "#e2e0db", "--text": "#3a3835" }
+    }
+  ];
+
+  let currentTweak = Object.assign({}, TWEAK_DEFAULTS);
+
+  function applyPalette(i, opts) {
+    opts = opts || {};
+    const p = PALETTES[i] || PALETTES[0];
+    const root = document.documentElement;
+    Object.keys(p.vars).forEach(function(k) {
+      root.style.setProperty(k, p.vars[k]);
+    });
+    // Also push 6 box colors (+ top highlight) from palette
+    p.boxes.forEach(function(hex, n) {
+      root.style.setProperty('--box-' + (n + 1), hex);
+      root.style.setProperty('--box-' + (n + 1) + '-top', lighten(hex, 0.18));
+    });
+    currentTweak.palette = i;
+    // Clear individual overrides when switching palette
+    if (!opts.preserveOverrides) {
+      currentTweak.boxColors = p.boxes.slice();
+      syncBoxColorInputs();
+    }
+    document.querySelectorAll('.palette-swatch').forEach(function(el, idx) {
+      el.classList.toggle('selected', idx === i);
+    });
+  }
+
+  function applyBoxColor(n, hex, opts) {
+    opts = opts || {};
+    const norm = normalizeHex(hex);
+    if (!norm) return;
+    const root = document.documentElement;
+    root.style.setProperty('--box-' + n, norm);
+    root.style.setProperty('--box-' + n + '-top', lighten(norm, 0.18));
+    if (!currentTweak.boxColors) currentTweak.boxColors = [];
+    currentTweak.boxColors[n - 1] = norm;
+    syncBoxColorInputs(n);
+    if (opts.persist) {
+      try {
+        window.parent.postMessage({
+          type: '__edit_mode_set_keys',
+          edits: { boxColors: currentTweak.boxColors }
+        }, '*');
+      } catch(e) {}
+    }
+  }
+
+  function syncBoxColorInputs(onlyN) {
+    (currentTweak.boxColors || []).forEach(function(hex, idx) {
+      const n = idx + 1;
+      if (onlyN && n === onlyN) return; // don't overwrite the input the user is typing in
+      const sw = document.getElementById('boxSwatch-' + n);
+      const pi = document.getElementById('boxPicker-' + n);
+      const hx = document.getElementById('boxHex-' + n);
+      if (sw) sw.style.background = hex;
+      if (pi) pi.value = hex;
+      if (hx) hx.value = hex;
+    });
+  }
+
+  function buildSwatches() {
+    const grid = document.getElementById('paletteGrid');
+    grid.innerHTML = '';
+    PALETTES.forEach(function(p, i) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'palette-swatch' + (i === currentTweak.palette ? ' selected' : '');
+      btn.innerHTML =
+        '<div class="palette-swatch-bar">' +
+          p.boxes.map(function(c) {
+            return '<span style="background:' + c + '"></span>';
+          }).join('') +
+        '</div>' +
+        '<div class="palette-swatch-name">' + p.name + '</div>';
+      btn.addEventListener('click', function() {
+        applyPalette(i);
+        try {
+          window.parent.postMessage({
+            type: '__edit_mode_set_keys',
+            edits: { palette: i, boxColors: PALETTES[i].boxes.slice() }
+          }, '*');
+        } catch(e) {}
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  function buildBoxColorRows() {
+    const list = document.getElementById('boxColorList');
+    list.innerHTML = '';
+    for (let n = 1; n <= 6; n++) {
+      const row = document.createElement('div');
+      row.className = 'box-color-row';
+      row.innerHTML =
+        '<span class="box-color-label">Boks ' + n + '</span>' +
+        '<label class="hex-swatch" id="boxSwatch-' + n + '">' +
+          '<input type="color" id="boxPicker-' + n + '" aria-label="Vælg farve boks ' + n + '" />' +
+        '</label>' +
+        '<input class="hex-input" id="boxHex-' + n + '" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks ' + n + '" />';
+      list.appendChild(row);
+
+      const picker = row.querySelector('#boxPicker-' + n);
+      const hex = row.querySelector('#boxHex-' + n);
+      picker.addEventListener('input', function(e) { applyBoxColor(n, e.target.value); });
+      picker.addEventListener('change', function(e) { applyBoxColor(n, e.target.value, { persist: true }); });
+      hex.addEventListener('input', function(e) {
+        const norm = normalizeHex(e.target.value);
+        if (norm) applyBoxColor(n, norm);
+      });
+      hex.addEventListener('change', function(e) {
+        const norm = normalizeHex(e.target.value);
+        if (norm) applyBoxColor(n, norm, { persist: true });
+        else hex.value = (currentTweak.boxColors || [])[n - 1] || '';
+      });
+    }
+    syncBoxColorInputs();
+  }
+
+  applyPalette(currentTweak.palette);
+  buildSwatches();
+  buildBoxColorRows();
+
+  // If user previously customized individual boxes, reapply them after palette load
+  if (Array.isArray(TWEAK_DEFAULTS.boxColors)) {
+    TWEAK_DEFAULTS.boxColors.forEach(function(hex, idx) {
+      if (hex) applyBoxColor(idx + 1, hex);
+    });
+  }
+
+  // ============================================================
+  // Overskrift-farve (hex)
+  // ============================================================
+  const headingHex = document.getElementById('headingHex');
+  const headingPicker = document.getElementById('headingColorPicker');
+  const headingSwatch = document.getElementById('headingSwatch');
+
+  function isValidHex(v) {
+    return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v);
+  }
+
+  function normalizeHex(v) {
+    if (!v) return null;
+    v = v.trim();
+    if (v[0] !== '#') v = '#' + v;
+    if (/^#[0-9a-f]{3}$/i.test(v)) {
+      v = '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+    }
+    return isValidHex(v) ? v.toUpperCase() : null;
+  }
+
+  function applyHeadingColor(hex, opts) {
+    opts = opts || {};
+    const norm = normalizeHex(hex);
+    if (!norm) return;
+    document.documentElement.style.setProperty('--heading-color', norm);
+    headingSwatch.style.background = norm;
+    if (!opts.skipInput) headingHex.value = norm;
+    if (!opts.skipPicker) headingPicker.value = norm;
+    currentTweak.headingColor = norm;
+    if (opts.persist) {
+      try {
+        window.parent.postMessage({
+          type: '__edit_mode_set_keys',
+          edits: { headingColor: norm }
+        }, '*');
+      } catch(e) {}
+    }
+  }
+
+  headingPicker.addEventListener('input', function(e) {
+    applyHeadingColor(e.target.value, { skipPicker: true });
+  });
+  headingPicker.addEventListener('change', function(e) {
+    applyHeadingColor(e.target.value, { skipPicker: true, persist: true });
+  });
+  headingHex.addEventListener('input', function(e) {
+    const norm = normalizeHex(e.target.value);
+    if (norm) applyHeadingColor(norm, { skipInput: true });
+  });
+  headingHex.addEventListener('change', function(e) {
+    const norm = normalizeHex(e.target.value);
+    if (norm) applyHeadingColor(norm, { persist: true });
+    else headingHex.value = currentTweak.headingColor;
+  });
+
+  applyHeadingColor(currentTweak.headingColor);
+
+  const panel = document.getElementById('tweaksPanel');
+  window.addEventListener('message', function(e) {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode')   panel.classList.add('active');
+    if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+  });
+  document.getElementById('tweaksClose').addEventListener('click', function() {
+    panel.classList.remove('active');
+    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+</script>
+
+
+
+</body></html>
