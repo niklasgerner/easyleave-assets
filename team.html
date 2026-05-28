@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/Team%20Widget%20(1).html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave – Teamet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./team_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --dark-green: #576048;
+    --dark-green-hover: #474f3a;
+    --sage: #8fa882;
+    --mauve: #99716f;
+    --taupe: #c4b8a4;
+    --charcoal: #3a3835;
+    --muted: #6b6864;
+    --soft: #908d87;
+    --off-white: #f4f3f0;
+    --card-bg: #ffffff;
+    --card-border: #ece9e2;
+    --card-shadow: 0 1px 2px rgba(58, 56, 53, 0.04), 0 8px 24px rgba(58, 56, 53, 0.06);
+    --card-shadow-hover: 0 2px 4px rgba(58, 56, 53, 0.05), 0 18px 40px rgba(58, 56, 53, 0.10);
+
+    /* Default photo crop tuning — overridable per card via inline style.
+       Origin tuned so the face sits a touch above center, not jammed to the top. */
+    --photo-scale: 1.7;
+    --photo-origin-x: 50%;
+    --photo-origin-y: 55%;
+    --photo-pos-x: 50%;
+    --photo-pos-y: 50%;
+
+    /* Tweakable type scale (overridden by Tweaks panel via inline style on :root) */
+    --heading-size: clamp(2.4rem, 5vw, 3.4rem);
+    --lede-size: clamp(16px, 1.5vw, 18px);
+    --name-size: clamp(1.2rem, 1.55vw, 1.45rem);
+    --name-size-featured: clamp(1.35rem, 1.75vw, 1.6rem);
+    --bio-size: 14.5px;
+    --bio-size-featured: 15px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .stage {
+    width: 100%;
+    padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 64px);
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin: 0 auto clamp(36px, 5vw, 56px);
+    max-width: 640px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 14px 0;
+  }
+
+  .heading {
+    font-size: var(--heading-size);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin: 0 0 14px 0;
+    text-wrap: balance;
+  }
+
+  .heading .accent {
+    color: var(--dark-green);
+  }
+
+  .lede {
+    font-size: var(--lede-size);
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  /* ─── Grids ─────────────────────────────────────────── */
+
+  .row {
+    display: grid;
+    gap: clamp(20px, 2.4vw, 28px);
+    margin-bottom: clamp(20px, 2.4vw, 28px);
+  }
+
+  .row:last-child { margin-bottom: 0; }
+
+  .row-featured { grid-template-columns: repeat(2, 1fr); }
+  .row-four     { grid-template-columns: repeat(3, 1fr); }
+
+  /* ─── Card ──────────────────────────────────────────── */
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 280ms cubic-bezier(.2,.7,.2,1), box-shadow 280ms cubic-bezier(.2,.7,.2,1);
+    width: 100%;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--dark-green);
+    z-index: 2;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  /* Photo frame */
+  .photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--off-white);
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--photo-pos-x) var(--photo-pos-y);
+    transform: scale(var(--photo-scale));
+    transform-origin: var(--photo-origin-x) var(--photo-origin-y);
+    display: block;
+  }
+
+  /* Featured cards: landscape crop so the photo HEIGHT matches the 4-up row below. */
+  .card-featured .photo { aspect-ratio: 5 / 3; }
+
+  /* Placeholder (no photo) */
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 38%, #eeeae0 0%, #e2ddd2 60%, #d8d2c4 100%);
+    color: var(--soft);
+    font-weight: 600;
+    font-size: clamp(56px, 8vw, 88px);
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+
+  .photo-placeholder .glyph {
+    display: inline-flex;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    border-radius: 50%;
+    background: #ffffff;
+    align-items: center;
+    justify-content: center;
+    color: var(--taupe);
+    font-size: clamp(40px, 6vw, 56px);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  }
+
+  .photo-placeholder .caption {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    text-transform: uppercase;
+  }
+
+  /* Card body */
+  .body {
+    padding: clamp(20px, 2vw, 26px) clamp(22px, 2.2vw, 28px) clamp(24px, 2.4vw, 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .name {
+    font-size: var(--name-size);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--charcoal);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .card-featured .name {
+    font-size: var(--name-size-featured);
+  }
+
+  .title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dark-green);
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+  }
+
+  .bio {
+    font-size: var(--bio-size);
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .card-featured .bio { font-size: var(--bio-size-featured); }
+
+  /* Editable affordance — quiet but discoverable */
+  [contenteditable="true"] {
+    outline: none;
+    border-radius: 4px;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
+  }
+  [contenteditable="true"]:hover {
+    background-color: rgba(143, 168, 130, 0.08);
+  }
+  [contenteditable="true"]:focus {
+    background-color: rgba(143, 168, 130, 0.10);
+    box-shadow: 0 0 0 2px rgba(87, 96, 72, 0.20);
+  }
+
+  /* ─── Responsive ────────────────────────────────────── */
+
+  /* Tablet */
+  @media (max-width: 980px) {
+    /* row-four (now 3 cards) keeps 3-up — drop straight to single col on mobile. */
+  }
+
+  @media (max-width: 760px) {
+    .card-featured .photo { aspect-ratio: 4 / 3; }
+  }
+
+  /* Mobile */
+  @media (max-width: 620px) {
+    .row-featured,
+    .row-four {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .card-featured .photo { aspect-ratio: 4 / 5; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+
+  /* ─── Group photo strip ─────────────────────────── */
+
+  .group {
+    margin-top: clamp(40px, 5vw, 64px);
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--off-white);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+    aspect-ratio: 3 / 1;
+    isolation: isolate;
+  }
+
+  .group .group-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 72%;
+    display: block;
+  }
+
+  .group .group-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      linear-gradient(135deg, #eeeae0 0%, #e2ddd2 50%, #d8d2c4 100%);
+    color: var(--soft);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, monospace;
+  }
+
+  .group .group-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 22px,
+        rgba(58, 56, 53, 0.04) 22px,
+        rgba(58, 56, 53, 0.04) 44px
+      );
+    pointer-events: none;
+  }
+
+  .group .group-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 56px);
+    background:
+      linear-gradient(
+        to top,
+        rgba(20, 22, 18, 0.72) 0%,
+        rgba(20, 22, 18, 0.45) 35%,
+        rgba(20, 22, 18, 0.10) 65%,
+        rgba(20, 22, 18, 0)    100%
+      );
+    color: #ffffff;
+  }
+
+  /* Tone down the overlay when no real photo — placeholder text needs to read */
+  .group.is-placeholder .group-overlay {
+    background:
+      linear-gradient(
+        to top,
+        rgba(58, 56, 53, 0.55) 0%,
+        rgba(58, 56, 53, 0.18) 50%,
+        rgba(58, 56, 53, 0)    100%
+      );
+  }
+
+  .group-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .group-title {
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  .group-copy {
+    font-size: clamp(14px, 1.3vw, 16px);
+    line-height: 1.55;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 640px;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 760px) {
+    .group { aspect-ratio: 16 / 9; }
+  }
+
+  @media (max-width: 480px) {
+    .group { aspect-ratio: 4 / 3; }
+  }
+</style>
+<script>"use strict";
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiZmlsZTovLy9DOi9Vc2Vycy9OaWtsYXNKJUMzJUI4cmdlbnNlbi9Eb3dubG9hZHMvdHdlYWtzLXBhbmVsLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyIiXSwibWFwcGluZ3MiOiIiLCJpZ25vcmVMaXN0IjpbXX0=</script><script>"use strict";
+
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var TEAM_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "headingSize": 60,
+  "ledeSize": 17,
+  "nameSize": 22,
+  "bioSize": 15,
+  "accent": "#576048",
+  "showEyebrow": true,
+  "tineX": 50,
+  "tineY": 78,
+  "tineZoom": 155,
+  "simoneX": 45,
+  "simoneY": 51,
+  "simoneZoom": 147,
+  "niklasX": 55,
+  "niklasY": 61,
+  "niklasZoom": 163,
+  "christofferX": 57,
+  "christofferY": 55,
+  "christofferZoom": 170,
+  "emmaX": 53,
+  "emmaY": 66,
+  "emmaZoom": 167,
+  "groupX": 50,
+  "groupY": 68,
+  "groupHeight": 44
+} /*EDITMODE-END*/;
+var PEOPLE = [{
+  id: "tine",
+  label: "Tine"
+}, {
+  id: "simone",
+  label: "Simone"
+}, {
+  id: "niklas",
+  label: "Niklas"
+}, {
+  id: "christoffer",
+  label: "Christoffer"
+}, {
+  id: "emma",
+  label: "Emma"
+}];
+function TeamTweaksApp() {
+  var _useTweaks = useTweaks(TEAM_TWEAK_DEFAULTS),
+    _useTweaks2 = _slicedToArray(_useTweaks, 2),
+    t = _useTweaks2[0],
+    setTweak = _useTweaks2[1];
+  React.useEffect(function () {
+    var r = document.documentElement.style;
+    r.setProperty('--heading-size', t.headingSize + 'px');
+    r.setProperty('--lede-size', t.ledeSize + 'px');
+    r.setProperty('--name-size', t.nameSize + 'px');
+    r.setProperty('--name-size-featured', t.nameSize + 2 + 'px');
+    r.setProperty('--bio-size', t.bioSize + 'px');
+    r.setProperty('--bio-size-featured', t.bioSize + 0.5 + 'px');
+    r.setProperty('--dark-green', t.accent);
+    document.querySelectorAll('.eyebrow').forEach(function (el) {
+      el.style.display = t.showEyebrow ? '' : 'none';
+    });
+
+    // Per-person photo crop
+    PEOPLE.forEach(function (p) {
+      var card = document.querySelector("[data-person=\"".concat(p.id, "\"]"));
+      if (!card) return;
+      card.style.setProperty('--photo-pos-x', t[p.id + 'X'] + '%');
+      card.style.setProperty('--photo-origin-y', t[p.id + 'Y'] + '%');
+      card.style.setProperty('--photo-scale', t[p.id + 'Zoom'] / 100);
+    });
+
+    // Group photo: object-position + aspect ratio
+    var groupFig = document.querySelector('[data-photo="group"]');
+    var groupImg = groupFig && groupFig.querySelector('.group-photo');
+    if (groupImg) {
+      groupImg.style.objectPosition = "".concat(t.groupX, "% ").concat(t.groupY, "%");
+    }
+    if (groupFig) {
+      // groupHeight is "vertical proportion" — converts to aspect ratio: 100 / h
+      // groupHeight 33 → ratio 3:1 (short banner); 50 → 2:1; 75 → 4:3 (tall)
+      var h = Math.max(15, Math.min(100, t.groupHeight));
+      groupFig.style.aspectRatio = "".concat(100, " / ", h);
+    }
+    if (typeof sendHeight === 'function') setTimeout(sendHeight, 50);
+  }, [t]);
+  return /*#__PURE__*/React.createElement(TweaksPanel, {
+    title: "Team widget"
+  }, /*#__PURE__*/React.createElement(TweakSection, {
+    label: "Typografi"
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Overskrift",
+    value: t.headingSize,
+    min: 28,
+    max: 88,
+    unit: "px",
+    onChange: function onChange(v) {
+      return setTweak('headingSize', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Underrubrik",
+    value: t.ledeSize,
+    min: 12,
+    max: 26,
+    unit: "px",
+    onChange: function onChange(v) {
+      return setTweak('ledeSize', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Personnavn",
+    value: t.nameSize,
+    min: 14,
+    max: 36,
+    unit: "px",
+    onChange: function onChange(v) {
+      return setTweak('nameSize', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Bio-tekst",
+    value: t.bioSize,
+    min: 12,
+    max: 22,
+    unit: "px",
+    onChange: function onChange(v) {
+      return setTweak('bioSize', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSection, {
+    label: "Visuelt"
+  }), /*#__PURE__*/React.createElement(TweakColor, {
+    label: "Accent",
+    value: t.accent,
+    options: ['#576048', '#1D9E75', '#3a3835', '#99716f', '#8fa882'],
+    onChange: function onChange(v) {
+      return setTweak('accent', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakToggle, {
+    label: "\"OM OS\"-tag",
+    value: t.showEyebrow,
+    onChange: function onChange(v) {
+      return setTweak('showEyebrow', v);
+    }
+  }), PEOPLE.map(function (p) {
+    return /*#__PURE__*/React.createElement(React.Fragment, {
+      key: p.id
+    }, /*#__PURE__*/React.createElement(TweakSection, {
+      label: "Billede – " + p.label
+    }), /*#__PURE__*/React.createElement(TweakSlider, {
+      label: "Vandret",
+      value: t[p.id + 'X'],
+      min: 0,
+      max: 100,
+      unit: "%",
+      onChange: function onChange(v) {
+        return setTweak(p.id + 'X', v);
+      }
+    }), /*#__PURE__*/React.createElement(TweakSlider, {
+      label: "Lodret",
+      value: t[p.id + 'Y'],
+      min: 0,
+      max: 100,
+      unit: "%",
+      onChange: function onChange(v) {
+        return setTweak(p.id + 'Y', v);
+      }
+    }), /*#__PURE__*/React.createElement(TweakSlider, {
+      label: "Zoom",
+      value: t[p.id + 'Zoom'],
+      min: 100,
+      max: 250,
+      unit: "%",
+      onChange: function onChange(v) {
+        return setTweak(p.id + 'Zoom', v);
+      }
+    }));
+  }), /*#__PURE__*/React.createElement(TweakSection, {
+    label: "Gruppefoto"
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Vandret",
+    value: t.groupX,
+    min: 0,
+    max: 100,
+    unit: "%",
+    onChange: function onChange(v) {
+      return setTweak('groupX', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "Lodret",
+    value: t.groupY,
+    min: 0,
+    max: 100,
+    unit: "%",
+    onChange: function onChange(v) {
+      return setTweak('groupY', v);
+    }
+  }), /*#__PURE__*/React.createElement(TweakSlider, {
+    label: "H\xF8jde",
+    value: t.groupHeight,
+    min: 20,
+    max: 80,
+    unit: "",
+    onChange: function onChange(v) {
+      return setTweak('groupHeight', v);
+    }
+  }));
+}
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(/*#__PURE__*/React.createElement(TeamTweaksApp, null));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJURUFNX1RXRUFLX0RFRkFVTFRTIiwiUEVPUExFIiwiaWQiLCJsYWJlbCIsIlRlYW1Ud2Vha3NBcHAiLCJfdXNlVHdlYWtzIiwidXNlVHdlYWtzIiwiX3VzZVR3ZWFrczIiLCJfc2xpY2VkVG9BcnJheSIsInQiLCJzZXRUd2VhayIsIlJlYWN0IiwidXNlRWZmZWN0IiwiciIsImRvY3VtZW50IiwiZG9jdW1lbnRFbGVtZW50Iiwic3R5bGUiLCJzZXRQcm9wZXJ0eSIsImhlYWRpbmdTaXplIiwibGVkZVNpemUiLCJuYW1lU2l6ZSIsImJpb1NpemUiLCJhY2NlbnQiLCJxdWVyeVNlbGVjdG9yQWxsIiwiZm9yRWFjaCIsImVsIiwiZGlzcGxheSIsInNob3dFeWVicm93IiwicCIsImNhcmQiLCJxdWVyeVNlbGVjdG9yIiwiY29uY2F0IiwiZ3JvdXBGaWciLCJncm91cEltZyIsIm9iamVjdFBvc2l0aW9uIiwiZ3JvdXBYIiwiZ3JvdXBZIiwiaCIsIk1hdGgiLCJtYXgiLCJtaW4iLCJncm91cEhlaWdodCIsImFzcGVjdFJhdGlvIiwic2VuZEhlaWdodCIsInNldFRpbWVvdXQiLCJjcmVhdGVFbGVtZW50IiwiVHdlYWtzUGFuZWwiLCJ0aXRsZSIsIlR3ZWFrU2VjdGlvbiIsIlR3ZWFrU2xpZGVyIiwidmFsdWUiLCJ1bml0Iiwib25DaGFuZ2UiLCJ2IiwiVHdlYWtDb2xvciIsIm9wdGlvbnMiLCJUd2Vha1RvZ2dsZSIsIm1hcCIsIkZyYWdtZW50Iiwia2V5IiwiUmVhY3RET00iLCJjcmVhdGVSb290IiwiZ2V0RWxlbWVudEJ5SWQiLCJyZW5kZXIiXSwic291cmNlcyI6WyJJbmxpbmUgQmFiZWwgc2NyaXB0Il0sInNvdXJjZXNDb250ZW50IjpbIlxuY29uc3QgVEVBTV9UV0VBS19ERUZBVUxUUyA9IC8qRURJVE1PREUtQkVHSU4qL3tcbiAgXCJoZWFkaW5nU2l6ZVwiOiA2MCxcbiAgXCJsZWRlU2l6ZVwiOiAxNyxcbiAgXCJuYW1lU2l6ZVwiOiAyMixcbiAgXCJiaW9TaXplXCI6IDE1LFxuICBcImFjY2VudFwiOiBcIiM1NzYwNDhcIixcbiAgXCJzaG93RXllYnJvd1wiOiB0cnVlLFxuICBcInRpbmVYXCI6IDUwLFxuICBcInRpbmVZXCI6IDc4LFxuICBcInRpbmVab29tXCI6IDE1NSxcbiAgXCJzaW1vbmVYXCI6IDQ1LFxuICBcInNpbW9uZVlcIjogNTEsXG4gIFwic2ltb25lWm9vbVwiOiAxNDcsXG4gIFwibmlrbGFzWFwiOiA1NSxcbiAgXCJuaWtsYXNZXCI6IDYxLFxuICBcIm5pa2xhc1pvb21cIjogMTYzLFxuICBcImNocmlzdG9mZmVyWFwiOiA1NyxcbiAgXCJjaHJpc3RvZmZlcllcIjogNTUsXG4gIFwiY2hyaXN0b2ZmZXJab29tXCI6IDE3MCxcbiAgXCJlbW1hWFwiOiA1MyxcbiAgXCJlbW1hWVwiOiA2NixcbiAgXCJlbW1hWm9vbVwiOiAxNjcsXG4gIFwiZ3JvdXBYXCI6IDUwLFxuICBcImdyb3VwWVwiOiA2OCxcbiAgXCJncm91cEhlaWdodFwiOiA0NFxufS8qRURJVE1PREUtRU5EKi87XG5cbmNvbnN0IFBFT1BMRSA9IFtcbiAgeyBpZDogXCJ0aW5lXCIsICAgICAgICBsYWJlbDogXCJUaW5lXCIgICAgICAgIH0sXG4gIHsgaWQ6IFwic2ltb25lXCIsICAgICAgbGFiZWw6IFwiU2ltb25lXCIgICAgICB9LFxuICB7IGlkOiBcIm5pa2xhc1wiLCAgICAgIGxhYmVsOiBcIk5pa2xhc1wiICAgICAgfSxcbiAgeyBpZDogXCJjaHJpc3RvZmZlclwiLCBsYWJlbDogXCJDaHJpc3RvZmZlclwiIH0sXG4gIHsgaWQ6IFwiZW1tYVwiLCAgICAgICAgbGFiZWw6IFwiRW1tYVwiICAgICAgICB9LFxuXTtcblxuZnVuY3Rpb24gVGVhbVR3ZWFrc0FwcCgpIHtcbiAgY29uc3QgW3QsIHNldFR3ZWFrXSA9IHVzZVR3ZWFrcyhURUFNX1RXRUFLX0RFRkFVTFRTKTtcblxuICBSZWFjdC51c2VFZmZlY3QoKCkgPT4ge1xuICAgIGNvbnN0IHIgPSBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQuc3R5bGU7XG4gICAgci5zZXRQcm9wZXJ0eSgnLS1oZWFkaW5nLXNpemUnLCB0LmhlYWRpbmdTaXplICsgJ3B4Jyk7XG4gICAgci5zZXRQcm9wZXJ0eSgnLS1sZWRlLXNpemUnLCB0LmxlZGVTaXplICsgJ3B4Jyk7XG4gICAgci5zZXRQcm9wZXJ0eSgnLS1uYW1lLXNpemUnLCB0Lm5hbWVTaXplICsgJ3B4Jyk7XG4gICAgci5zZXRQcm9wZXJ0eSgnLS1uYW1lLXNpemUtZmVhdHVyZWQnLCAodC5uYW1lU2l6ZSArIDIpICsgJ3B4Jyk7XG4gICAgci5zZXRQcm9wZXJ0eSgnLS1iaW8tc2l6ZScsIHQuYmlvU2l6ZSArICdweCcpO1xuICAgIHIuc2V0UHJvcGVydHkoJy0tYmlvLXNpemUtZmVhdHVyZWQnLCAodC5iaW9TaXplICsgMC41KSArICdweCcpO1xuICAgIHIuc2V0UHJvcGVydHkoJy0tZGFyay1ncmVlbicsIHQuYWNjZW50KTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuZXllYnJvdycpLmZvckVhY2goZWwgPT4ge1xuICAgICAgZWwuc3R5bGUuZGlzcGxheSA9IHQuc2hvd0V5ZWJyb3cgPyAnJyA6ICdub25lJztcbiAgICB9KTtcblxuICAgIC8vIFBlci1wZXJzb24gcGhvdG8gY3JvcFxuICAgIFBFT1BMRS5mb3JFYWNoKHAgPT4ge1xuICAgICAgY29uc3QgY2FyZCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYFtkYXRhLXBlcnNvbj1cIiR7cC5pZH1cIl1gKTtcbiAgICAgIGlmICghY2FyZCkgcmV0dXJuO1xuICAgICAgY2FyZC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1waG90by1wb3MteCcsICAgIHRbcC5pZCArICdYJ10gICAgKyAnJScpO1xuICAgICAgY2FyZC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1waG90by1vcmlnaW4teScsIHRbcC5pZCArICdZJ10gICAgKyAnJScpO1xuICAgICAgY2FyZC5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1waG90by1zY2FsZScsICAgICh0W3AuaWQgKyAnWm9vbSddIC8gMTAwKSk7XG4gICAgfSk7XG5cbiAgICAvLyBHcm91cCBwaG90bzogb2JqZWN0LXBvc2l0aW9uICsgYXNwZWN0IHJhdGlvXG4gICAgY29uc3QgZ3JvdXBGaWcgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCdbZGF0YS1waG90bz1cImdyb3VwXCJdJyk7XG4gICAgY29uc3QgZ3JvdXBJbWcgPSBncm91cEZpZyAmJiBncm91cEZpZy5xdWVyeVNlbGVjdG9yKCcuZ3JvdXAtcGhvdG8nKTtcbiAgICBpZiAoZ3JvdXBJbWcpIHtcbiAgICAgIGdyb3VwSW1nLnN0eWxlLm9iamVjdFBvc2l0aW9uID0gYCR7dC5ncm91cFh9JSAke3QuZ3JvdXBZfSVgO1xuICAgIH1cbiAgICBpZiAoZ3JvdXBGaWcpIHtcbiAgICAgIC8vIGdyb3VwSGVpZ2h0IGlzIFwidmVydGljYWwgcHJvcG9ydGlvblwiIOKAlCBjb252ZXJ0cyB0byBhc3BlY3QgcmF0aW86IDEwMCAvIGhcbiAgICAgIC8vIGdyb3VwSGVpZ2h0IDMzIOKGkiByYXRpbyAzOjEgKHNob3J0IGJhbm5lcik7IDUwIOKGkiAyOjE7IDc1IOKGkiA0OjMgKHRhbGwpXG4gICAgICBjb25zdCBoID0gTWF0aC5tYXgoMTUsIE1hdGgubWluKDEwMCwgdC5ncm91cEhlaWdodCkpO1xuICAgICAgZ3JvdXBGaWcuc3R5bGUuYXNwZWN0UmF0aW8gPSBgJHsxMDB9IC8gJHtofWA7XG4gICAgfVxuXG4gICAgaWYgKHR5cGVvZiBzZW5kSGVpZ2h0ID09PSAnZnVuY3Rpb24nKSBzZXRUaW1lb3V0KHNlbmRIZWlnaHQsIDUwKTtcbiAgfSwgW3RdKTtcblxuICByZXR1cm4gKFxuICAgIDxUd2Vha3NQYW5lbCB0aXRsZT1cIlRlYW0gd2lkZ2V0XCI+XG4gICAgICA8VHdlYWtTZWN0aW9uIGxhYmVsPVwiVHlwb2dyYWZpXCIgLz5cbiAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIk92ZXJza3JpZnRcIiAgdmFsdWU9e3QuaGVhZGluZ1NpemV9IG1pbj17Mjh9IG1heD17ODh9IHVuaXQ9XCJweFwiXG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2VhaygnaGVhZGluZ1NpemUnLCB2KX0gLz5cbiAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIlVuZGVycnVicmlrXCIgdmFsdWU9e3QubGVkZVNpemV9ICAgIG1pbj17MTJ9IG1heD17MjZ9IHVuaXQ9XCJweFwiXG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2VhaygnbGVkZVNpemUnLCB2KX0gLz5cbiAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIlBlcnNvbm5hdm5cIiAgdmFsdWU9e3QubmFtZVNpemV9ICAgIG1pbj17MTR9IG1heD17MzZ9IHVuaXQ9XCJweFwiXG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2VhaygnbmFtZVNpemUnLCB2KX0gLz5cbiAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIkJpby10ZWtzdFwiICAgdmFsdWU9e3QuYmlvU2l6ZX0gICAgIG1pbj17MTJ9IG1heD17MjJ9IHVuaXQ9XCJweFwiXG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2VhaygnYmlvU2l6ZScsIHYpfSAvPlxuXG4gICAgICA8VHdlYWtTZWN0aW9uIGxhYmVsPVwiVmlzdWVsdFwiIC8+XG4gICAgICA8VHdlYWtDb2xvciAgbGFiZWw9XCJBY2NlbnRcIiB2YWx1ZT17dC5hY2NlbnR9XG4gICAgICAgICAgICAgICAgICAgb3B0aW9ucz17WycjNTc2MDQ4JywgJyMxRDlFNzUnLCAnIzNhMzgzNScsICcjOTk3MTZmJywgJyM4ZmE4ODInXX1cbiAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17KHYpID0+IHNldFR3ZWFrKCdhY2NlbnQnLCB2KX0gLz5cbiAgICAgIDxUd2Vha1RvZ2dsZSBsYWJlbD0nXCJPTSBPU1wiLXRhZycgdmFsdWU9e3Quc2hvd0V5ZWJyb3d9XG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2Vhaygnc2hvd0V5ZWJyb3cnLCB2KX0gLz5cblxuICAgICAge1BFT1BMRS5tYXAocCA9PiAoXG4gICAgICAgIDxSZWFjdC5GcmFnbWVudCBrZXk9e3AuaWR9PlxuICAgICAgICAgIDxUd2Vha1NlY3Rpb24gbGFiZWw9e1wiQmlsbGVkZSDigJMgXCIgKyBwLmxhYmVsfSAvPlxuICAgICAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIlZhbmRyZXRcIiB2YWx1ZT17dFtwLmlkICsgJ1gnXX0gbWluPXswfSBtYXg9ezEwMH0gdW5pdD1cIiVcIlxuICAgICAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17KHYpID0+IHNldFR3ZWFrKHAuaWQgKyAnWCcsIHYpfSAvPlxuICAgICAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIkxvZHJldFwiICB2YWx1ZT17dFtwLmlkICsgJ1knXX0gbWluPXswfSBtYXg9ezEwMH0gdW5pdD1cIiVcIlxuICAgICAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17KHYpID0+IHNldFR3ZWFrKHAuaWQgKyAnWScsIHYpfSAvPlxuICAgICAgICAgIDxUd2Vha1NsaWRlciBsYWJlbD1cIlpvb21cIiAgICB2YWx1ZT17dFtwLmlkICsgJ1pvb20nXX0gbWluPXsxMDB9IG1heD17MjUwfSB1bml0PVwiJVwiXG4gICAgICAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsodikgPT4gc2V0VHdlYWsocC5pZCArICdab29tJywgdil9IC8+XG4gICAgICAgIDwvUmVhY3QuRnJhZ21lbnQ+XG4gICAgICApKX1cblxuICAgICAgPFR3ZWFrU2VjdGlvbiBsYWJlbD1cIkdydXBwZWZvdG9cIiAvPlxuICAgICAgPFR3ZWFrU2xpZGVyIGxhYmVsPVwiVmFuZHJldFwiIHZhbHVlPXt0Lmdyb3VwWH0gbWluPXswfSBtYXg9ezEwMH0gdW5pdD1cIiVcIlxuICAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsodikgPT4gc2V0VHdlYWsoJ2dyb3VwWCcsIHYpfSAvPlxuICAgICAgPFR3ZWFrU2xpZGVyIGxhYmVsPVwiTG9kcmV0XCIgIHZhbHVlPXt0Lmdyb3VwWX0gbWluPXswfSBtYXg9ezEwMH0gdW5pdD1cIiVcIlxuICAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsodikgPT4gc2V0VHdlYWsoJ2dyb3VwWScsIHYpfSAvPlxuICAgICAgPFR3ZWFrU2xpZGVyIGxhYmVsPVwiSMO4amRlXCIgICB2YWx1ZT17dC5ncm91cEhlaWdodH0gbWluPXsyMH0gbWF4PXs4MH0gdW5pdD1cIlwiXG4gICAgICAgICAgICAgICAgICAgb25DaGFuZ2U9eyh2KSA9PiBzZXRUd2VhaygnZ3JvdXBIZWlnaHQnLCB2KX0gLz5cbiAgICA8L1R3ZWFrc1BhbmVsPlxuICApO1xufVxuXG5SZWFjdERPTS5jcmVhdGVSb290KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0d2Vha3Mtcm9vdCcpKS5yZW5kZXIoPFRlYW1Ud2Vha3NBcHAgLz4pO1xuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7OztBQUNBLElBQU1BLG1CQUFtQixHQUFHLGtCQUFrQjtFQUM1QyxhQUFhLEVBQUUsRUFBRTtFQUNqQixVQUFVLEVBQUUsRUFBRTtFQUNkLFVBQVUsRUFBRSxFQUFFO0VBQ2QsU0FBUyxFQUFFLEVBQUU7RUFDYixRQUFRLEVBQUUsU0FBUztFQUNuQixhQUFhLEVBQUUsSUFBSTtFQUNuQixPQUFPLEVBQUUsRUFBRTtFQUNYLE9BQU8sRUFBRSxFQUFFO0VBQ1gsVUFBVSxFQUFFLEdBQUc7RUFDZixTQUFTLEVBQUUsRUFBRTtFQUNiLFNBQVMsRUFBRSxFQUFFO0VBQ2IsWUFBWSxFQUFFLEdBQUc7RUFDakIsU0FBUyxFQUFFLEVBQUU7RUFDYixTQUFTLEVBQUUsRUFBRTtFQUNiLFlBQVksRUFBRSxHQUFHO0VBQ2pCLGNBQWMsRUFBRSxFQUFFO0VBQ2xCLGNBQWMsRUFBRSxFQUFFO0VBQ2xCLGlCQUFpQixFQUFFLEdBQUc7RUFDdEIsT0FBTyxFQUFFLEVBQUU7RUFDWCxPQUFPLEVBQUUsRUFBRTtFQUNYLFVBQVUsRUFB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Q0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsYUFBYSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFDNUQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxhQUFhO0lBQUMrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUNVLFFBQVM7SUFBSXFCLEdBQUcsRUFBRSxFQUFHO0lBQUNELEdBQUcsRUFBRSxFQUFHO0lBQUNZLElBQUksRUFBQyxJQUFJO0lBQ3JFQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsVUFBVSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFDekQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxZQUFZO0lBQUUrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUNXLFFBQVM7SUFBSW9CLEdBQUcsRUFBRSxFQUFHO0lBQUNELEdBQUcsRUFBRSxFQUFHO0lBQUNZLElBQUksRUFBQyxJQUFJO0lBQ3JFQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsVUFBVSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFDekQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxXQUFXO0lBQUcrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUNZLE9BQVE7SUFBS21CLEdBQUcsRUFBRSxFQUFHO0lBQUNELEdBQUcsRUFBRSxFQUFHO0lBQUNZLElBQUksRUFBQyxJQUFJO0lBQ3JFQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsU0FBUyxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFFeEQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNHLFlBQVk7SUFBQzdDLEtBQUssRUFBQztFQUFTLENBQUUsQ0FBQyxlQUNoQ1EsS0FBQSxDQUFBa0MsYUFBQSxDQUFDUyxVQUFVO0lBQUVuRCxLQUFLLEVBQUMsUUFBUTtJQUFDK0MsS0FBSyxFQUFFekMsQ0FBQyxDQUFDYSxNQUFPO0lBQy9CaUMsT0FBTyxFQUFFLENBQUMsU0FBUyxFQUFFLFNBQVMsRUFBRSxTQUFTLEVBQUUsU0FBUyxFQUFFLFNBQVMsQ0FBRTtJQUNqRUgsUUFBUSxFQUFFLFNBQVZBLFFBQVFBLENBQUdDLENBQUM7TUFBQSxPQUFLM0MsUUFBUSxDQUFDLFFBQVEsRUFBRTJDLENBQUMsQ0FBQztJQUFBO0VBQUMsQ0FBRSxDQUFDLGVBQ3ZEMUMsS0FBQSxDQUFBa0MsYUFBQSxDQUFDVyxXQUFXO0lBQUNyRCxLQUFLLEVBQUMsZUFBYTtJQUFDK0MsS0FBSyxFQUFFekMsQ0FBQyxDQUFDa0IsV0FBWTtJQUN6Q3lCLFFBQVEsRUFBRSxTQUFWQSxRQUFRQSxDQUFHQyxDQUFDO01BQUEsT0FBSzNDLFFBQVEsQ0FBQyxhQUFhLEVBQUUyQyxDQUFDLENBQUM7SUFBQTtFQUFDLENBQUUsQ0FBQyxFQUUzRHBELE1BQU0sQ0FBQ3dELEdBQUcsQ0FBQyxVQUFBN0IsQ0FBQztJQUFBLG9CQUNYakIsS0FBQSxDQUFBa0MsYUFBQSxDQUFDbEMsS0FBSyxDQUFDK0MsUUFBUTtNQUFDQyxHQUFHLEVBQUUvQixDQUFDLENBQUMxQjtJQUFHLGdCQUN4QlMsS0FBQSxDQUFBa0MsYUFBQSxDQUFDRyxZQUFZO01BQUM3QyxLQUFLLEVBQUUsWUFBWSxHQUFHeUIsQ0FBQyxDQUFDekI7SUFBTSxDQUFFLENBQUMsZUFDL0NRLEtBQUEsQ0FBQWtDLGFBQUEsQ0FBQ0ksV0FBVztNQUFDOUMsS0FBSyxFQUFDLFNBQVM7TUFBQytDLEtBQUssRUFBRXpDLENBQUMsQ0FBQ21CLENBQUMsQ0FBQzFCLEVBQUUsR0FBRyxHQUFHLENBQUU7TUFBQ3NDLEdBQUcsRUFBRSxDQUFFO01BQUNELEdBQUcsRUFBRSxHQUFJO01BQUNZLElBQUksRUFBQyxHQUFHO01BQ2hFQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztRQUFBLE9BQUszQyxRQUFRLENBQUNrQixDQUFDLENBQUMxQixFQUFFLEdBQUcsR0FBRyxFQUFFbUQsQ0FBQyxDQUFDO01BQUE7SUFBQyxDQUFFLENBQUMsZUFDekQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7TUFBQzlDLEtBQUssRUFBQyxRQUFRO01BQUUrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUNtQixDQUFDLENBQUMxQixFQUFFLEdBQUcsR0FBRyxDQUFFO01BQUNzQyxHQUFHLEVBQUUsQ0FBRTtNQUFDRCxHQUFHLEVBQUUsR0FBSTtNQUFDWSxJQUFJLEVBQUMsR0FBRztNQUNoRUMsUUFBUSxFQUFFLFNBQVZBLFFBQVFBLENBQUdDLENBQUM7UUFBQSxPQUFLM0MsUUFBUSxDQUFDa0IsQ0FBQyxDQUFDMUIsRUFBRSxHQUFHLEdBQUcsRUFBRW1ELENBQUMsQ0FBQztNQUFBO0lBQUMsQ0FBRSxDQUFDLGVBQ3pEMUMsS0FBQSxDQUFBa0MsYUFBQSxDQUFDSSxXQUFXO01BQUM5QyxLQUFLLEVBQUMsTUFBTTtNQUFJK0MsS0FBSyxFQUFFekMsQ0FBQyxDQUFDbUIsQ0FBQyxDQUFDMUIsRUFBRSxHQUFHLE1BQU0sQ0FBRTtNQUFDc0MsR0FBRyxFQUFFLEdBQUk7TUFBQ0QsR0FBRyxFQUFFLEdBQUk7TUFBQ1ksSUFBSSxFQUFDLEdBQUc7TUFDckVDLFFBQVEsRUFBRSxTQUFWQSxRQUFRQSxDQUFHQyxDQUFDO1FBQUEsT0FBSzNDLFFBQVEsQ0FBQ2tCLENBQUMsQ0FBQzFCLEVBQUUsR0FBRyxNQUFNLEVBQUVtRCxDQUFDLENBQUM7TUFBQTtJQUFDLENBQUUsQ0FDN0MsQ0FBQztFQUFBLENBQ2xCLENBQUMsZUFFRjFDLEtBQUEsQ0FBQWtDLGFBQUEsQ0FBQ0csWUFBWTtJQUFDN0MsS0FBSyxFQUFDO0VBQVksQ0FBRSxDQUFDLGVBQ25DUSxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxTQUFTO0lBQUMrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUMwQixNQUFPO0lBQUNLLEdBQUcsRUFBRSxDQUFFO0lBQUNELEdBQUcsRUFBRSxHQUFJO0lBQUNZLElBQUksRUFBQyxHQUFHO0lBQzNEQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsUUFBUSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFDdkQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxRQUFRO0lBQUUrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUMyQixNQUFPO0lBQUNJLEdBQUcsRUFBRSxDQUFFO0lBQUNELEdBQUcsRUFBRSxHQUFJO0lBQUNZLElBQUksRUFBQyxHQUFHO0lBQzNEQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsUUFBUSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQUMsZUFDdkQxQyxLQUFBLENBQUFrQyxhQUFBLENBQUNJLFdBQVc7SUFBQzlDLEtBQUssRUFBQyxVQUFPO0lBQUcrQyxLQUFLLEVBQUV6QyxDQUFDLENBQUNnQyxXQUFZO0lBQUNELEdBQUcsRUFBRSxFQUFHO0lBQUNELEdBQUcsRUFBRSxFQUFHO0lBQUNZLElBQUksRUFBQyxFQUFFO0lBQy9EQyxRQUFRLEVBQUUsU0FBVkEsUUFBUUEsQ0FBR0MsQ0FBQztNQUFBLE9BQUszQyxRQUFRLENBQUMsYUFBYSxFQUFFMkMsQ0FBQyxDQUFDO0lBQUE7RUFBQyxDQUFFLENBQ2hELENBQUM7QUFFbEI7QUFFQU8sUUFBUSxDQUFDQyxVQUFVLENBQUMvQyxRQUFRLENBQUNnRCxjQUFjLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQ0MsTUFBTSxjQUFDcEQsS0FBQSxDQUFBa0MsYUFBQSxDQUFDekMsYUFBYSxNQUFFLENBQUMsQ0FBQyIsImlnbm9yZUxpc3QiOltdfQ==</script></head>
+<body>
+<section class="stage" aria-label="EasyLeave teamet">
+  <div class="wrap">
+
+    <header class="header">
+      <p class="eyebrow" contenteditable="true">OM OS</p>
+      <h2 class="heading" contenteditable="true">
+        Menneskerne <span class="accent">bag EasyLeave</span>
+      </h2>
+      <p class="lede" contenteditable="true">
+        Et lille, dedikeret team med dyb erfaring inden for HR, lønadministration og dansk barselslovgivning – samlet om at gøre orlovshåndtering enkel for både medarbejdere og virksomheder.
+      </p>
+    </header>
+
+    <!-- Founders -->
+    <div class="row row-featured">
+
+      <article class="card card-featured" data-person="tine" style="--photo-pos-y: 100%;">
+        <div class="photo">
+          <img src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/tine.jpg" alt="Tine, medstifter og adm. direktør i EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name" contenteditable="true">Tine</h3>
+          <p class="title" contenteditable="true">Medstifter &amp; Adm. direktør</p>
+          <p class="bio" contenteditable="true">Tine har mere end 10 års erfaring inden for HR og lønadministration, og var tidligere optimeringsrådgiver. Hun grundlagde EasyLeave med visionen om at gøre barselshåndtering enkel for alle parter. Til daglig er hun mor til to og passioneret løber.</p>
+        </div>
+      </article>
+
+      <article class="card card-featured" data-person="simone" style="--photo-pos-y: 100%;">
+        <div class="photo">
+          <img src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/simone.jpg" alt="Simone, medstifter og Product Lead i EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name" contenteditable="true">Simone</h3>
+          <p class="title" contenteditable="true">Medstifter &amp; Product Lead</p>
+          <p class="bio" contenteditable="true">Simone kommer fra en baggrund som optimerings- og procesrådgiver og har dyb ekspertise i danske barselsregler. Hun driver produktudviklingen hos EasyLeave og sikrer, at platformen altid afspejler virkeligheden ude hos kunderne. I sin fritid elsker hun at rejse og opdage nye kulturer.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Team -->
+    <div class="row row-four">
+
+      <article class="card" data-person="niklas">
+        <div class="photo">
+          <img src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/niklas.jpg" alt="Niklas, Commercial Lead hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name" contenteditable="true">Niklas</h3>
+          <p class="title" contenteditable="true">Commercial Lead</p>
+          <p class="bio" contenteditable="true">Niklas er ansvarlig for EasyLeaves samlede kommercielle funktion – fra salgsstrategi og partnerskaber til kontrakter og kundepræsentationer. Han har en stærk baggrund inden for B2B salg og forretningsudvikling. Når han ikke arbejder, finder du ham formentlig på løbestien eller i naturen.</p>
+        </div>
+      </article>
+
+      <article class="card" data-person="christoffer">
+        <div class="photo">
+          <img src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/christoffer.jpg" alt="Christoffer, Developer hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name" contenteditable="true">Christoffer</h3>
+          <p class="title" contenteditable="true">Developer</p>
+          <p class="bio" contenteditable="true">Christoffer er hjernen bag EasyLeaves tekniske infrastruktur og arbejder blandt andet med AI-agenter og automatisering. Han sørger for, at platformen er stabil, sikker og altid klar til vækst. Privat er han nysgerrig på ny teknologi og brætspil.</p>
+        </div>
+      </article>
+
+      <article class="card" data-person="emma">
+        <div class="photo">
+          <img src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/emma.jpg" alt="Emma hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name" contenteditable="true">Emma</h3>
+          <p class="title" contenteditable="true">Digital Content Creator</p>
+          <p class="bio" contenteditable="true">Emma er en vigtig del af EasyLeave-teamet og bidrager til [beskriv funktion]. Hun bringer [erfaring/kompetence] med sig og er kendt for sin [personlighedstræk]. Uden for arbejdet [personlig detalje].</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Group photo strip -->
+    <figure class="group is-placeholder" data-photo="group" aria-label="EasyLeave-teamet">
+      <img class="group-photo" src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/team-gruppe.jpg" alt="Hele EasyLeave-teamet" loading="lazy" onload="this.closest(&#39;.group&#39;).classList.remove(&#39;is-placeholder&#39;);" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" style="display: none;">
+      <div class="group-placeholder" style="display: flex;">G R U P P E B I L L E D E &nbsp;·&nbsp; team-gruppe.jpg</div>
+      <figcaption class="group-overlay">
+        <p class="group-eyebrow" contenteditable="true">SAMMEN HOS EASYLEAVE</p>
+        <h3 class="group-title" contenteditable="true">EasyLeave Team</h3>
+        <p class="group-copy" contenteditable="true">Et lille team med store ambitioner – vi arbejder tæt sammen om at gøre orlovshåndtering enkel for danske virksomheder.</p>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<script>
+function sendHeight() {
+  var h = document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: h }, '*');
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+if (document.fonts) { document.fonts.ready.then(sendHeight); }
+// Also re-emit after any contenteditable change (bios may reflow card heights).
+document.addEventListener('input', function(e) {
+  if (e.target && e.target.isContentEditable) sendHeight();
+});
+</script>
+
+<!-- ─── Tweaks panel ──────────────────────────────────────────────────── -->
+<div id="tweaks-root"></div>
+
+<script src="./team_files/react.development.js.download" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="./team_files/react-dom.development.js.download" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="./team_files/babel.min.js.download" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TEAM_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "headingSize": 60,
+  "ledeSize": 17,
+  "nameSize": 22,
+  "bioSize": 15,
+  "accent": "#576048",
+  "showEyebrow": true,
+  "tineX": 50,
+  "tineY": 78,
+  "tineZoom": 155,
+  "simoneX": 45,
+  "simoneY": 51,
+  "simoneZoom": 147,
+  "niklasX": 55,
+  "niklasY": 61,
+  "niklasZoom": 163,
+  "christofferX": 57,
+  "christofferY": 55,
+  "christofferZoom": 170,
+  "emmaX": 53,
+  "emmaY": 66,
+  "emmaZoom": 167,
+  "groupX": 50,
+  "groupY": 68,
+  "groupHeight": 44
+}/*EDITMODE-END*/;
+
+const PEOPLE = [
+  { id: "tine",        label: "Tine"        },
+  { id: "simone",      label: "Simone"      },
+  { id: "niklas",      label: "Niklas"      },
+  { id: "christoffer", label: "Christoffer" },
+  { id: "emma",        label: "Emma"        },
+];
+
+function TeamTweaksApp() {
+  const [t, setTweak] = useTweaks(TEAM_TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    const r = document.documentElement.style;
+    r.setProperty('--heading-size', t.headingSize + 'px');
+    r.setProperty('--lede-size', t.ledeSize + 'px');
+    r.setProperty('--name-size', t.nameSize + 'px');
+    r.setProperty('--name-size-featured', (t.nameSize + 2) + 'px');
+    r.setProperty('--bio-size', t.bioSize + 'px');
+    r.setProperty('--bio-size-featured', (t.bioSize + 0.5) + 'px');
+    r.setProperty('--dark-green', t.accent);
+    document.querySelectorAll('.eyebrow').forEach(el => {
+      el.style.display = t.showEyebrow ? '' : 'none';
+    });
+
+    // Per-person photo crop
+    PEOPLE.forEach(p => {
+      const card = document.querySelector(`[data-person="${p.id}"]`);
+      if (!card) return;
+      card.style.setProperty('--photo-pos-x',    t[p.id + 'X']    + '%');
+      card.style.setProperty('--photo-origin-y', t[p.id + 'Y']    + '%');
+      card.style.setProperty('--photo-scale',    (t[p.id + 'Zoom'] / 100));
+    });
+
+    // Group photo: object-position + aspect ratio
+    const groupFig = document.querySelector('[data-photo="group"]');
+    const groupImg = groupFig && groupFig.querySelector('.group-photo');
+    if (groupImg) {
+      groupImg.style.objectPosition = `${t.groupX}% ${t.groupY}%`;
+    }
+    if (groupFig) {
+      // groupHeight is "vertical proportion" — converts to aspect ratio: 100 / h
+      // groupHeight 33 → ratio 3:1 (short banner); 50 → 2:1; 75 → 4:3 (tall)
+      const h = Math.max(15, Math.min(100, t.groupHeight));
+      groupFig.style.aspectRatio = `${100} / ${h}`;
+    }
+
+    if (typeof sendHeight === 'function') setTimeout(sendHeight, 50);
+  }, [t]);
+
+  return (
+    <TweaksPanel title="Team widget">
+      <TweakSection label="Typografi" />
+      <TweakSlider label="Overskrift"  value={t.headingSize} min={28} max={88} unit="px"
+                   onChange={(v) => setTweak('headingSize', v)} />
+      <TweakSlider label="Underrubrik" value={t.ledeSize}    min={12} max={26} unit="px"
+                   onChange={(v) => setTweak('ledeSize', v)} />
+      <TweakSlider label="Personnavn"  value={t.nameSize}    min={14} max={36} unit="px"
+                   onChange={(v) => setTweak('nameSize', v)} />
+      <TweakSlider label="Bio-tekst"   value={t.bioSize}     min={12} max={22} unit="px"
+                   onChange={(v) => setTweak('bioSize', v)} />
+
+      <TweakSection label="Visuelt" />
+      <TweakColor  label="Accent" value={t.accent}
+                   options={['#576048', '#1D9E75', '#3a3835', '#99716f', '#8fa882']}
+                   onChange={(v) => setTweak('accent', v)} />
+      <TweakToggle label='"OM OS"-tag' value={t.showEyebrow}
+                   onChange={(v) => setTweak('showEyebrow', v)} />
+
+      {PEOPLE.map(p => (
+        <React.Fragment key={p.id}>
+          <TweakSection label={"Billede – " + p.label} />
+          <TweakSlider label="Vandret" value={t[p.id + 'X']} min={0} max={100} unit="%"
+                       onChange={(v) => setTweak(p.id + 'X', v)} />
+          <TweakSlider label="Lodret"  value={t[p.id + 'Y']} min={0} max={100} unit="%"
+                       onChange={(v) => setTweak(p.id + 'Y', v)} />
+          <TweakSlider label="Zoom"    value={t[p.id + 'Zoom']} min={100} max={250} unit="%"
+                       onChange={(v) => setTweak(p.id + 'Zoom', v)} />
+        </React.Fragment>
+      ))}
+
+      <TweakSection label="Gruppefoto" />
+      <TweakSlider label="Vandret" value={t.groupX} min={0} max={100} unit="%"
+                   onChange={(v) => setTweak('groupX', v)} />
+      <TweakSlider label="Lodret"  value={t.groupY} min={0} max={100} unit="%"
+                   onChange={(v) => setTweak('groupY', v)} />
+      <TweakSlider label="Højde"   value={t.groupHeight} min={20} max={80} unit=""
+                   onChange={(v) => setTweak('groupHeight', v)} />
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TeamTweaksApp />);
+</script>
+
+
+</body></html>
