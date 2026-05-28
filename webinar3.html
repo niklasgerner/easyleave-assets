@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/webinar2-autoplay.html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webinar – Få styr på reglerne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/webinar2_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --green-dark: #576048;
+    --sage:       #8fa882;
+    --mauve:      #99716f;
+    --taupe:      #c4b8a4;
+    --charcoal:   #3a3835;
+    --muted-grey: #888580;
+    --off-white:  #f4f3f0;
+    --page-bg:    #d9d0bd;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px 24px;
+    position: relative;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+  }
+
+  /* Decorative floating particles around the card */
+  .particles {
+    position: absolute;
+    top: -10px;
+    right: -160px;
+    bottom: -70px;
+    left: -160px;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: rise linear infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0);      opacity: 0; }
+    15%  { opacity: var(--peak, 0.5); }
+    70%  { opacity: var(--peak, 0.5); }
+    100% { transform: translateY(-120px) translateX(12px); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .particle { animation: none; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 860px;
+    background: var(--off-white);
+    border-radius: 18px;
+    box-shadow:
+      0 2px 8px rgba(58, 56, 53, 0.04),
+      0 10px 30px rgba(58, 56, 53, 0.06);
+    padding: 34px 48px 30px;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 4px 14px rgba(58, 56, 53, 0.06),
+      0 20px 48px rgba(58, 56, 53, 0.10);
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 14px;
+  }
+
+  h1.title {
+    font-size: 32px;
+    line-height: 1.18;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin: 0 0 22px;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+
+  .body p {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--muted-grey);
+    margin: 0 0 14px;
+  }
+
+  .body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .body strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  /* Video */
+  .video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #1a1a1a;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 28px 0 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(58, 56, 53, 0.12);
+  }
+
+  .video iframe,
+  .video img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    object-fit: cover;
+  }
+
+  .video .poster-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--taupe) 0%, var(--mauve) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 6px 18px rgba(0,0,0,0.25),
+      0 0 0 8px rgba(255,255,255,0.18);
+    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    pointer-events: none;
+  }
+
+  .video:hover .play-btn {
+    transform: translate(-50%, -50%) scale(1.06);
+    background: #6b7459;
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.28),
+      0 0 0 10px rgba(255,255,255,0.22);
+  }
+
+  .play-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: #fff;
+    margin-left: 4px;
+  }
+
+  .video.playing { cursor: default; }
+  .video.playing .play-btn,
+  .video.playing .poster-img,
+  .video.playing .poster-fallback { display: none; }
+
+  /* CTA */
+  .cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--green-dark);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    border: 0;
+    cursor: pointer;
+    box-shadow:
+      0 4px 12px rgba(87, 96, 72, 0.25),
+      0 1px 2px rgba(87, 96, 72, 0.15);
+    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .cta:hover {
+    background: #4a5240;
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 20px rgba(87, 96, 72, 0.32),
+      0 2px 4px rgba(87, 96, 72, 0.18);
+  }
+
+  .cta:active {
+    transform: translateY(0);
+  }
+
+  .cta svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.18s ease;
+  }
+
+  .cta:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .wrap { padding: 12px 14px 50px; }
+    .particles { right: -60px; left: -60px; }
+    .card { padding: 28px 22px 28px; border-radius: 16px; }
+    h1.title { font-size: 24px; }
+    .body p { font-size: 14.5px; }
+    .play-btn { width: 60px; height: 60px; }
+    .play-btn svg { width: 22px; height: 22px; }
+    .cta { padding: 14px 22px; font-size: 13px; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="stage">
+    <div class="particles" id="particles" aria-hidden="true"><span class="particle" style="width: 11.5707px; height: 11.5707px; top: 70.3695%; left: 95.9453%; background: rgb(87, 96, 72); --peak: 0.50; animation-delay: 4.67s; animation-duration: 20.6s;"></span><span class="particle" style="width: 6.86794px; height: 6.86794px; top: 76.9776%; left: 38.1843%; background: rgb(143, 168, 130); --peak: 0.64; animation-delay: 6.83s; animation-duration: 15.52s;"></span><span class="particle" style="width: 5.26492px; height: 5.26492px; top: 69.3783%; left: 84.5849%; background: rgb(153, 113, 111); --peak: 0.73; animation-delay: 4.32s; animation-duration: 19.71s;"></span><span class="particle" style="width: 6.74066px; height: 6.74066px; top: 73.3884%; left: 41.1879%; background: rgb(87, 96, 72); --peak: 0.58; animation-delay: 15.36s; animation-duration: 13.49s;"></span><span class="particle" style="width: 7.63482px; height: 7.63482px; top: 44.0072%; left: 86.2493%; background: rgb(153, 113, 111); --peak: 0.41; animation-delay: 1.85s; animation-duration: 13.55s;"></span><span class="particle" style="width: 9.13928px; height: 9.13928px; top: 90.6806%; left: 41.0339%; background: rgb(143, 168, 130); --peak: 0.51; animation-delay: 14.41s; animation-duration: 16.19s;"></span><span class="particle" style="width: 6.88621px; height: 6.88621px; top: 30.6402%; left: 38.5593%; background: rgb(196, 184, 164); --peak: 0.79; animation-delay: 4.24s; animation-duration: 19.29s;"></span><span class="particle" style="width: 7.35218px; height: 7.35218px; top: 35.0615%; left: 18.7527%; background: rgb(153, 113, 111); --peak: 0.61; animation-delay: 7.82s; animation-duration: 14.9s;"></span><span class="particle" style="width: 7.11464px; height: 7.11464px; top: 60.4223%; left: 56.2234%; background: rgb(87, 96, 72); --peak: 0.55; animation-delay: 0.73s; animation-duration: 15.14s;"></span><span class="particle" style="width: 5.81242px; height: 5.81242px; top: 43.9893%; left: 69.9386%; background: rgb(87, 96, 72); --peak: 0.78; animation-delay: 0.17s; animation-duration: 20.69s;"></span><span class="particle" style="width: 10.4203px; height: 10.4203px; top: 65.6251%; left: 79.9529%; background: rgb(143, 168, 130); --peak: 0.46; animation-delay: 7.31s; animation-duration: 15.52s;"></span><span class="particle" style="width: 7.29708px; height: 7.29708px; top: 89.8463%; left: 50.4813%; background: rgb(153, 113, 111); --peak: 0.50; animation-delay: 0.54s; animation-duration: 14.04s;"></span><span class="particle" style="width: 12.3213px; height: 12.3213px; top: 38.8006%; left: 23.2713%; background: rgb(87, 96, 72); --peak: 0.71; animation-delay: 14.75s; animation-duration: 12.97s;"></span><span class="particle" style="width: 8.80527px; height: 8.80527px; top: 39.5394%; left: 29.5175%; background: rgb(153, 113, 111); --peak: 0.45; animation-delay: 1.78s; animation-duration: 17.13s;"></span><span class="particle" style="width: 6.52644px; height: 6.52644px; top: 33.7276%; left: 31.0144%; background: rgb(143, 168, 130); --peak: 0.72; animation-delay: 15.59s; animation-duration: 17.13s;"></span><span class="particle" style="width: 8.65383px; height: 8.65383px; top: 93.2287%; left: 58.1242%; background: rgb(196, 184, 164); --peak: 0.79; animation-delay: 8.36s; animation-duration: 15.16s;"></span><span class="particle" style="width: 7.07827px; height: 7.07827px; top: 87.5846%; left: 99.3311%; background: rgb(153, 113, 111); --peak: 0.42; animation-delay: 14.46s; animation-duration: 20.88s;"></span><span class="particle" style="width: 8.41346px; height: 8.41346px; top: 66.0498%; left: 39.3709%; background: rgb(87, 96, 72); --peak: 0.61; animation-delay: 6.32s; animation-duration: 13.01s;"></span><span class="particle" style="width: 10.5588px; height: 10.5588px; top: 30.3962%; left: 97.8505%; background: rgb(87, 96, 72); --peak: 0.67; animation-delay: 14.42s; animation-duration: 14.37s;"></span><span class="particle" style="width: 12.9711px; height: 12.9711px; top: 65.9661%; left: 18.5283%; background: rgb(143, 168, 130); --peak: 0.57; animation-delay: 3.58s; animation-duration: 11.93s;"></span><span class="particle" style="width: 7.74745px; height: 7.74745px; top: 54.8595%; left: 28.9714%; background: rgb(153, 113, 111); --peak: 0.68; animation-delay: 8.48s; animation-duration: 17.01s;"></span><span class="particle" style="width: 6.40372px; height: 6.40372px; top: 41.683%; left: 86.7943%; background: rgb(87, 96, 72); --peak: 0.51; animation-delay: 4.93s; animation-duration: 14.45s;"></span><span class="particle" style="width: 8.75295px; height: 8.75295px; top: 36.9193%; left: 1.15716%; background: rgb(153, 113, 111); --peak: 0.74; animation-delay: 13.2s; animation-duration: 17.41s;"></span><span class="particle" style="width: 5.70933px; height: 5.70933px; top: 91.528%; left: 80.1439%; background: rgb(143, 168, 130); --peak: 0.51; animation-delay: 0.93s; animation-duration: 12.33s;"></span><span class="particle" style="width: 13.165px; height: 13.165px; top: 40.0917%; left: 89.5483%; background: rgb(196, 184, 164); --peak: 0.77; animation-delay: 2.43s; animation-duration: 17.44s;"></span><span class="particle" style="width: 5.62461px; height: 5.62461px; top: 77.1043%; left: 0.358553%; background: rgb(153, 113, 111); --peak: 0.56; animation-delay: 6.85s; animation-duration: 19.93s;"></span><span class="particle" style="width: 12.5873px; height: 12.5873px; top: 57.3423%; left: 37.129%; background: rgb(87, 96, 72); --peak: 0.54; animation-delay: 15.18s; animation-duration: 16.46s;"></span><span class="particle" style="width: 9.1024px; height: 9.1024px; top: 91.9133%; left: 76.1696%; background: rgb(87, 96, 72); --peak: 0.43; animation-delay: 13.33s; animation-duration: 18.05s;"></span><span class="particle" style="width: 5.38445px; height: 5.38445px; top: 71.3191%; left: 6.19901%; background: rgb(143, 168, 130); --peak: 0.78; animation-delay: 13.82s; animation-duration: 20.73s;"></span><span class="particle" style="width: 13.2207px; height: 13.2207px; top: 30.1988%; left: 18.6736%; background: rgb(153, 113, 111); --peak: 0.66; animation-delay: 4.15s; animation-duration: 19.87s;"></span><span class="particle" style="width: 4.04401px; height: 4.04401px; top: 66.9851%; left: 25.9921%; background: rgb(87, 96, 72); --peak: 0.47; animation-delay: 6.53s; animation-duration: 18.59s;"></span><span class="particle" style="width: 10.9837px; height: 10.9837px; top: 69.0868%; left: 4.55432%; background: rgb(153, 113, 111); --peak: 0.66; animation-delay: 8.97s; animation-duration: 13.54s;"></span><span class="particle" style="width: 7.69728px; height: 7.69728px; top: 28.6579%; left: 73.5457%; background: rgb(143, 168, 130); --peak: 0.73; animation-delay: 15.88s; animation-duration: 16.86s;"></span><span class="particle" style="width: 10.0938px; height: 10.0938px; top: 39.3785%; left: 39.0549%; background: rgb(196, 184, 164); --peak: 0.64; animation-delay: 6.88s; animation-duration: 13.83s;"></span><span class="particle" style="width: 8.5544px; height: 8.5544px; top: 81.6268%; left: 90.6197%; background: rgb(153, 113, 111); --peak: 0.59; animation-delay: 0.05s; animation-duration: 17.86s;"></span><span class="particle" style="width: 6.7628px; height: 6.7628px; top: 71.4434%; left: 90.3523%; background: rgb(87, 96, 72); --peak: 0.71; animation-delay: 6.66s; animation-duration: 14.3s;"></span><span class="particle" style="width: 9.48425px; height: 9.48425px; top: 80.6706%; left: 27.8969%; background: rgb(87, 96, 72); --peak: 0.55; animation-delay: 12.8s; animation-duration: 14.11s;"></span><span class="particle" style="width: 11.9273px; height: 11.9273px; top: 30.6835%; left: 28.9546%; background: rgb(143, 168, 130); --peak: 0.49; animation-delay: 2.19s; animation-duration: 19.25s;"></span><span class="particle" style="width: 7.99517px; height: 7.99517px; top: 48.8564%; left: 77.1105%; background: rgb(153, 113, 111); --peak: 0.74; animation-delay: 9.37s; animation-duration: 14.2s;"></span><span class="particle" style="width: 8.51061px; height: 8.51061px; top: 87.0071%; left: 56.8369%; background: rgb(87, 96, 72); --peak: 0.58; animation-delay: 0.44s; animation-duration: 16.26s;"></span><span class="particle" style="width: 12.3476px; height: 12.3476px; top: 88.2123%; left: 68.113%; background: rgb(153, 113, 111); --peak: 0.49; animation-delay: 8.03s; animation-duration: 20.7s;"></span><span class="particle" style="width: 9.17935px; height: 9.17935px; top: 41.7231%; left: 36.421%; background: rgb(143, 168, 130); --peak: 0.63; animation-delay: 3.48s; animation-duration: 11.51s;"></span><span class="particle" style="width: 6.48408px; height: 6.48408px; top: 29.7344%; left: 57.4685%; background: rgb(196, 184, 164); --peak: 0.44; animation-delay: 1.35s; animation-duration: 18.98s;"></span><span class="particle" style="width: 4.05107px; height: 4.05107px; top: 38.6718%; left: 67.6855%; background: rgb(153, 113, 111); --peak: 0.63; animation-delay: 14.57s; animation-duration: 11.88s;"></span><span class="particle" style="width: 6.43328px; height: 6.43328px; top: 31.9996%; left: 30.7608%; background: rgb(87, 96, 72); --peak: 0.54; animation-delay: 5.32s; animation-duration: 11.79s;"></span><span class="particle" style="width: 11.1988px; height: 11.1988px; top: 75.8132%; left: 16.2584%; background: rgb(87, 96, 72); --peak: 0.62; animation-delay: 1.94s; animation-duration: 11.54s;"></span><span class="particle" style="width: 8.86347px; height: 8.86347px; top: 67.0514%; left: 30.5984%; background: rgb(143, 168, 130); --peak: 0.53; animation-delay: 6.91s; animation-duration: 15.03s;"></span><span class="particle" style="width: 5.92284px; height: 5.92284px; top: 70.1454%; left: 26.7277%; background: rgb(153, 113, 111); --peak: 0.64; animation-delay: 6.07s; animation-duration: 12.37s;"></span><span class="particle" style="width: 10.8802px; height: 10.8802px; top: 30.7842%; left: 35.7854%; background: rgb(87, 96, 72); --peak: 0.42; animation-delay: 0.8s; animation-duration: 16.34s;"></span><span class="particle" style="width: 11.9616px; height: 11.9616px; top: 72.5418%; left: 8.14173%; background: rgb(143, 168, 130); --peak: 0.53; animation-delay: 9.31s; animation-duration: 18.52s;"></span><span class="particle" style="width: 7.32458px; height: 7.32458px; top: 31.4564%; left: 57.6914%; background: rgb(153, 113, 111); --peak: 0.79; animation-delay: 9.7s; animation-duration: 11.7s;"></span><span class="particle" style="width: 4.0709px; height: 4.0709px; top: 69.2983%; left: 81.3666%; background: rgb(87, 96, 72); --peak: 0.62; animation-delay: 14.65s; animation-duration: 20.95s;"></span><span class="particle" style="width: 10.1628px; height: 10.1628px; top: 81.2795%; left: 67.1321%; background: rgb(153, 113, 111); --peak: 0.46; animation-delay: 8.07s; animation-duration: 14.15s;"></span><span class="particle" style="width: 11.2913px; height: 11.2913px; top: 57.5326%; left: 75.978%; background: rgb(143, 168, 130); --peak: 0.72; animation-delay: 4.34s; animation-duration: 16.91s;"></span><span class="particle" style="width: 9.72565px; height: 9.72565px; top: 64.9211%; left: 91.5622%; background: rgb(196, 184, 164); --peak: 0.72; animation-delay: 10.83s; animation-duration: 18.05s;"></span><span class="particle" style="width: 13.0407px; height: 13.0407px; top: 84.4186%; left: 56.638%; background: rgb(153, 113, 111); --peak: 0.41; animation-delay: 1.31s; animation-duration: 14.5s;"></span><span class="particle" style="width: 10.8186px; height: 10.8186px; top: 38.2755%; left: 2.00652%; background: rgb(87, 96, 72); --peak: 0.41; animation-delay: 4.99s; animation-duration: 12s;"></span><span class="particle" style="width: 7.48644px; height: 7.48644px; top: 40.5029%; left: 23.6186%; background: rgb(87, 96, 72); --peak: 0.64; animation-delay: 3.88s; animation-duration: 19.6s;"></span><span class="particle" style="width: 5.96756px; height: 5.96756px; top: 68.671%; left: 70.2823%; background: rgb(143, 168, 130); --peak: 0.51; animation-delay: 13.28s; animation-duration: 20.78s;"></span><span class="particle" style="width: 11.265px; height: 11.265px; top: 26.6344%; left: 12.2572%; background: rgb(153, 113, 111); --peak: 0.50; animation-delay: 6.1s; animation-duration: 12.95s;"></span><span class="particle" style="width: 10.3214px; height: 10.3214px; top: 35.2326%; left: 80.9809%; background: rgb(87, 96, 72); --peak: 0.66; animation-delay: 2.73s; animation-duration: 13.53s;"></span><span class="particle" style="width: 6.68684px; height: 6.68684px; top: 67.2731%; left: 84.0788%; background: rgb(153, 113, 111); --peak: 0.67; animation-delay: 0.99s; animation-duration: 13.67s;"></span><span class="particle" style="width: 10.9596px; height: 10.9596px; top: 79.1432%; left: 43.7611%; background: rgb(143, 168, 130); --peak: 0.63; animation-delay: 6.48s; animation-duration: 12.46s;"></span><span class="particle" style="width: 9.22348px; height: 9.22348px; top: 59.7598%; left: 17.1391%; background: rgb(196, 184, 164); --peak: 0.54; animation-delay: 11.95s; animation-duration: 13.65s;"></span><span class="particle" style="width: 10.6127px; height: 10.6127px; top: 45.1437%; left: 42.1097%; background: rgb(153, 113, 111); --peak: 0.63; animation-delay: 3.11s; animation-duration: 13.43s;"></span><span class="particle" style="width: 12.2461px; height: 12.2461px; top: 75.5634%; left: 79.9579%; background: rgb(87, 96, 72); --peak: 0.43; animation-delay: 4.91s; animation-duration: 12.62s;"></span><span class="particle" style="width: 8.9797px; height: 8.9797px; top: 56.5628%; left: 83.8648%; background: rgb(87, 96, 72); --peak: 0.52; animation-delay: 10.43s; animation-duration: 11.59s;"></span><span class="particle" style="width: 6.86395px; height: 6.86395px; top: 51.6045%; left: 96.8776%; background: rgb(143, 168, 130); --peak: 0.69; animation-delay: 3.41s; animation-duration: 12.32s;"></span><span class="particle" style="width: 8.21452px; height: 8.21452px; top: 81.2366%; left: 14.5985%; background: rgb(153, 113, 111); --peak: 0.76; animation-delay: 6.84s; animation-duration: 12.87s;"></span><span class="particle" style="width: 5.23811px; height: 5.23811px; top: 47.4328%; left: 41.9358%; background: rgb(87, 96, 72); --peak: 0.69; animation-delay: 12.97s; animation-duration: 15.2s;"></span><span class="particle" style="width: 10.6641px; height: 10.6641px; top: 57.3296%; left: 54.1048%; background: rgb(153, 113, 111); --peak: 0.49; animation-delay: 3.22s; animation-duration: 15.86s;"></span><span class="particle" style="width: 9.53005px; height: 9.53005px; top: 85.73%; left: 52.3663%; background: rgb(143, 168, 130); --peak: 0.48; animation-delay: 0.14s; animation-duration: 11.4s;"></span><span class="particle" style="width: 5.34724px; height: 5.34724px; top: 69.5597%; left: 3.68306%; background: rgb(196, 184, 164); --peak: 0.59; animation-delay: 5.74s; animation-duration: 18.15s;"></span><span class="particle" style="width: 12.4164px; height: 12.4164px; top: 85.0522%; left: 90.2043%; background: rgb(153, 113, 111); --peak: 0.57; animation-delay: 0.64s; animation-duration: 20.43s;"></span><span class="particle" style="width: 7.07323px; height: 7.07323px; top: 27.3785%; left: 60.1831%; background: rgb(87, 96, 72); --peak: 0.67; animation-delay: 5.41s; animation-duration: 12.86s;"></span><span class="particle" style="width: 11.8222px; height: 11.8222px; top: 30.2713%; left: 57.9168%; background: rgb(87, 96, 72); --peak: 0.42; animation-delay: 2.66s; animation-duration: 18.64s;"></span><span class="particle" style="width: 5.4398px; height: 5.4398px; top: 72.282%; left: 28.2593%; background: rgb(143, 168, 130); --peak: 0.75; animation-delay: 3.04s; animation-duration: 16.31s;"></span><span class="particle" style="width: 8.74552px; height: 8.74552px; top: 59.7855%; left: 41.0677%; background: rgb(153, 113, 111); --peak: 0.62; animation-delay: 2.84s; animation-duration: 18.35s;"></span><span class="particle" style="width: 12.112px; height: 12.112px; top: 89.2637%; left: 20.0232%; background: rgb(87, 96, 72); --peak: 0.65; animation-delay: 13.78s; animation-duration: 11.72s;"></span><span class="particle" style="width: 13.1121px; height: 13.1121px; top: 57.1787%; left: 76.8308%; background: rgb(153, 113, 111); --peak: 0.54; animation-delay: 10.25s; animation-duration: 14.01s;"></span><span class="particle" style="width: 11.0547px; height: 11.0547px; top: 49.9254%; left: 62.3945%; background: rgb(143, 168, 130); --peak: 0.64; animation-delay: 0.36s; animation-duration: 15s;"></span><span class="particle" style="width: 6.02379px; height: 6.02379px; top: 72.7163%; left: 55.6655%; background: rgb(196, 184, 164); --peak: 0.44; animation-delay: 10.17s; animation-duration: 18.83s;"></span><span class="particle" style="width: 8.96401px; height: 8.96401px; top: 87.2472%; left: 4.1114%; background: rgb(153, 113, 111); --peak: 0.45; animation-delay: 13.88s; animation-duration: 11.01s;"></span><span class="particle" style="width: 6.46397px; height: 6.46397px; top: 34.136%; left: 30.2471%; background: rgb(87, 96, 72); --peak: 0.53; animation-delay: 13.97s; animation-duration: 19.64s;"></span><span class="particle" style="width: 10.9652px; height: 10.9652px; top: 86.5234%; left: 63.5064%; background: rgb(87, 96, 72); --peak: 0.55; animation-delay: 13.15s; animation-duration: 14.31s;"></span><span class="particle" style="width: 7.15473px; height: 7.15473px; top: 71.047%; left: 63.0055%; background: rgb(143, 168, 130); --peak: 0.56; animation-delay: 13.44s; animation-duration: 19.5s;"></span><span class="particle" style="width: 9.67597px; height: 9.67597px; top: 53.7156%; left: 42.0494%; background: rgb(153, 113, 111); --peak: 0.63; animation-delay: 4.44s; animation-duration: 12.94s;"></span><span class="particle" style="width: 8.1613px; height: 8.1613px; top: 37.6011%; left: 21.8965%; background: rgb(87, 96, 72); --peak: 0.67; animation-delay: 4.46s; animation-duration: 14.51s;"></span><span class="particle" style="width: 4.03856px; height: 4.03856px; top: 66.7662%; left: 12.6446%; background: rgb(153, 113, 111); --peak: 0.69; animation-delay: 4.6s; animation-duration: 15.52s;"></span><span class="particle" style="width: 11.3363px; height: 11.3363px; top: 84.351%; left: 94.7411%; background: rgb(143, 168, 130); --peak: 0.42; animation-delay: 3.89s; animation-duration: 15.8s;"></span><span class="particle" style="width: 5.27558px; height: 5.27558px; top: 70.0757%; left: 20.5073%; background: rgb(196, 184, 164); --peak: 0.65; animation-delay: 13.13s; animation-duration: 19.34s;"></span><span class="particle" style="width: 8.6045px; height: 8.6045px; top: 79.8759%; left: 20.8285%; background: rgb(153, 113, 111); --peak: 0.50; animation-delay: 11.42s; animation-duration: 14.87s;"></span><span class="particle" style="width: 8.37341px; height: 8.37341px; top: 69.7028%; left: 98.3832%; background: rgb(87, 96, 72); --peak: 0.57; animation-delay: 9.52s; animation-duration: 12.91s;"></span><span class="particle" style="width: 4.04502px; height: 4.04502px; top: 79.7052%; left: 73.5847%; background: rgb(87, 96, 72); --peak: 0.60; animation-delay: 10.35s; animation-duration: 20.12s;"></span><span class="particle" style="width: 8.68775px; height: 8.68775px; top: 90.7767%; left: 19.2333%; background: rgb(143, 168, 130); --peak: 0.62; animation-delay: 3.76s; animation-duration: 13.18s;"></span><span class="particle" style="width: 5.29346px; height: 5.29346px; top: 53.1584%; left: 78.6074%; background: rgb(153, 113, 111); --peak: 0.61; animation-delay: 12.04s; animation-duration: 18.23s;"></span></div>
+  <article class="card">
+    <p class="eyebrow">Gratis webinar</p>
+
+    <h1 class="title">Få styr på reglerne og undgå dyre fejl</h1>
+
+    <div class="body">
+      <p>Den <strong>3. juni kl. 10.00</strong> afholder <strong>Simone Flemgaard</strong>, medstifter og produktansvarlig i EasyLeave, et gratis webinar om orlovsreglerne – hvad de egentlig kræver, hvor virksomheder typisk går galt, og hvad det kan koste.</p>
+
+      <p>Du får konkret viden om de regler, der er mere komplekse end de ser ud, de fejl der oftest går ud over refusioner, og hvad en medarbejder faktisk kan få i løn uden ekstra omkostninger for virksomheden. Og du forlader webinaret med værktøjer du kan bruge med det samme.</p>
+
+      <p>Zenegy®'s stifter <strong>Jes T. S. Brinch</strong> deltager også – så du får samtidig et indblik i, hvordan EasyLeave og Zenegy® Payroll arbejder sammen i praksis.</p>
+    </div>
+
+    <!-- Click-to-play YouTube video -->
+    <div class="video" id="ytVideo" data-video-id="ntz_sgtnSqM" role="button" aria-label="Afspil webinar-trailer" tabindex="0">
+      <img class="poster-img" src="./webinar3_files/hqdefault.jpg" alt="Webinar trailer">
+      <div class="poster-fallback" style="display:none;">Video preview</div>
+      <div class="play-btn" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cta-wrap">
+      <a class="cta" href="https://zenegy.webinargeek.com/orlov-og-barsel-fa-styr-pa-reglerne-og-undga-dyre-fejl" target="_blank" rel="noopener">
+        Klik her for at tilmelde dig
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="M13 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </article>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var el = document.getElementById('ytVideo');
+    if (!el) return;
+    var videoId = el.getAttribute('data-video-id');
+    var customPoster = el.getAttribute('data-poster');
+    var posterEl = el.querySelector('.poster-img');
+    var fb = el.querySelector('.poster-fallback');
+
+    // Decide which poster to show: custom image > youtube thumbnail > gradient fallback
+    if (customPoster) {
+      posterEl.src = customPoster;
+    } else if (videoId && videoId !== 'INDSÆT_VIDEO_ID') {
+      posterEl.src = 'https://i.ytimg.com/vi/' + videoId + '/hqdefault.jpg';
+    } else {
+      posterEl.style.display = 'none';
+      if (fb) fb.style.display = 'flex';
+    }
+
+    posterEl.addEventListener('error', function () {
+      posterEl.style.display = 'none';
+      if (fb) fb.style.display = 'flex';
+    });
+
+    function play() {
+      if (!videoId || videoId === 'INDSÆT_VIDEO_ID') return;
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', 'Webinar trailer');
+      iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&rel=0';
+      el.classList.add('playing');
+      el.appendChild(iframe);
+    }
+
+    el.addEventListener('click', play);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+    });
+    el.tabIndex = 0;
+  })();
+
+  // Generate floating particles around the card
+  (function () {
+    var host = document.getElementById('particles');
+    if (!host) return;
+    var palette = ['#576048', '#8fa882', '#99716f', '#576048', '#99716f', '#8fa882', '#c4b8a4', '#99716f', '#576048'];
+    var count = 48;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('span');
+      p.className = 'particle';
+      var size = 4 + Math.random() * 10;          // 4–14px
+      var color = palette[i % palette.length];
+      var top = 25 + Math.random() * 70;          // start in lower area so rise has room
+      var left = Math.random() * 100;
+      var peak = (0.4 + Math.random() * 0.4).toFixed(2);
+      var delay = (Math.random() * 16).toFixed(2) + 's';
+      var dur = (11 + Math.random() * 10).toFixed(2) + 's';
+      p.style.cssText =
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'top:' + top + '%;left:' + left + '%;' +
+        'background:' + color + ';' +
+        '--peak:' + peak + ';' +
+        'animation-delay:' + delay + ';' +
+        'animation-duration:' + dur + ';';
+      host.appendChild(p);
+    }
+  })();
+</script>
+
+<script>
+  var lastH = 0;
+  function sendHeight() {
+    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    if (Math.abs(h - lastH) > 2) { lastH = h; window.parent.postMessage({ iframeHeight: h }, '*'); }
+  }
+  window.addEventListener('load', sendHeight);
+  if (document.fonts) { document.fonts.ready.then(sendHeight); }
+  document.querySelectorAll('img').forEach(function(img){ if(img.complete){sendHeight();} else {img.addEventListener('load',sendHeight); img.addEventListener('error',sendHeight);} });
+  setTimeout(sendHeight, 1500);
+</script>
+
+
+
+</body></html>
