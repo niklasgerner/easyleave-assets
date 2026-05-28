@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/webinar_5.html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webinar – Få styr på reglerne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./webinar_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --green-dark: #576048;
+    --sage:       #8fa882;
+    --mauve:      #99716f;
+    --taupe:      #c4b8a4;
+    --charcoal:   #3a3835;
+    --muted-grey: #888580;
+    --off-white:  #f4f3f0;
+    --page-bg:    #d9d0bd;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px 48px;
+    position: relative;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* Decorative floating particles around the card */
+  .particles {
+    position: absolute;
+    top: -10px;
+    right: -70px;
+    bottom: -70px;
+    left: -70px;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: rise linear infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0);      opacity: 0; }
+    15%  { opacity: var(--peak, 0.5); }
+    70%  { opacity: var(--peak, 0.5); }
+    100% { transform: translateY(-120px) translateX(12px); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .particle { animation: none; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 720px;
+    background: var(--off-white);
+    border-radius: 18px;
+    box-shadow:
+      0 1px 2px rgba(58, 56, 53, 0.04),
+      0 12px 32px rgba(58, 56, 53, 0.10),
+      0 32px 80px rgba(58, 56, 53, 0.08);
+    padding: 44px 44px 40px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 14px;
+  }
+
+  h1.title {
+    font-size: 32px;
+    line-height: 1.18;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin: 0 0 22px;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+
+  .body p {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--muted-grey);
+    margin: 0 0 14px;
+  }
+
+  .body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .body strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  /* Video */
+  .video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #1a1a1a;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 28px 0 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(58, 56, 53, 0.12);
+  }
+
+  .video iframe,
+  .video img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    object-fit: cover;
+  }
+
+  .video .poster-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--taupe) 0%, var(--mauve) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 6px 18px rgba(0,0,0,0.25),
+      0 0 0 8px rgba(255,255,255,0.18);
+    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    pointer-events: none;
+  }
+
+  .video:hover .play-btn {
+    transform: translate(-50%, -50%) scale(1.06);
+    background: #6b7459;
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.28),
+      0 0 0 10px rgba(255,255,255,0.22);
+  }
+
+  .play-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: #fff;
+    margin-left: 4px;
+  }
+
+  .video.playing { cursor: default; }
+  .video.playing .play-btn,
+  .video.playing .poster-img,
+  .video.playing .poster-fallback { display: none; }
+
+  /* CTA */
+  .cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--green-dark);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    border: 0;
+    cursor: pointer;
+    box-shadow:
+      0 4px 12px rgba(87, 96, 72, 0.25),
+      0 1px 2px rgba(87, 96, 72, 0.15);
+    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .cta:hover {
+    background: #4a5240;
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 20px rgba(87, 96, 72, 0.32),
+      0 2px 4px rgba(87, 96, 72, 0.18);
+  }
+
+  .cta:active {
+    transform: translateY(0);
+  }
+
+  .cta svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.18s ease;
+  }
+
+  .cta:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .wrap { padding: 20px 14px 70px; }
+    .card { padding: 28px 22px 28px; border-radius: 16px; }
+    h1.title { font-size: 24px; }
+    .body p { font-size: 14.5px; }
+    .play-btn { width: 60px; height: 60px; }
+    .play-btn svg { width: 22px; height: 22px; }
+    .cta { padding: 14px 22px; font-size: 13px; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="stage">
+    <div class="particles" id="particles" aria-hidden="true"><span class="particle" style="width: 8.33775px; height: 8.33775px; top: 89.1009%; left: 57.6807%; background: rgb(87, 96, 72); --peak: 0.67; animation-delay: 2.69s; animation-duration: 19.99s;"></span><span class="particle" style="width: 4.05542px; height: 4.05542px; top: 30.7521%; left: 93.346%; background: rgb(143, 168, 130); --peak: 0.66; animation-delay: 9.43s; animation-duration: 19.21s;"></span><span class="particle" style="width: 8.49063px; height: 8.49063px; top: 43.9637%; left: 48.8991%; background: rgb(153, 113, 111); --peak: 0.69; animation-delay: 3.7s; animation-duration: 13.92s;"></span><span class="particle" style="width: 13.0533px; height: 13.0533px; top: 30.0013%; left: 46.3462%; background: rgb(87, 96, 72); --peak: 0.55; animation-delay: 8.8s; animation-duration: 14.38s;"></span><span class="particle" style="width: 12.2112px; height: 12.2112px; top: 39.3498%; left: 29.3437%; background: rgb(153, 113, 111); --peak: 0.75; animation-delay: 12.63s; animation-duration: 16.05s;"></span><span class="particle" style="width: 11.5273px; height: 11.5273px; top: 72.4627%; left: 27.6363%; background: rgb(143, 168, 130); --peak: 0.69; animation-delay: 5s; animation-duration: 20.12s;"></span><span class="particle" style="width: 4.05149px; height: 4.05149px; top: 42.9228%; left: 9.23684%; background: rgb(196, 184, 164); --peak: 0.59; animation-delay: 12.99s; animation-duration: 13.94s;"></span><span class="particle" style="width: 4.81635px; height: 4.81635px; top: 36.5251%; left: 25.37%; background: rgb(153, 113, 111); --peak: 0.47; animation-delay: 3.55s; animation-duration: 17.39s;"></span><span class="particle" style="width: 9.5856px; height: 9.5856px; top: 37.7378%; left: 4.3545%; background: rgb(87, 96, 72); --peak: 0.60; animation-delay: 7.88s; animation-duration: 14.82s;"></span><span class="particle" style="width: 12.6895px; height: 12.6895px; top: 28.8723%; left: 96.7479%; background: rgb(87, 96, 72); --peak: 0.57; animation-delay: 5.55s; animation-duration: 17.96s;"></span><span class="particle" style="width: 8.7699px; height: 8.7699px; top: 56.9451%; left: 8.57041%; background: rgb(143, 168, 130); --peak: 0.67; animation-delay: 9.77s; animation-duration: 12.52s;"></span><span class="particle" style="width: 4.49169px; height: 4.49169px; top: 56.713%; left: 4.8403%; background: rgb(153, 113, 111); --peak: 0.72; animation-delay: 3.92s; animation-duration: 12.74s;"></span><span class="particle" style="width: 9.62658px; height: 9.62658px; top: 94.6491%; left: 12.7191%; background: rgb(87, 96, 72); --peak: 0.58; animation-delay: 4.85s; animation-duration: 18.07s;"></span><span class="particle" style="width: 8.74601px; height: 8.74601px; top: 27.7621%; left: 38.3725%; background: rgb(153, 113, 111); --peak: 0.59; animation-delay: 8.69s; animation-duration: 11.46s;"></span><span class="particle" style="width: 13.5579px; height: 13.5579px; top: 61.336%; left: 84.686%; background: rgb(143, 168, 130); --peak: 0.76; animation-delay: 9.85s; animation-duration: 13.42s;"></span><span class="particle" style="width: 12.6496px; height: 12.6496px; top: 51.0231%; left: 28.5963%; background: rgb(196, 184, 164); --peak: 0.43; animation-delay: 0.54s; animation-duration: 14.02s;"></span><span class="particle" style="width: 12.8122px; height: 12.8122px; top: 44.6042%; left: 15.8812%; background: rgb(153, 113, 111); --peak: 0.66; animation-delay: 5.8s; animation-duration: 18.05s;"></span><span class="particle" style="width: 5.28861px; height: 5.28861px; top: 60.0444%; left: 96.479%; background: rgb(87, 96, 72); --peak: 0.75; animation-delay: 13.04s; animation-duration: 20.26s;"></span><span class="particle" style="width: 10.2585px; height: 10.2585px; top: 55.7533%; left: 76.801%; background: rgb(87, 96, 72); --peak: 0.70; animation-delay: 7.56s; animation-duration: 13.25s;"></span><span class="particle" style="width: 7.65796px; height: 7.65796px; top: 59.4652%; left: 31.52%; background: rgb(143, 168, 130); --peak: 0.49; animation-delay: 1.62s; animation-duration: 15.59s;"></span><span class="particle" style="width: 4.75909px; height: 4.75909px; top: 47.7141%; left: 95.1276%; background: rgb(153, 113, 111); --peak: 0.62; animation-delay: 9.15s; animation-duration: 11.54s;"></span><span class="particle" style="width: 10.3916px; height: 10.3916px; top: 86.1759%; left: 73.9995%; background: rgb(87, 96, 72); --peak: 0.58; animation-delay: 5.36s; animation-duration: 14.21s;"></span><span class="particle" style="width: 11.7587px; height: 11.7587px; top: 52.8309%; left: 17.2712%; background: rgb(153, 113, 111); --peak: 0.47; animation-delay: 5.76s; animation-duration: 19.12s;"></span><span class="particle" style="width: 10.0426px; height: 10.0426px; top: 34.2856%; left: 19.3075%; background: rgb(143, 168, 130); --peak: 0.66; animation-delay: 9.01s; animation-duration: 11.08s;"></span><span class="particle" style="width: 12.4279px; height: 12.4279px; top: 46.2719%; left: 80.883%; background: rgb(196, 184, 164); --peak: 0.41; animation-delay: 13.57s; animation-duration: 12.77s;"></span><span class="particle" style="width: 11.1953px; height: 11.1953px; top: 39.3796%; left: 19.5899%; background: rgb(153, 113, 111); --peak: 0.58; animation-delay: 7.28s; animation-duration: 20.63s;"></span><span class="particle" style="width: 5.96883px; height: 5.96883px; top: 66.8323%; left: 12.6652%; background: rgb(87, 96, 72); --peak: 0.52; animation-delay: 10.5s; animation-duration: 17.39s;"></span><span class="particle" style="width: 13.5999px; height: 13.5999px; top: 38.6634%; left: 32.9088%; background: rgb(87, 96, 72); --peak: 0.63; animation-delay: 13.72s; animation-duration: 14.59s;"></span><span class="particle" style="width: 13.4693px; height: 13.4693px; top: 92.3862%; left: 78.0117%; background: rgb(143, 168, 130); --peak: 0.73; animation-delay: 4.45s; animation-duration: 17.67s;"></span><span class="particle" style="width: 8.73236px; height: 8.73236px; top: 90.7767%; left: 82.177%; background: rgb(153, 113, 111); --peak: 0.47; animation-delay: 2.21s; animation-duration: 18.46s;"></span><span class="particle" style="width: 12.1876px; height: 12.1876px; top: 42.2256%; left: 86.9725%; background: rgb(87, 96, 72); --peak: 0.53; animation-delay: 0.37s; animation-duration: 16.36s;"></span><span class="particle" style="width: 5.35723px; height: 5.35723px; top: 35.3266%; left: 48.4876%; background: rgb(153, 113, 111); --peak: 0.52; animation-delay: 3s; animation-duration: 20s;"></span><span class="particle" style="width: 8.92673px; height: 8.92673px; top: 57.4857%; left: 20.1842%; background: rgb(143, 168, 130); --peak: 0.77; animation-delay: 4.99s; animation-duration: 17.17s;"></span><span class="particle" style="width: 6.75002px; height: 6.75002px; top: 39.468%; left: 47.5056%; background: rgb(196, 184, 164); --peak: 0.80; animation-delay: 13.89s; animation-duration: 18.89s;"></span><span class="particle" style="width: 12.0478px; height: 12.0478px; top: 91.8705%; left: 66.6581%; background: rgb(153, 113, 111); --peak: 0.63; animation-delay: 5.62s; animation-duration: 16.33s;"></span><span class="particle" style="width: 6.81668px; height: 6.81668px; top: 30.4544%; left: 14.662%; background: rgb(87, 96, 72); --peak: 0.72; animation-delay: 7.35s; animation-duration: 19.01s;"></span><span class="particle" style="width: 5.17435px; height: 5.17435px; top: 33.4441%; left: 38.6387%; background: rgb(87, 96, 72); --peak: 0.71; animation-delay: 3.74s; animation-duration: 14s;"></span><span class="particle" style="width: 8.24518px; height: 8.24518px; top: 29.4172%; left: 27.4445%; background: rgb(143, 168, 130); --peak: 0.76; animation-delay: 11.11s; animation-duration: 15.31s;"></span><span class="particle" style="width: 6.89337px; height: 6.89337px; top: 52.4059%; left: 7.37325%; background: rgb(153, 113, 111); --peak: 0.61; animation-delay: 14.09s; animation-duration: 13.64s;"></span><span class="particle" style="width: 6.86874px; height: 6.86874px; top: 71.0107%; left: 91.0531%; background: rgb(87, 96, 72); --peak: 0.57; animation-delay: 6.51s; animation-duration: 12.86s;"></span><span class="particle" style="width: 4.88305px; height: 4.88305px; top: 52.3443%; left: 73.0658%; background: rgb(153, 113, 111); --peak: 0.69; animation-delay: 6.32s; animation-duration: 15.08s;"></span><span class="particle" style="width: 7.21264px; height: 7.21264px; top: 28.8508%; left: 19.9548%; background: rgb(143, 168, 130); --peak: 0.72; animation-delay: 8.85s; animation-duration: 19.73s;"></span><span class="particle" style="width: 6.58143px; height: 6.58143px; top: 68.0675%; left: 65.4358%; background: rgb(196, 184, 164); --peak: 0.49; animation-delay: 7.14s; animation-duration: 14.93s;"></span><span class="particle" style="width: 12.1423px; height: 12.1423px; top: 50.2552%; left: 67.9783%; background: rgb(153, 113, 111); --peak: 0.41; animation-delay: 6.56s; animation-duration: 11.59s;"></span><span class="particle" style="width: 13.1383px; height: 13.1383px; top: 93.1637%; left: 91.1301%; background: rgb(87, 96, 72); --peak: 0.78; animation-delay: 5.57s; animation-duration: 15.91s;"></span><span class="particle" style="width: 8.58919px; height: 8.58919px; top: 77.5316%; left: 40.5979%; background: rgb(87, 96, 72); --peak: 0.75; animation-delay: 2.57s; animation-duration: 11.68s;"></span><span class="particle" style="width: 8.29163px; height: 8.29163px; top: 65.8421%; left: 66.4063%; background: rgb(143, 168, 130); --peak: 0.59; animation-delay: 8.86s; animation-duration: 17.32s;"></span><span class="particle" style="width: 8.13988px; height: 8.13988px; top: 84.3364%; left: 1.22948%; background: rgb(153, 113, 111); --peak: 0.49; animation-delay: 4.96s; animation-duration: 15.38s;"></span></div>
+  <article class="card">
+    <p class="eyebrow">Gratis webinar</p>
+
+    <h1 class="title">Få styr på reglerne og undgå dyre fejl</h1>
+
+    <div class="body">
+      <p>Den <strong>3. juni kl. 10.00</strong> afholder <strong>Simone Flemgaard</strong>, medstifter og produktansvarlig i EasyLeave, et gratis webinar om orlovsreglerne – hvad de egentlig kræver, hvor virksomheder typisk går galt, og hvad det kan koste.</p>
+
+      <p>Du får konkret viden om de regler, der er mere komplekse end de ser ud, de fejl der oftest går ud over refusioner, og hvad en medarbejder faktisk kan få i løn uden ekstra omkostninger for virksomheden. Og du forlader webinaret med værktøjer du kan bruge med det samme.</p>
+
+      <p>Zenegy®'s stifter <strong>Jes T. S. Brinch</strong> deltager også – så du får samtidig et indblik i, hvordan EasyLeave og Zenegy® Payroll arbejder sammen i praksis.</p>
+    </div>
+
+    <!-- Click-to-play YouTube video -->
+    <div class="video" id="ytVideo" data-video-id="ntz_sgtnSqM" role="button" aria-label="Afspil webinar-trailer" tabindex="0">
+      <img class="poster-img" src="./webinar_files/hqdefault.jpg" alt="Webinar trailer">
+      <div class="poster-fallback" style="display:none;">Video preview</div>
+      <div class="play-btn" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cta-wrap">
+      <a class="cta" href="https://zenegy.webinargeek.com/orlov-og-barsel-fa-styr-pa-reglerne-og-undga-dyre-fejl" target="_blank" rel="noopener">
+        Klik her for at tilmelde dig
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="M13 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </article>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var el = document.getElementById('ytVideo');
+    if (!el) return;
+    var videoId = el.getAttribute('data-video-id');
+    var customPoster = el.getAttribute('data-poster');
+    var posterEl = el.querySelector('.poster-img');
+    var fb = el.querySelector('.poster-fallback');
+
+    // Decide which poster to show: custom image > youtube thumbnail > gradient fallback
+    if (customPoster) {
+      posterEl.src = customPoster;
+    } else if (videoId && videoId !== 'INDSÆT_VIDEO_ID') {
+      posterEl.src = 'https://i.ytimg.com/vi/' + videoId + '/hqdefault.jpg';
+    } else {
+      posterEl.style.display = 'none';
+      if (fb) fb.style.display = 'flex';
+    }
+
+    posterEl.addEventListener('error', function () {
+      posterEl.style.display = 'none';
+      if (fb) fb.style.display = 'flex';
+    });
+
+    function play() {
+      if (!videoId || videoId === 'INDSÆT_VIDEO_ID') return;
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', 'Webinar trailer');
+      iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      el.classList.add('playing');
+      el.appendChild(iframe);
+    }
+
+    el.addEventListener('click', play);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+    });
+    el.tabIndex = 0;
+  })();
+
+  // Generate floating particles around the card
+  (function () {
+    var host = document.getElementById('particles');
+    if (!host) return;
+    var palette = ['#576048', '#8fa882', '#99716f', '#576048', '#99716f', '#8fa882', '#c4b8a4', '#99716f', '#576048'];
+    var count = 48;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('span');
+      p.className = 'particle';
+      var size = 4 + Math.random() * 10;          // 4–14px
+      var color = palette[i % palette.length];
+      var top = 25 + Math.random() * 70;          // start in lower area so rise has room
+      var left = Math.random() * 100;
+      var peak = (0.4 + Math.random() * 0.4).toFixed(2);
+      var delay = (Math.random() * 16).toFixed(2) + 's';
+      var dur = (11 + Math.random() * 10).toFixed(2) + 's';
+      p.style.cssText =
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'top:' + top + '%;left:' + left + '%;' +
+        'background:' + color + ';' +
+        '--peak:' + peak + ';' +
+        'animation-delay:' + delay + ';' +
+        'animation-duration:' + dur + ';';
+      host.appendChild(p);
+    }
+  })();
+</script>
+
+<script>
+  var lastH = 0;
+  function sendHeight() {
+    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    if (Math.abs(h - lastH) > 2) { lastH = h; window.parent.postMessage({ iframeHeight: h }, '*'); }
+  }
+  window.addEventListener('load', sendHeight);
+  if (document.fonts) { document.fonts.ready.then(sendHeight); }
+  document.querySelectorAll('img').forEach(function(img){ if(img.complete){sendHeight();} else {img.addEventListener('load',sendHeight); img.addEventListener('error',sendHeight);} });
+  setTimeout(sendHeight, 1500);
+</script>
+
+
+
+</body></html>
