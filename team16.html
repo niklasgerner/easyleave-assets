@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave – Teamet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-green: #576048;
+    --dark-green-hover: #474f3a;
+    --sage: #8fa882;
+    --mauve: #99716f;
+    --taupe: #c4b8a4;
+    --charcoal: #3a3835;
+    --muted: #6b6864;
+    --soft: #908d87;
+    --off-white: #f4f3f0;
+    --card-bg: #ffffff;
+    --card-border: #ece9e2;
+    --card-shadow: 0 1px 2px rgba(58, 56, 53, 0.04), 0 8px 24px rgba(58, 56, 53, 0.06);
+    --card-shadow-hover: 0 2px 4px rgba(58, 56, 53, 0.05), 0 18px 40px rgba(58, 56, 53, 0.10);
+
+    /* Default photo crop tuning — overridable per card via inline style.
+       Origin tuned so the face sits a touch above center, not jammed to the top. */
+    --photo-scale: 1.7;
+    --photo-origin-x: 50%;
+    --photo-origin-y: 55%;
+    --photo-pos-x: 50%;
+    --photo-pos-y: 50%;
+
+    /* Tweakable type scale (overridden by Tweaks panel via inline style on :root) */
+    --heading-size: clamp(2.4rem, 5vw, 3.4rem);
+    --lede-size: clamp(16px, 1.5vw, 18px);
+    --name-size: clamp(1.2rem, 1.55vw, 1.45rem);
+    --name-size-featured: clamp(1.35rem, 1.75vw, 1.6rem);
+    --bio-size: 14.5px;
+    --bio-size-featured: 15px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .stage {
+    width: 100%;
+    padding: clamp(0px, 0.4vw, 6px) clamp(20px, 5vw, 64px) clamp(20px, 3vw, 40px);
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin: 0 auto clamp(36px, 5vw, 56px);
+    max-width: 640px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 14px 0;
+  }
+
+  .heading {
+    font-size: var(--heading-size);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin: 0 0 14px 0;
+    text-wrap: balance;
+  }
+
+  .heading .accent {
+    color: var(--dark-green);
+  }
+
+  .lede {
+    font-size: var(--lede-size);
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  /* ─── Grids ─────────────────────────────────────────── */
+
+  .row {
+    display: grid;
+    gap: clamp(20px, 2.4vw, 28px);
+    margin-bottom: clamp(20px, 2.4vw, 28px);
+  }
+
+  .row:last-child { margin-bottom: 0; }
+
+  .row-featured { grid-template-columns: repeat(2, 1fr); }
+  /* Team pairs: 2-up, a touch narrower than the founders so Tine & Simone read bigger. */
+  .row-pair {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ─── Card ──────────────────────────────────────────── */
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 280ms cubic-bezier(.2,.7,.2,1), box-shadow 280ms cubic-bezier(.2,.7,.2,1);
+    width: 100%;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--dark-green);
+    z-index: 2;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  /* Photo frame */
+  .photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 6 / 5;
+    overflow: hidden;
+    background: var(--off-white);
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--photo-pos-x) var(--photo-pos-y);
+    transform: scale(var(--photo-scale));
+    transform-origin: var(--photo-origin-x) var(--photo-origin-y);
+    display: block;
+  }
+
+  /* Featured cards: taller photo so the founders feel a notch bigger than the rest. */
+  .card-featured .photo { aspect-ratio: 6 / 5; }
+
+  /* Placeholder (no photo) */
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 50% 38%, #eeeae0 0%, #e2ddd2 60%, #d8d2c4 100%);
+    color: var(--soft);
+    font-weight: 600;
+    font-size: clamp(56px, 8vw, 88px);
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+
+  .photo-placeholder .glyph {
+    display: inline-flex;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    border-radius: 50%;
+    background: #ffffff;
+    align-items: center;
+    justify-content: center;
+    color: var(--taupe);
+    font-size: clamp(40px, 6vw, 56px);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  }
+
+  .photo-placeholder .caption {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    text-transform: uppercase;
+  }
+
+  /* Card body */
+  .body {
+    padding: clamp(20px, 2vw, 26px) clamp(22px, 2.2vw, 28px) clamp(24px, 2.4vw, 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .name {
+    font-size: var(--name-size);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--charcoal);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .card-featured .name {
+    font-size: var(--name-size-featured);
+  }
+
+  .title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dark-green);
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+  }
+
+  .bio {
+    font-size: var(--bio-size);
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .bio p {
+    margin: 0;
+  }
+
+  .bio p + p {
+    margin-top: 0.85em;
+  }
+
+  .card-featured .bio { font-size: var(--bio-size-featured); }
+
+  /* Contact strip at the bottom of each tile */
+  .contact {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: var(--soft);
+  }
+
+  .contact-label {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--soft);
+    flex-shrink: 0;
+    min-width: 52px;
+  }
+
+  .contact-value {
+    color: var(--muted);
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+    border-radius: 4px;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .contact-value:empty::before {
+    content: attr(data-placeholder);
+    color: #c4b8a4;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .contact-value a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .contact-value a:hover {
+    color: var(--dark-green);
+    text-decoration: underline;
+  }
+
+  /* Contact CTA button below the group photo */
+  .team-cta {
+    text-align: center;
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  .team-cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--dark-green);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    padding: 19px 52px;
+    border-radius: 14px;
+    transition: background-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    box-shadow: 0 4px 16px rgba(45, 74, 62, 0.28);
+  }
+
+  .team-cta a:hover {
+    background: var(--dark-green-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(45, 74, 62, 0.34);
+  }
+
+  .team-cta a:active {
+    transform: translateY(0);
+  }
+
+  .contact-value:hover {
+    background-color: rgba(143, 168, 130, 0.08);
+  }
+
+  .contact-value:focus {
+    outline: none;
+    background-color: rgba(143, 168, 130, 0.10);
+    box-shadow: 0 0 0 2px rgba(87, 96, 72, 0.20);
+    color: var(--charcoal);
+  }
+
+  /* Editable affordance — quiet but discoverable */
+  [contenteditable="true"] {
+    outline: none;
+    border-radius: 4px;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
+  }
+  [contenteditable="true"]:hover {
+    background-color: rgba(143, 168, 130, 0.08);
+  }
+  [contenteditable="true"]:focus {
+    background-color: rgba(143, 168, 130, 0.10);
+    box-shadow: 0 0 0 2px rgba(87, 96, 72, 0.20);
+  }
+
+  /* ─── Responsive ────────────────────────────────────── */
+
+  /* Tablet */
+  @media (max-width: 980px) {
+    /* row-pair already sits at 2-up; it collapses to 1-up on mobile below. */
+  }
+
+  @media (max-width: 760px) {
+    .card-featured .photo { aspect-ratio: 5 / 4; }
+  }
+
+  /* Mobile */
+  @media (max-width: 620px) {
+    .row-featured,
+    .row-pair {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .card-featured .photo { aspect-ratio: 4 / 5; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+
+  /* ─── Group photo strip ─────────────────────────── */
+
+  .group {
+    margin-top: clamp(40px, 5vw, 64px);
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--off-white);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+    aspect-ratio: 3 / 1;
+    isolation: isolate;
+  }
+
+  .group .group-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 72%;
+    display: block;
+  }
+
+  .group .group-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      linear-gradient(135deg, #eeeae0 0%, #e2ddd2 50%, #d8d2c4 100%);
+    color: var(--soft);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, monospace;
+  }
+
+  .group .group-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 22px,
+        rgba(58, 56, 53, 0.04) 22px,
+        rgba(58, 56, 53, 0.04) 44px
+      );
+    pointer-events: none;
+  }
+
+  .group .group-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 56px);
+    background:
+      linear-gradient(
+        to top,
+        rgba(20, 22, 18, 0.72) 0%,
+        rgba(20, 22, 18, 0.45) 35%,
+        rgba(20, 22, 18, 0.10) 65%,
+        rgba(20, 22, 18, 0)    100%
+      );
+    color: #ffffff;
+  }
+
+  /* Tone down the overlay when no real photo — placeholder text needs to read */
+  .group.is-placeholder .group-overlay {
+    background:
+      linear-gradient(
+        to top,
+        rgba(58, 56, 53, 0.55) 0%,
+        rgba(58, 56, 53, 0.18) 50%,
+        rgba(58, 56, 53, 0)    100%
+      );
+  }
+
+  .group-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .group-title {
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  .group-copy {
+    font-size: clamp(14px, 1.3vw, 16px);
+    line-height: 1.55;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 640px;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 760px) {
+    /* !important beats the inline aspect-ratio/object-position the tweaks panel sets via JS */
+    .group { aspect-ratio: 16 / 9 !important; }
+    .group .group-photo { object-position: center 55% !important; }
+    .group .group-overlay { padding: clamp(18px, 4vw, 28px); }
+  }
+
+  @media (max-width: 480px) {
+    .group { aspect-ratio: 3 / 2 !important; }
+    .group .group-photo { object-position: center 50% !important; }
+  }
+</style>
+</head>
+<body>
+<section class="stage" aria-label="EasyLeave teamet">
+  <div class="wrap">
+
+    <header class="header">
+      <p class="eyebrow">OM OS</p>
+      <h2 class="heading">
+        Menneskerne <span class="accent">bag EasyLeave</span>
+      </h2>
+      <p class="lede">
+        Et voksende dedikeret team med dyb erfaring – samlet om at gøre orlovshåndtering enkel for både medarbejdere og virksomheder.
+      </p>
+    </header>
+
+    <!-- Founders -->
+    <div class="row row-featured">
+
+      <article class="card card-featured" data-person="tine" style="--photo-pos-y: 100%; --photo-pos-x: 46%; --photo-origin-y: 68%; --photo-scale: 1.55;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/tine.jpg" alt="Tine, medstifter og adm. direktør i EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Tine</h3>
+          <p class="title">Medstifter &amp; Adm. direktør</p>
+          <div class="bio"><p>Tine har mere end 20 års erfaring i løn, orlov og refusion samt systemopsætning og procesoptimering.</p><p>Hun har hjulpet en lang række større danske virksomheder med at strukturere og effektivisere deres arbejdsgange, både gennem rådgivning, implementering og optimering af processer.</p><p>Hos EasyLeave har Tine det overordnede ansvar for virksomheden og den strategiske retning, men er samtidig tæt på hverdagen og bidrager aktivt, når faglig erfaring, kundebehov og produktudvikling skal kobles i praksis.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Telefon</span><span class="contact-value" data-placeholder="+45 ·· ·· ·· ··">42 52 30 75</span></div>
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="tine@easyleave.dk"><a href="mailto:tine@easyleave.dk">tine@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-featured" data-person="simone" style="--photo-pos-y: 100%; --photo-pos-x: 52%; --photo-origin-y: 56%; --photo-scale: 1.83;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/simone.jpg" alt="Simone, medstifter og Product Lead i EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Simone</h3>
+          <p class="title">Medstifter &amp; Product Lead</p>
+          <div class="bio"><p>Simone har gennem mange år arbejdet med implementering og optimering af orlovsprocesser i komplekse virksomheder.</p><p>Hun har et stærkt kendskab til, hvordan orlovsregistrering struktureres korrekt, så regler overholdes, data er på plads og refusioner ikke går tabt.</p><p>Hos EasyLeave har Simone ansvar for produktudvikling og onboarding af nye kunder, med fokus på at tilpasse løsningen til den enkelte virksomheds behov.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Telefon</span><span class="contact-value" data-placeholder="+45 ·· ·· ·· ··">30 64 75 10</span></div>
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="simone@easyleave.dk"><a href="mailto:simone@easyleave.dk">simone@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Team -->
+    <div class="row row-pair">
+
+      <article class="card" data-person="niklas" style="--photo-pos-x: 60%; --photo-origin-y: 67%; --photo-scale: 1.70;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/niklas.jpg" alt="Niklas, Commercial Lead hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Niklas</h3>
+          <p class="title">Commercial Lead</p>
+          <div class="bio"><p>Niklas har specialiseret sig i strategiske partnerskaber, forretningsudvikling og kommerciel skalering.</p><p>Hos EasyLeave er Niklas ansvarlig for den kommercielle udvikling, herunder strategi, partnerskaber, marketing og nye kunder.</p><p>Niklas arbejder med at omsætte EasyLeaves faglige og tekniske værdi til konkrete cases, så virksomheder forstår potentialet i en digital og struktureret orlovsproces.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Telefon</span><span class="contact-value" data-placeholder="+45 ·· ·· ·· ··">42 17 58 28</span></div>
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="niklas@easyleave.dk"><a href="mailto:niklas@easyleave.dk">niklas@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-person="christoffer" style="--photo-pos-x: 59%; --photo-origin-y: 61%; --photo-scale: 1.75;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/christoffer.jpg" alt="Christoffer, Developer hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Christoffer</h3>
+          <p class="title">Lead Developer</p>
+          <div class="bio"><p>Christoffer er fullstack-udvikler og har arbejdet med digitale løsninger til komplekse private virksomheder og offentlige institutioner.</p><p>Han har stærk erfaring med systemudvikling, procesforståelse og løsninger, der skal fungere sikkert og stabilt i organisationer med høje krav til drift, data og brugervenlighed.</p><p>Hos EasyLeave driver Christoffer den tekniske udvikling af platformen med fokus på stabilitet, sikkerhed og skalerbarhed.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="christoffer@easyleave.dk"><a href="mailto:christoffer@easyleave.dk">christoffer@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="row row-pair">
+
+      <article class="card" data-person="henrik" style="--photo-pos-x: 46%; --photo-origin-y: 62%; --photo-scale: 2.15;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/henrik.jpg" alt="Henrik, Partner hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Henrik</h3>
+          <p class="title">Partner</p>
+          <div class="bio"><p>Henrik har mange års erfaring med IT, forretningsudvikling og implementering af større løn-, HR- og ERP-projekter i nogle af Danmarks største og mest komplekse organisationer.</p><p>Her har han arbejdet i krydsfeltet mellem teknologi, forretning og mennesker, blandt andet som udviklingschef, projektleder og IT Business Partner.</p><p>Hos EasyLeave er Henrik partner og bidrager til den daglige ledelse, strategiske udvikling og virksomhedens partnerskaber. For Henrik handler det først og fremmest om, at EasyLeave skaber reel værdi for de organisationer, der bruger systemet.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Telefon</span><span class="contact-value" data-placeholder="+45 ·· ·· ·· ··">41 38 10 11</span></div>
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="henrik@easyleave.dk"><a href="mailto:henrik@easyleave.dk">henrik@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-person="emma" style="--photo-pos-x: 53%; --photo-origin-y: 72%; --photo-scale: 1.80;">
+        <div class="photo">
+          <img src="https://niklasgerner.github.io/easyleave-assets/emma.jpg" alt="Emma hos EasyLeave" loading="lazy">
+        </div>
+        <div class="body">
+          <h3 class="name">Emma</h3>
+          <p class="title">Marketing Assistant</p>
+          <div class="bio"><p>Emma arbejder med EasyLeaves kommunikation, SoMe og visuelle materiale.</p><p>Hun producerer content til vores digitale kanaler, udvikler materiale til kampagner og hjælper med at formidle EasyLeaves budskaber på en enkel og nærværende måde.</p><p>Hos EasyLeave er Emma med til at gøre komplekse emner som orlov, barsel og digitalisering lettere at forstå, både for kunder, samarbejdspartnere og nye målgrupper.</p></div>
+          <div class="contact">
+            <div class="contact-row"><span class="contact-label">Email</span><span class="contact-value" data-placeholder="emma@easyleave.dk"><a href="mailto:emma@easyleave.dk">emma@easyleave.dk</a></span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Group photo strip -->
+    <figure class="group is-placeholder" data-photo="group" style="aspect-ratio: 100 / 44;" aria-label="EasyLeave-teamet">
+      <img class="group-photo" src="https://niklasgerner.github.io/easyleave-assets/team-gruppe.jpg" alt="Hele EasyLeave-teamet" loading="lazy"
+           onload="this.closest('.group').classList.remove('is-placeholder');"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="group-placeholder" style="display:none;">G R U P P E B I L L E D E &nbsp;·&nbsp; team-gruppe.jpg</div>
+      <figcaption class="group-overlay">
+        <p class="group-eyebrow">EasyLeave</p>
+        <h3 class="group-title">Nysgerrig på at høre mere?</h3>
+        <p class="group-copy">Fortæl os kort om jeres hverdag med orlov og barsel, så viser vi, hvor EasyLeave kan gøre en forskel.</p>
+      </figcaption>
+    </figure>
+
+    <div class="team-cta">
+      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">Kontakt os</a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+function sendHeight() {
+  var h = document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: h }, '*');
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+if (document.fonts) { document.fonts.ready.then(sendHeight); }
+// Also re-emit after any contenteditable change (bios may reflow card heights).
+document.addEventListener('input', function(e) {
+  if (e.target && e.target.isContentEditable) sendHeight();
+});
+</script>
+
+<!-- ─── Tweaks panel ──────────────────────────────────────────────────── -->
+<div id="tweaks-root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="https://niklasgerner.github.io/easyleave-assets/tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TEAM_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "headingSize": 60,
+  "ledeSize": 17,
+  "nameSize": 22,
+  "bioSize": 14,
+  "accent": "#576048",
+  "showEyebrow": true,
+  "tineX": 46,
+  "tineY": 68,
+  "tineZoom": 155,
+  "simoneX": 52,
+  "simoneY": 56,
+  "simoneZoom": 183,
+  "henrikX": 46,
+  "henrikY": 62,
+  "henrikZoom": 215,
+  "niklasX": 60,
+  "niklasY": 67,
+  "niklasZoom": 170,
+  "christofferX": 59,
+  "christofferY": 61,
+  "christofferZoom": 175,
+  "emmaX": 53,
+  "emmaY": 72,
+  "emmaZoom": 180,
+  "groupX": 50,
+  "groupY": 68,
+  "groupHeight": 44
+}/*EDITMODE-END*/;
+
+const PEOPLE = [
+  { id: "tine",        label: "Tine"        },
+  { id: "simone",      label: "Simone"      },
+  { id: "henrik",      label: "Henrik"      },
+  { id: "niklas",      label: "Niklas"      },
+  { id: "christoffer", label: "Christoffer" },
+  { id: "emma",        label: "Emma"        },
+];
+
+function TeamTweaksApp() {
+  const [t, setTweak] = useTweaks(TEAM_TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    const r = document.documentElement.style;
+    r.setProperty('--heading-size', t.headingSize + 'px');
+    r.setProperty('--lede-size', t.ledeSize + 'px');
+    r.setProperty('--name-size', t.nameSize + 'px');
+    r.setProperty('--name-size-featured', (t.nameSize + 2) + 'px');
+    r.setProperty('--bio-size', t.bioSize + 'px');
+    r.setProperty('--bio-size-featured', (t.bioSize + 0.5) + 'px');
+    r.setProperty('--dark-green', t.accent);
+    document.querySelectorAll('.eyebrow').forEach(el => {
+      el.style.display = t.showEyebrow ? '' : 'none';
+    });
+
+    // Per-person photo crop
+    PEOPLE.forEach(p => {
+      const card = document.querySelector(`[data-person="${p.id}"]`);
+      if (!card) return;
+      card.style.setProperty('--photo-pos-x',    t[p.id + 'X']    + '%');
+      card.style.setProperty('--photo-origin-y', t[p.id + 'Y']    + '%');
+      card.style.setProperty('--photo-scale',    (t[p.id + 'Zoom'] / 100));
+    });
+
+    // Group photo: object-position + aspect ratio
+    const groupFig = document.querySelector('[data-photo="group"]');
+    const groupImg = groupFig && groupFig.querySelector('.group-photo');
+    if (groupImg) {
+      groupImg.style.objectPosition = `${t.groupX}% ${t.groupY}%`;
+    }
+    if (groupFig) {
+      // groupHeight is "vertical proportion" — converts to aspect ratio: 100 / h
+      // groupHeight 33 → ratio 3:1 (short banner); 50 → 2:1; 75 → 4:3 (tall)
+      const h = Math.max(15, Math.min(100, t.groupHeight));
+      groupFig.style.aspectRatio = `${100} / ${h}`;
+    }
+
+    if (typeof sendHeight === 'function') setTimeout(sendHeight, 50);
+  }, [t]);
+
+  return (
+    <TweaksPanel title="Team widget">
+      <TweakSection label="Typografi" />
+      <TweakSlider label="Overskrift"  value={t.headingSize} min={28} max={88} unit="px"
+                   onChange={(v) => setTweak('headingSize', v)} />
+      <TweakSlider label="Underrubrik" value={t.ledeSize}    min={12} max={26} unit="px"
+                   onChange={(v) => setTweak('ledeSize', v)} />
+      <TweakSlider label="Personnavn"  value={t.nameSize}    min={14} max={36} unit="px"
+                   onChange={(v) => setTweak('nameSize', v)} />
+      <TweakSlider label="Bio-tekst"   value={t.bioSize}     min={12} max={22} unit="px"
+                   onChange={(v) => setTweak('bioSize', v)} />
+
+      <TweakSection label="Visuelt" />
+      <TweakColor  label="Accent" value={t.accent}
+                   options={['#576048', '#1D9E75', '#3a3835', '#99716f', '#8fa882']}
+                   onChange={(v) => setTweak('accent', v)} />
+      <TweakToggle label='"OM OS"-tag' value={t.showEyebrow}
+                   onChange={(v) => setTweak('showEyebrow', v)} />
+
+      {PEOPLE.map(p => (
+        <React.Fragment key={p.id}>
+          <TweakSection label={"Billede – " + p.label} />
+          <TweakSlider label="Vandret" value={t[p.id + 'X']} min={0} max={100} unit="%"
+                       onChange={(v) => setTweak(p.id + 'X', v)} />
+          <TweakSlider label="Lodret"  value={t[p.id + 'Y']} min={0} max={100} unit="%"
+                       onChange={(v) => setTweak(p.id + 'Y', v)} />
+          <TweakSlider label="Zoom"    value={t[p.id + 'Zoom']} min={100} max={250} unit="%"
+                       onChange={(v) => setTweak(p.id + 'Zoom', v)} />
+        </React.Fragment>
+      ))}
+
+      <TweakSection label="Gruppefoto" />
+      <TweakSlider label="Vandret" value={t.groupX} min={0} max={100} unit="%"
+                   onChange={(v) => setTweak('groupX', v)} />
+      <TweakSlider label="Lodret"  value={t.groupY} min={0} max={100} unit="%"
+                   onChange={(v) => setTweak('groupY', v)} />
+      <TweakSlider label="Højde"   value={t.groupHeight} min={20} max={80} unit=""
+                   onChange={(v) => setTweak('groupHeight', v)} />
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<TeamTweaksApp />);
+</script>
+</body>
+</html>
