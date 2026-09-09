@@ -448,8 +448,17 @@ code.el, .el code, .el-mono {
   (function () {
     function postHeight() {
       try {
+        // documentElement.scrollHeight is clamped to at least the current
+        // viewport height - once a parent starts this iframe at a tall
+        // static fallback, scrollHeight can never report a SMALLER real
+        // content height, so the iframe could never shrink back down.
+        // Measure the actual bottom edge of the content instead.
+        var page = document.querySelector(".el-page");
+        var height = page
+          ? Math.ceil(page.getBoundingClientRect().bottom)
+          : document.documentElement.scrollHeight;
         window.parent.postMessage(
-          { source: "easyleave-zenegy-partnerside", height: document.documentElement.scrollHeight },
+          { source: "easyleave-zenegy-partnerside", height: height },
           "*"
         );
       } catch (e) {}
@@ -459,6 +468,14 @@ code.el, .el code, .el-mono {
     if (window.ResizeObserver) {
       new ResizeObserver(postHeight).observe(document.body);
     }
+    // Nogle parent-sider (fx via et onload-attribut på selve iframen)
+    // registrerer først deres message-listener, EFTER denne side har
+    // fyret sit load-event - så den allerførste postHeight() går tabt.
+    // Gentag et par gange de første sekunder, så en lytter der kommer
+    // for sent stadig fanger en opdatering.
+    [100, 300, 800, 1500, 3000].forEach(function (ms) {
+      setTimeout(postHeight, ms);
+    });
   })();
 </script>
 </body>
