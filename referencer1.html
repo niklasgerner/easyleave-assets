@@ -78,35 +78,24 @@
   .section-num { font-size: 13px; font-weight: 700; color: var(--sage); letter-spacing: 0.04em; flex: 0 0 auto; }
   .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
 
-  /* -------- Logo roller (ported 1:1 from index.html's tuned carousel) -------- */
+  /* -------- Logo roller (per-logo images cropped to their true content so every
+     logo occupies the same visual footprint - the source "-matched" files were
+     all padded onto a common square canvas at very different fill ratios). -------- */
   .logo-card { background: var(--off-white); border-radius: 18px; box-shadow: var(--shadow-card); padding: 20px 0; }
   .roller { width: 100%; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); }
   .track { display: flex; width: max-content; animation: logo-scroll 40s linear infinite; align-items: center; }
   .roller:hover .track { animation-play-state: paused; }
   .logo {
-    --w: 200px; flex: 0 0 auto; height: 140px; display: flex; align-items: center; justify-content: center;
-    margin: 0 36px; opacity: 0.75; filter: grayscale(100%);
+    width: 170px; height: 56px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+    margin: 0 28px; opacity: 0.75; filter: grayscale(100%);
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     cursor: pointer; text-decoration: none;
   }
   .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
-  .logo img { width: var(--w); height: auto; max-height: 100%; object-fit: contain; display: block; }
-  .s-bavarian    { --w: 150px; }
-  .s-bravida     { --w: 190px; }
-  .s-bygma       { --w: 192px; }
-  .s-gard        { --w: 186px; }
-  .s-jamo        { --w: 156px; }
-  .s-kmd         { --w: 200px; }
-  .s-lemvigh     { --w: 200px; }
-  .s-zenegy      { --w: 200px; }
-  .s-novax       { --w: 192px; }
-  .s-nti         { --w: 142px; }
-  .s-wicotec     { --w: 200px; }
-  .s-borneringen { --w: 200px; }
+  .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 640px) {
-    .logo { height: 96px; margin: 0 22px; }
-    .logo img { width: calc(var(--w) * 0.7); }
+    .logo { width: 120px; height: 40px; margin: 0 20px; }
   }
 
   /* -------- Testimonials -------- */
@@ -185,30 +174,30 @@
       </div>
       <div class="logo-card">
         <div class="roller"><div class="track">
-          <a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
-          <a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-matched.png" alt="Bravida"></a>
-          <a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
-          <a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/GARD-matched.png" alt="Gard"></a>
-          <a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
-          <a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
-          <a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
-          <a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
-          <a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Novax_logo-matched.png" alt="Novax"></a>
-          <a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti_primary_black-matched.png" alt="NTI"></a>
-          <a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
-          <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
-          <a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
-          <a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-matched.png" alt="Bravida"></a>
-          <a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
-          <a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/GARD-matched.png" alt="Gard"></a>
-          <a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
-          <a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
-          <a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
-          <a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
-          <a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Novax_logo-matched.png" alt="Novax"></a>
-          <a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti_primary_black-matched.png" alt="NTI"></a>
-          <a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
-          <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bygma-crop.png" alt="Bygma Gruppen"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-crop.png" alt="Jamo Sikring"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-crop.png" alt="KMD"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/lemvigh-crop.png" alt="Lemvigh-Müller"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/zenegy-crop.png" alt="Zenegy"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bygma-crop.png" alt="Bygma Gruppen"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-crop.png" alt="Jamo Sikring"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-crop.png" alt="KMD"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/lemvigh-crop.png" alt="Lemvigh-Müller"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/zenegy-crop.png" alt="Zenegy"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
         </div></div>
       </div>
     </section>
