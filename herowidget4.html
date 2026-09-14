@@ -6,7 +6,7 @@
 <title>EasyLeave – Hero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="file:///C:/Users/NiklasJ%C3%B8rgensen/Downloads/herowidget1_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --dark-green: #576048;
@@ -38,7 +38,7 @@
     position: relative;
     width: 100%;
     min-height: 0;
-    padding: clamp(16px, 3vw, 32px) clamp(24px, 4vw, 48px) clamp(16px, 3vw, 32px) 0;
+    padding: clamp(16px, 3vw, 32px) clamp(16px, 2.5vw, 32px) clamp(16px, 3vw, 32px) 0;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -48,28 +48,38 @@
   .content {
     position: relative;
     z-index: 2;
-    max-width: 560px;
+    max-width: 660px;
     width: 100%;
   }
 
   .eyebrow {
-    display: inline-block;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--sage);
-    margin: 0 0 18px 0;
+    margin: 0 0 20px 0;
     line-height: 1.4;
   }
 
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--sage);
+    flex: 0 0 auto;
+  }
+
   .headline {
-    font-size: clamp(2.6rem, 8vw, 4rem);
+    font-size: clamp(3.6rem, 7.5vw, 6.2rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.08;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
     color: var(--charcoal);
-    margin: 0 0 24px 0;
+    margin: 0 0 28px 0;
   }
 
   .headline .line1 {
@@ -82,29 +92,35 @@
   }
 
   .subcopy {
-    font-size: clamp(17px, 1.7vw, 20px);
-    line-height: 1.6;
+    font-size: clamp(18px, 1.6vw, 21px);
+    line-height: 1.65;
     color: var(--muted);
     font-weight: 400;
-    margin: 0 0 32px 0;
-    max-width: 540px;
+    margin: 0 0 40px 0;
+    max-width: 46ch;
     text-wrap: pretty;
+  }
+
+  .subcopy strong {
+    color: var(--charcoal);
+    font-weight: 600;
   }
 
   .cta {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    min-height: 48px;
+    gap: 12px;
+    padding: 20px 44px;
+    min-height: 60px;
     background: var(--dark-green);
     color: #ffffff;
     text-decoration: none;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 700;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(87, 96, 72, 0.18);
+    letter-spacing: -0.01em;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(87, 96, 72, 0.3);
     transition: transform 220ms cubic-bezier(.2,.7,.2,1),
                 box-shadow 220ms cubic-bezier(.2,.7,.2,1),
                 background-color 220ms ease;
@@ -114,12 +130,12 @@
   .cta:hover {
     background: #474f3a;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(87, 96, 72, 0.28);
+    box-shadow: 0 14px 30px rgba(87, 96, 72, 0.38);
   }
 
   .cta:active {
     transform: translateY(0);
-    box-shadow: 0 4px 14px rgba(87, 96, 72, 0.22);
+    box-shadow: 0 8px 22px rgba(87, 96, 72, 0.3);
   }
 
   .cta:focus-visible {
@@ -149,7 +165,6 @@
       max-width: 100%;
       text-align: left;
     }
-    .eyebrow,
     .headline,
     .subcopy {
       text-align: left;
@@ -157,9 +172,11 @@
     .subcopy {
       margin-left: 0;
       margin-right: 0;
+      max-width: 100%;
     }
     .headline {
-      font-size: clamp(1.9rem, 8.5vw, 2.6rem);
+      font-size: clamp(2.8rem, 15vw, 4.2rem);
+      letter-spacing: -0.025em;
     }
   }
 
@@ -174,10 +191,9 @@
 <body>
   <section class="stage" aria-label="EasyLeave hero">
     <div class="content">
-      <p class="eyebrow">SLIP FOR USIKKERHED, MANUEL HÅNDTERING OG FEJL</p>
       <h1 class="headline">
-        <span class="line1">Digital orlovshåndtering</span>
-        <span class="accent">for hele organisationen</span>
+        <span class="line1">Barsel.</span>
+        <span class="accent">Nemt.</span>
       </h1>
       <p class="subcopy">
         EasyLeave gør orlov til en god oplevelse for medarbejderen, frigør tid i organisationen og sikrer de data, der skal til for at løfte jeres refusionsgrundlag.
