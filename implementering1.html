@@ -311,6 +311,9 @@ function sendHeight() {
 window.addEventListener('load', sendHeight);
 window.addEventListener('resize', sendHeight);
 if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
+if ('ResizeObserver' in window) {
+  new ResizeObserver(sendHeight).observe(document.body);
+}
 </script>
 </body>
 </html>

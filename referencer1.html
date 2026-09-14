@@ -100,7 +100,6 @@
     transition: transform 220ms ease, box-shadow 220ms ease;
   }
   .quote-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-  .quote-mark { font-size: 42px; font-weight: 800; color: var(--taupe); line-height: 1; margin-bottom: 6px; font-family: Georgia, serif; }
   .quote-text { font-size: 15px; line-height: 1.65; color: var(--text); flex: 1; margin-bottom: 22px; }
   .quote-by { display: flex; align-items: center; gap: 12px; margin-top: auto; }
   .quote-avatar {
@@ -111,11 +110,18 @@
   .quote-role { font-size: 12.5px; color: var(--text-muted); }
   .quote-scale { font-size: 12px; color: var(--text-soft); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.4; }
   .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
-  .quote-company-logo { height: 22px; width: auto; max-width: 120px; object-fit: contain; object-position: left center; display: block; margin-bottom: 16px; }
-  .quote-company-logo-bottom { height: 28px; width: auto; max-width: 140px; object-fit: contain; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .quote-company-logo { height: 30px; width: auto; max-width: 150px; object-fit: contain; object-position: left center; display: block; margin-bottom: 16px; }
+  .quote-company-logo-bottom { height: 48px; width: auto; max-width: 200px; object-fit: contain; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 
   /* -------- Partner highlight (reuses .quote-card, just narrower/centered) -------- */
   .partner-quote-card { max-width: 700px; margin: 0 auto; }
+
+  /* -------- Partners & dataflow strip -------- */
+  .partner-dataflow { text-align: center; margin-top: 32px; }
+  .partner-dataflow .wallhead { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 18px; }
+  .partner-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 32px; }
+  .partner-row img { height: 32px; width: auto; object-fit: contain; opacity: 0.85; }
+  .partner-row .soon { font-size: 13px; color: var(--text-soft); font-style: italic; }
 
   /* -------- FAQ -------- */
   .faq-wrap { max-width: 800px; margin: 0 auto; }
@@ -174,7 +180,7 @@
     <div class="intro">
       <p class="eyebrow">Referencer</p>
       <h1>Vi passer til <span class="h-strong">enhver organisation</span></h1>
-      <p class="intro-sub">Fra 20 til flere tusinde medarbejdere, i det private og det offentlige - se hvordan virksomheder og organisationer som jeres allerede bruger EasyLeave til at forenkle orlovsadministrationen.</p>
+      <p class="intro-sub">Se hvordan virksomheder og organisationer som jeres allerede bruger EasyLeave til at forenkle orlovsadministrationen.</p>
     </div>
 
     <section class="section">
@@ -194,7 +200,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
           <a class="logo logo-lg" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
@@ -206,7 +212,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
         </div></div>
       </div>
@@ -220,8 +226,7 @@
       <div class="quote-grid">
         <article class="quote-card">
           <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/borneringen-quote-logo.png" alt="Børneringen">
-          <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">Vi har fået struktur, overblik og en ensartet proces på tværs af organisationen. Det sparer tid for både lederne og administrationen - og skaber tryghed for medarbejderne.</p>
+          <p class="quote-text">&bdquo;Vi har fået struktur, overblik og en ensartet proces på tværs af organisationen. Det sparer tid for både lederne og administrationen - og skaber tryghed for medarbejderne.&ldquo;</p>
           <div class="quote-by">
             <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/lene-husted-ornoe.jpg" alt="Lene Husted Ørnø">
             <div>
@@ -233,8 +238,7 @@
         </article>
         <article class="quote-card">
           <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/bravida-quote-logo.png" alt="Bravida">
-          <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">Barselsplanerne sendes automatisk videre, så alle har den nødvendige information samtidig. Den faste struktur giver et effektivt workflow for leder, medarbejder og lønkontor.</p>
+          <p class="quote-text">&bdquo;Barselsplanerne sendes automatisk videre, så alle har den nødvendige information samtidig. Den faste struktur giver et effektivt workflow for leder, medarbejder og lønkontor.&ldquo;</p>
           <div class="quote-by">
             <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/anette-holse.jpg" alt="Anette Holse">
             <div>
@@ -246,8 +250,7 @@
         </article>
         <article class="quote-card">
           <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/ldd-quote-logo.png" alt="LDD">
-          <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">Orlovshåndtering er blevet langt mere overskuelig, hurtigere og mindre administrativt tung. Vores ledere bruger ikke længere unødigt mange timer på manuel administration.</p>
+          <p class="quote-text">&bdquo;Orlovshåndtering er blevet langt mere overskuelig, hurtigere og mindre administrativt tung. Vores ledere bruger ikke længere unødigt mange timer på manuel administration.&ldquo;</p>
           <div class="quote-by">
             <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/mette-thogersen.jpg" alt="Mette Thøgersen">
             <div>
@@ -266,8 +269,7 @@
         <h2>Vores partnere</h2>
       </div>
       <article class="quote-card partner-quote-card">
-        <p class="quote-mark">&ldquo;</p>
-        <p class="quote-text">EasyLeave er fremtidens måde at håndtere orlov på. Derfor har vi i KMD indgået et strategisk samarbejde - så vi sammen kan løfte standarden for orlovsadministration hos danske virksomheder.</p>
+        <p class="quote-text">&bdquo;EasyLeave er fremtidens måde at håndtere orlov på. Derfor har vi i KMD indgået et strategisk samarbejde - så vi sammen kan løfte standarden for orlovsadministration hos danske virksomheder.&ldquo;</p>
         <div class="quote-by">
           <span class="quote-avatar">LI</span>
           <div>
@@ -277,6 +279,15 @@
         </div>
         <img class="quote-company-logo-bottom" src="https://niklasgerner.github.io/easyleave-assets/kmd-quote-logo.png" alt="KMD">
       </article>
+      <div class="partner-dataflow">
+        <p class="wallhead">Partnere og dataflow</p>
+        <div class="partner-row">
+          <img src="https://niklasgerner.github.io/easyleave-assets/kmd-quote-logo.png" alt="KMD">
+          <img src="https://niklasgerner.github.io/easyleave-assets/zenegy-quote-logo.png" alt="Zenegy">
+          <img src="https://niklasgerner.github.io/easyleave-assets/minrefusion-quote-logo.png" alt="MinRefusion">
+          <span class="soon">og flere på vej</span>
+        </div>
+      </div>
     </section>
 
     <div class="cta-banner">
@@ -291,7 +302,7 @@
     <section class="section">
       <div class="faq-wrap">
       <div class="section-label">
-        <h2>Spørgsmål om referencer</h2>
+        <h2>Ofte stillede spørgsmål</h2>
       </div>
       <div class="faq-list">
         <div class="faq-item">
@@ -354,6 +365,9 @@ function sendHeight() {
 window.addEventListener('load', sendHeight);
 window.addEventListener('resize', sendHeight);
 if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
+if ('ResizeObserver' in window) {
+  new ResizeObserver(sendHeight).observe(document.body);
+}
 document.querySelectorAll('.logo img').forEach(function (img) {
   img.addEventListener('load', sendHeight);
 });

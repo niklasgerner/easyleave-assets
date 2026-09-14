@@ -772,6 +772,9 @@ function sendHeight() {
 window.addEventListener('load', sendHeight);
 window.addEventListener('resize', sendHeight);
 if (document.fonts) { document.fonts.ready.then(sendHeight); }
+if ('ResizeObserver' in window) {
+  new ResizeObserver(sendHeight).observe(document.body);
+}
 // Also re-emit after any contenteditable change (bios may reflow card heights).
 document.addEventListener('input', function(e) {
   if (e.target && e.target.isContentEditable) sendHeight();

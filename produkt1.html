@@ -1051,6 +1051,9 @@
   window.addEventListener('resize', sendHeight);
   if (document.fonts) { document.fonts.ready.then(sendHeight); }
   setTimeout(sendHeight, 1500);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(sendHeight).observe(document.body);
+  }
 
   /* -------- Video click-to-play -------- */
   document.querySelectorAll('.video-wrap').forEach(function(wrap) {
