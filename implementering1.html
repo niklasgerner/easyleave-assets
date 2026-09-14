@@ -30,6 +30,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .stat-tile, .step-card { cursor: default; user-select: none; }
 
   html, body {
     height: auto;
@@ -298,6 +299,9 @@ document.querySelectorAll('.faq-question').forEach(function (btn) {
     btn.setAttribute('aria-expanded', String(!isOpen));
     setTimeout(sendHeight, 280);
   });
+});
+document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+  wrap.addEventListener('transitionend', sendHeight);
 });
 
 function sendHeight() {

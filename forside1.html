@@ -30,6 +30,8 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .benefit-card, .messe-item { cursor: default; user-select: none; }
+  .logo { user-select: none; }
 
   html, body {
     height: auto;
@@ -55,7 +57,7 @@
   /* -------- Hero (text one side, phone the other) -------- */
   .hero-row { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: clamp(24px, 4vw, 56px); padding: clamp(4px, 1vw, 12px) 0 clamp(20px, 3vw, 32px); }
   .hero .headline {
-    font-size: clamp(2.8rem, 6.5vw, 4.6rem); font-weight: 700; letter-spacing: -0.03em;
+    font-size: clamp(3.2rem, 8vw, 5.6rem); font-weight: 700; letter-spacing: -0.03em;
     line-height: 0.98; color: var(--charcoal); margin: 0 0 24px 0;
   }
   .hero .headline .line1 { display: block; }
@@ -174,7 +176,7 @@
 
   /* -------- CTA banner -------- */
   .cta-banner {
-    margin: 68px auto 0; max-width: 760px; background: var(--green-dark); border-radius: 20px;
+    margin: 68px auto 0; max-width: 560px; background: var(--green-dark); border-radius: 20px;
     padding: clamp(22px, 3vw, 32px) clamp(24px, 4vw, 40px); text-align: center; color: #fff;
   }
   .cta-banner h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -212,6 +214,7 @@
           <span class="accent">Nemt.</span>
         </h1>
         <p class="subcopy">Den bedste barselsproces er <strong>tryg</strong>, <strong>integreret</strong>, <strong>tilpasset</strong>, <strong>samlet</strong>, <strong>korrekt</strong> og <strong>til tiden</strong>. Barsel, som det burde være.</p>
+        <p class="subcopy" style="margin-top:16px;">Det er <strong>nemt</strong>. Det er <strong>EasyLeave</strong>.</p>
       </div>
       <div class="phone-preview">
         <iframe src="https://niklasgerner.github.io/easyleave-assets/singlephone.html" title="EasyLeave app - orlovsplan" scrolling="no"></iframe>
@@ -275,6 +278,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
           <a class="logo logo-lg" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
           <a class="logo"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
@@ -286,6 +290,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
         </div></div>
       </div>
@@ -418,6 +423,9 @@ document.querySelectorAll('.faq-question').forEach(function (btn) {
     btn.setAttribute('aria-expanded', String(!isOpen));
     setTimeout(sendHeight, 280);
   });
+});
+document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+  wrap.addEventListener('transitionend', sendHeight);
 });
 
 function sendHeight() {

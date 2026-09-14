@@ -36,6 +36,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .doc-card, .trust-item { cursor: default; user-select: none; }
 
   html, body {
     height: auto;
@@ -70,8 +71,7 @@
   /* -------- Trust strip -------- */
   .trust-strip {
     display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-    gap: 14px 32px; padding: 20px 24px; background: var(--off-white); border-radius: 16px;
-    box-shadow: var(--shadow-card); margin-bottom: 56px;
+    gap: 14px 32px; padding: 8px 4px; margin-bottom: 56px;
   }
   .trust-item { display: flex; align-items: center; gap: 12px; font-size: 13.8px; font-weight: 600; color: var(--charcoal); white-space: nowrap; }
   .trust-item-icon {
@@ -292,7 +292,7 @@
           </button>
           <div class="faq-answer-wrap">
             <div class="faq-answer-inner">
-              <p class="faq-answer">Alle data hostes hos Microsoft Azure inden for EU, i overensstemmelse med GDPR. Data forlader ikke EU uden et gyldigt overførselsgrundlag.</p>
+              <p class="faq-answer">Alle data hostes hos Microsoft Azure inden for EU, i overensstemmelse med GDPR.</p>
             </div>
           </div>
         </div>
@@ -372,6 +372,9 @@
         btn.setAttribute('aria-expanded', String(!isOpen));
         setTimeout(notifyHeight, 280);
       });
+    });
+    document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+      wrap.addEventListener('transitionend', notifyHeight);
     });
 
     // ============================================================

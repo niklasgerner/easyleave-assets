@@ -30,6 +30,8 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .quote-card, .messe-item { cursor: default; user-select: none; }
+  .logo { user-select: none; }
 
   html, body {
     height: auto;
@@ -109,6 +111,8 @@
   .quote-role { font-size: 12.5px; color: var(--text-muted); }
   .quote-scale { font-size: 12px; color: var(--text-soft); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.4; }
   .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+  .quote-company-logo { height: 22px; width: auto; max-width: 120px; object-fit: contain; object-position: left center; display: block; margin-bottom: 16px; }
+  .quote-company-logo-bottom { height: 28px; width: auto; max-width: 140px; object-fit: contain; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 
   /* -------- Partner highlight (reuses .quote-card, just narrower/centered) -------- */
   .partner-quote-card { max-width: 700px; margin: 0 auto; }
@@ -139,7 +143,7 @@
 
   /* -------- CTA banner -------- */
   .cta-banner {
-    margin: 68px auto 0; max-width: 760px; background: var(--green-dark); border-radius: 20px;
+    margin: 68px auto 0; max-width: 560px; background: var(--green-dark); border-radius: 20px;
     padding: clamp(22px, 3vw, 32px) clamp(24px, 4vw, 40px); text-align: center; color: #fff;
   }
   .cta-banner h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -190,6 +194,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
           <a class="logo logo-lg" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
@@ -201,6 +206,7 @@
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
           <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/furesoe-crop.png" alt="Furesø Kommune"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
         </div></div>
       </div>
@@ -213,10 +219,11 @@
       </div>
       <div class="quote-grid">
         <article class="quote-card">
+          <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/borneringen-quote-logo.png" alt="Børneringen">
           <p class="quote-mark">&ldquo;</p>
           <p class="quote-text">Vi har fået struktur, overblik og en ensartet proces på tværs af organisationen. Det sparer tid for både lederne og administrationen - og skaber tryghed for medarbejderne.</p>
           <div class="quote-by">
-            <span class="quote-avatar">LH</span>
+            <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/lene-husted-ornoe.jpg" alt="Lene Husted Ørnø">
             <div>
               <div class="quote-name">Lene Husted Ørnø</div>
               <div class="quote-role">Teamleder Løn hos Børneringen</div>
@@ -225,10 +232,11 @@
           <p class="quote-scale">Paraplyorganisation med +2.000 lønmodtagere fordelt på +100 institutioner</p>
         </article>
         <article class="quote-card">
+          <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/bravida-quote-logo.png" alt="Bravida">
           <p class="quote-mark">&ldquo;</p>
           <p class="quote-text">Barselsplanerne sendes automatisk videre, så alle har den nødvendige information samtidig. Den faste struktur giver et effektivt workflow for leder, medarbejder og lønkontor.</p>
           <div class="quote-by">
-            <span class="quote-avatar">AH</span>
+            <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/anette-holse.jpg" alt="Anette Holse">
             <div>
               <div class="quote-name">Anette Holse</div>
               <div class="quote-role">Lønchef hos Bravida</div>
@@ -237,10 +245,11 @@
           <p class="quote-scale">Teknisk servicevirksomhed med +3.000 medarbejdere, både administrative og faglærte</p>
         </article>
         <article class="quote-card">
+          <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/ldd-quote-logo.png" alt="LDD">
           <p class="quote-mark">&ldquo;</p>
           <p class="quote-text">Orlovshåndtering er blevet langt mere overskuelig, hurtigere og mindre administrativt tung. Vores ledere bruger ikke længere unødigt mange timer på manuel administration.</p>
           <div class="quote-by">
-            <span class="quote-avatar">MT</span>
+            <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/mette-thogersen.jpg" alt="Mette Thøgersen">
             <div>
               <div class="quote-name">Mette Thøgersen</div>
               <div class="quote-role">Teamchef Løn hos LDD</div>
@@ -266,13 +275,23 @@
             <div class="quote-role">Business Development Director hos KMD</div>
           </div>
         </div>
+        <img class="quote-company-logo-bottom" src="https://niklasgerner.github.io/easyleave-assets/kmd-quote-logo.png" alt="KMD">
       </article>
     </section>
+
+    <div class="cta-banner">
+      <h3>Skal I være de næste?</h3>
+      <p>Fortæl os kort om jeres orlovsadministration i dag, så viser vi hvor EasyLeave kan gøre en forskel.</p>
+      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
+        Kontakt os
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
 
     <section class="section">
       <div class="faq-wrap">
       <div class="section-label">
-        <h2>Spørgsmål om størrelse og branche</h2>
+        <h2>Spørgsmål om referencer</h2>
       </div>
       <div class="faq-list">
         <div class="faq-item">
@@ -312,15 +331,6 @@
       </div>
     </section>
 
-    <div class="cta-banner">
-      <h3>Skal I være de næste?</h3>
-      <p>Fortæl os kort om jeres orlovsadministration i dag, så viser vi hvor EasyLeave kan gøre en forskel.</p>
-      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
-        Kontakt os
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
-
   </div>
 
 <script>
@@ -332,6 +342,9 @@ document.querySelectorAll('.faq-question').forEach(function (btn) {
     btn.setAttribute('aria-expanded', String(!isOpen));
     setTimeout(sendHeight, 280);
   });
+});
+document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+  wrap.addEventListener('transitionend', sendHeight);
 });
 
 function sendHeight() {

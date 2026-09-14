@@ -38,6 +38,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .side-card, .direct-card { cursor: default; user-select: none; }
 
   html, body {
     height: auto;
@@ -279,7 +280,6 @@
     <div class="intro">
       <p class="eyebrow">Kontakt</p>
       <h1>Klar til at gøre orlov <span class="h-strong">nemt</span>?</h1>
-      <p class="intro-sub">Udfyld formularen, så kontakter vi dig for at aftale et kort møde. Her tager vi udgangspunkt i jeres processer og viser, hvordan EasyLeave kan passe ind hos jer.</p>
     </div>
 
     <div class="layout">
@@ -537,6 +537,9 @@
         btn.setAttribute('aria-expanded', String(!isOpen));
         setTimeout(notifyHeight, 280);
       });
+    });
+    document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+      wrap.addEventListener('transitionend', notifyHeight);
     });
 
     // ============================================================
