@@ -128,7 +128,7 @@
     margin: 0 auto 18px;
   }
   .intro h1 .h-soft   { color: var(--charcoal); font-weight: 700; }
-  .intro h1 .h-strong { color: var(--koks); font-weight: 800; }
+  .intro h1 .h-strong { color: #715050; font-weight: 800; }
 
   .intro-sub {
     font-size: clamp(15.5px, 1.6vw, 18px);
@@ -575,7 +575,8 @@
   /* ============================================================
      03 — Spørgsmål & svar (FAQ)
      ============================================================ */
-  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; margin: 0 auto; }
+  .faq-wrap { max-width: 800px; margin: 0 auto; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
   .faq-item {
     background: var(--off-white);
     border-radius: 14px;
@@ -943,11 +944,10 @@
        03 — Spørgsmål & svar
        ============================================================ -->
   <section class="section" id="faq" style="order:4">
+    <div class="faq-wrap">
     <div class="section-label">
       <h2>Spørgsmål &amp; svar</h2>
     </div>
-    <p class="section-sub">Sådan fungerer varsling, indberetning og refusion i EasyLeave i praksis.</p>
-
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
@@ -1020,6 +1020,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
 

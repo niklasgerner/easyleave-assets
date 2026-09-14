@@ -208,7 +208,8 @@
   .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
   .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
 
-  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 640px; margin: 0 auto; }
+  .faq-wrap { max-width: 640px; margin: 0 auto; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
   .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
   .faq-question {
     display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
@@ -417,6 +418,7 @@
 
     <!-- FAQ -->
     <section class="section" id="faq">
+      <div class="faq-wrap">
       <div class="section-label">
         <h2>Ofte stillede spørgsmål</h2>
       </div>
@@ -465,6 +467,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
 
