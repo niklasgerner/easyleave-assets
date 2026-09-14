@@ -38,7 +38,7 @@
     position: relative;
     width: 100%;
     min-height: 0;
-    padding: clamp(16px, 3vw, 32px) clamp(16px, 2.5vw, 32px) clamp(16px, 3vw, 32px) 0;
+    padding: clamp(10px, 1.5vw, 16px) clamp(16px, 2.5vw, 32px) clamp(10px, 1.5vw, 16px) 0;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -74,12 +74,12 @@
   }
 
   .headline {
-    font-size: clamp(3.6rem, 7.5vw, 6.2rem);
+    font-size: clamp(3.6rem, 13vw, 6.4rem);
     font-weight: 700;
     letter-spacing: -0.03em;
-    line-height: 0.98;
+    line-height: 0.94;
     color: var(--charcoal);
-    margin: 0 0 28px 0;
+    margin: 0 0 14px 0;
   }
 
   .headline .line1 {
@@ -92,11 +92,11 @@
   }
 
   .subcopy {
-    font-size: clamp(18px, 1.6vw, 21px);
-    line-height: 1.65;
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.5;
     color: var(--muted);
     font-weight: 400;
-    margin: 0 0 40px 0;
+    margin: 0 0 20px 0;
     max-width: 46ch;
     text-wrap: pretty;
   }
@@ -109,18 +109,18 @@
   .cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 20px 44px;
-    min-height: 60px;
+    gap: 10px;
+    padding: 16px 38px;
+    min-height: 52px;
     background: var(--dark-green);
     color: #ffffff;
     text-decoration: none;
     font-family: inherit;
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: -0.01em;
     border-radius: 14px;
-    box-shadow: 0 8px 22px rgba(87, 96, 72, 0.3);
+    box-shadow: none;
     transition: transform 220ms cubic-bezier(.2,.7,.2,1),
                 box-shadow 220ms cubic-bezier(.2,.7,.2,1),
                 background-color 220ms ease;
@@ -130,12 +130,12 @@
   .cta:hover {
     background: #474f3a;
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(87, 96, 72, 0.38);
+    box-shadow: 0 8px 18px rgba(87, 96, 72, 0.22);
   }
 
   .cta:active {
     transform: translateY(0);
-    box-shadow: 0 8px 22px rgba(87, 96, 72, 0.3);
+    box-shadow: none;
   }
 
   .cta:focus-visible {
