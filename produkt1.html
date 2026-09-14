@@ -259,161 +259,144 @@
   }
   .sidebar p + p { margin-top: 9px; }
 
-  /* -------- Tidslinje-teaser — inspireret af landingpagens orlovsplan -------- */
+  /* -------- Medarbejderens plan (tidslinje + morph — ported 1:1 fra easyleave.dk/messe) -------- */
   .timeline-teaser {
-    margin-top: 28px;
-    background: var(--off-white);
-    border-radius: 18px;
-    padding: 28px clamp(18px, 3vw, 32px) 24px;
-    box-shadow: var(--shadow-card);
+    --dark-green: #715050; --green-dark: #4a3230; --sage: #96706e; --taupe: #d8beb8; --beige: #e6ded9; --charcoal: #3a3835; --text-muted: #6f7770; --text-soft: #a19c96; --off-white: #f5f3f0; --border: rgba(58,56,53,.08);
+    --pad: 23px; --babymask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M12 2a9 9 0 0 0-9 9v1.2A2.8 2.8 0 0 0 4.6 17 8.5 8.5 0 0 0 12 22a8.5 8.5 0 0 0 7.4-5A2.8 2.8 0 0 0 21 12.2V11a9 9 0 0 0-9-9zm-3 9.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm6 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm-3 3.6c1.5 0 2.8.7 3.4 1.7a4.4 4.4 0 0 1-6.8 0c.6-1 1.9-1.7 3.4-1.7z'/%3E%3C/svg%3E");
+    margin-top: 12px; overflow-x: clip;
   }
-  .timeline-head { margin-bottom: 30px; }
-  .timeline-head h3 {
-    font-size: 19px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--charcoal);
-    margin: 0 0 6px;
-  }
-  .timeline-head p {
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--muted-grey);
-    max-width: 56ch;
-  }
-  .timeline-scroll { overflow-x: auto; overflow-y: hidden; margin: 0 -2px; padding: 0 2px 2px; }
-  .timeline-inner { min-width: 620px; }
-
-  /* -------- Tidslinje — samme struktur/animation som landingpagens .timeline -------- */
-  .tl-rows { display: flex; align-items: stretch; gap: 10px; }
-  .tl-labels {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex: 0 0 auto;
-    padding-bottom: 0;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--muted-grey);
-  }
-  .tl-labels div:first-child { height: 46px; }
-  .tl-labels div:last-child { height: 34px; display: flex; align-items: center; white-space: nowrap; }
-
-  .tl-track { position: relative; flex: 1 1 auto; padding-top: 46px; }
-
-  .tl-flag {
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--koks);
-    color: #fff;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    padding: 4px 11px 4px 7px;
-    border-radius: 999px;
-    white-space: nowrap;
-    box-shadow: 0 3px 10px rgba(58,56,53,0.18);
-    opacity: 0;
-    transition: opacity 450ms ease-out, transform 450ms cubic-bezier(.2,.7,.2,1);
-  }
-  .tl-track.in-view .tl-flag { opacity: 1; }
-  .tl-baby { font-size: 12px; line-height: 1; }
-
-  .tl-birthline {
-    position: absolute;
-    top: 22px;
-    width: 0;
-    height: 24px;
-    border-left: 1px dashed var(--koks);
-    opacity: 0;
-    transition: opacity 450ms ease-out 100ms;
-  }
-  .tl-track.in-view .tl-birthline { opacity: 1; }
-
-  .tl-months {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--muted-grey);
-    letter-spacing: 0.01em;
-  }
-  .tl-months span { flex: 1; text-align: left; }
-  .tl-months .on { color: var(--koks); font-weight: 700; }
-
-  .tl-bar {
-    position: relative;
-    height: 34px;
-    border-radius: 8px;
-    background: #eae4e4;
-    overflow: visible;
-  }
+  .tl-scroll { overflow: visible; margin: 0; padding: 0; }
+  .tl-scroll::-webkit-scrollbar { display: none; }
+  .tl-rows { display: flex; gap: 9px; margin-top: 16px; min-width: 598px; }
+  .tl-labels { width: 67px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 7px; padding-top: 23px; }
+  .tl-labels div { height: 30px; display: flex; align-items: center; font-size: 11px; font-weight: 700; color: var(--charcoal); }
+  .tl-labels div:first-child { height: 25px; }
+  .tl-track { position: relative; flex: 1; display: flex; flex-direction: column; gap: 7px; min-width: 0; padding-top: 23px; }
+  .tl-months { display: grid; grid-template-columns: repeat(14, 1fr); height: 25px; align-items: flex-end; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .tl-months span { font-size: 9px; font-weight: 600; color: var(--text-soft); text-align: center; }
+  .tl-months span.on { color: var(--dark-green); font-weight: 700; }
+  .tl-bar { position: relative; height: 30px; background: #eae4e4; border-radius: 8px; }
   .tl-seg {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 10.5px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    clip-path: inset(0 100% 0 0);
-    transition: clip-path 550ms cubic-bezier(.22,1,.36,1);
-    transition-delay: 150ms;
+    position: absolute; top: 0; bottom: 0; border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    font-size: 9.8px; font-weight: 600; color: #fff; white-space: nowrap;
+    clip-path: inset(0 100% 0 0); transition: clip-path 550ms cubic-bezier(.22,1,.36,1);
   }
-  .tl-track.in-view .tl-seg { clip-path: inset(0 0 0 0); }
-  .tl-ferie {
-    background: repeating-linear-gradient(45deg,
-      var(--koks-5) 0, var(--koks-5) 2.5px,
-      var(--sand-deep) 2.5px, var(--sand-deep) 7px);
+  .tl-seg.on { clip-path: inset(0 0 0 0); }
+  .tl-return { opacity: 0; transition: opacity 400ms ease-out; }
+  .tl-return.on { opacity: 1; }
+  .tl-flag { opacity: 0; }
+  .tl-flag.on { opacity: 1; }
+  .tl-birthline { position: absolute; left: 14.26%; top: 21px; bottom: 0; width: 0; border-left: 1.5px dashed var(--dark-green); z-index: 5; pointer-events: none; opacity: 0; transition: opacity 450ms ease-out; }
+  .tl-birthline.on { opacity: 1; }
+  .tl-flag {
+    position: absolute; left: 14.26%; top: 0; transform: translateX(-50%); z-index: 4; background: var(--dark-green); color: #fff;
+    border-radius: 999px; padding: 3.4px 10.3px 3.4px 5.8px; font-size: 9.2px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; gap: 5.8px; box-shadow: 0 2px 9.2px rgba(113,80,80,.3);
   }
+  .tl-flag .baby { width: 16px; height: 16px; flex: 0 0 auto; display: block; background: #fff; border-radius: 999px; -webkit-mask: var(--babymask) center/12.6px 12.6px no-repeat; mask: var(--babymask) center/12.6px 12.6px no-repeat; }
+  .tl-flag.on { animation: flagpop 500ms cubic-bezier(.34,1.56,.64,1) both; }
+  @keyframes flagpop { 0% { opacity: 0; transform: translateX(-50%) scale(.5); } 60% { opacity: 1; transform: translateX(-50%) scale(1.14); } 100% { opacity: 1; transform: translateX(-50%) scale(1); } }
+  .tl-ferie { background: repeating-linear-gradient(45deg, var(--taupe) 0, var(--taupe) 2.5px, var(--beige) 2.5px, var(--beige) 7px); }
+  .tl-return { position: absolute; left: 64.6%; top: 0; bottom: 0; display: flex; align-items: center; gap: 5.8px; font-size: 9.8px; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+  .tl-return i { width: 5.8px; height: 5.8px; border-radius: 999px; background: var(--dark-green); flex: 0 0 auto; display: block; }
+  .tl-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 16px; margin-top: 14px; }
+  .tl-legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 500; color: var(--text-muted); white-space: nowrap; opacity: 0; transform: translateY(3.4px); transition: opacity 400ms ease-out, transform 400ms ease-out; }
+  .tl-legend span.on { opacity: 1; transform: none; }
+  .tl-legend i { width: 13.8px; height: 9.2px; border-radius: 3.4px; display: block; flex: 0 0 auto; }
 
-  .tl-return {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10.5px;
-    font-weight: 600;
-    color: var(--muted-grey);
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 400ms ease-out 750ms;
+  /* morph: kalender -> dokument -> kuvert -> kvittering */
+  .morph { position: relative; display: grid; margin-top: 16px; align-items: center; transition: height 500ms cubic-bezier(.22,1,.36,1); }
+  .morph > .morph-tl, .morph > .receipt { grid-area: 1/1; }
+  .morph-tl { min-width: 0; transition: opacity 500ms ease-out, transform 500ms cubic-bezier(.22,1,.36,1); transform-origin: center; }
+  .morph.packing .morph-tl { opacity: .16; transform: scale(.86); }
+  .morph.done .morph-tl { opacity: 0; }
+  .pack { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 4; perspective: 1035px; }
+  .doc {
+    position: absolute; z-index: 2; width: 110px; height: 138px; background: #fff; border: 1px solid var(--border); border-radius: 11.5px;
+    box-shadow: 0 9.2px 25.3px rgba(57,54,51,.14); padding: 16px 14px; display: flex; flex-direction: column; gap: 8px;
+    opacity: 0; transform: scale(.5) translateY(16px); transition: opacity 450ms ease-out, transform 600ms cubic-bezier(.22,1,.36,1);
   }
-  .tl-track.in-view .tl-return { opacity: 1; }
-  .tl-return i { width: 6px; height: 6px; border-radius: 50%; background: var(--koks); flex: 0 0 auto; display: block; }
+  .doc i { display: block; height: 4.6px; border-radius: 2px; background: var(--beige); }
+  .doc i:first-child { height: 6.9px; width: 62%; background: var(--dark-green); }
+  .doc i:last-child { width: 48%; }
+  .morph.packing .doc { opacity: 1; transform: none; }
+  .morph.enveloped .doc { transform: translateY(25.3px) scale(.9); opacity: 1; }
+  .morph.closed .doc { transform: translateY(46px) scale(.86); opacity: 0; transition: opacity 300ms ease-out 180ms, transform 500ms cubic-bezier(.22,1,.36,1); }
+  .env {
+    position: absolute; z-index: 3; width: 181.7px; height: 82.8px; border-radius: 13.8px;
+    background: linear-gradient(165deg, #8a6664 0%, #715050 60%, #634545 100%);
+    box-shadow: 0 13.8px 34.5px rgba(57,54,51,.22), inset 0 1px 0 rgba(255,255,255,.14);
+    opacity: 0; transform: translateY(66.7px) scale(.94); transition: opacity 400ms cubic-bezier(.22,1,.36,1), transform 620ms cubic-bezier(.22,1,.36,1);
+    overflow: visible; transform-style: preserve-3d; margin-top: 50.6px;
+  }
+  .env::before { content: ""; position: absolute; inset: 0; border-radius: 13.8px; background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(0,0,0,.12)); clip-path: polygon(0 100%, 50% 40%, 100% 100%); pointer-events: none; }
+  .env .flap {
+    position: absolute; left: 0; right: 0; top: 0; height: 52.9px; border-radius: 13.8px 13.8px 0 0;
+    background: linear-gradient(180deg, var(--sage) 0%, #7a5755 100%); clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: 50% 0; transform: rotateX(-171deg); transition: transform 600ms cubic-bezier(.22,1,.36,1); z-index: 4;
+  }
+  .morph.closed .env .flap { transform: rotateX(0deg); }
+  .env .stamp {
+    position: absolute; left: 50%; top: 50%; z-index: 5; width: 52.9px; height: 52.9px; margin: -26.4px 0 0 -26.4px;
+    border-radius: 999px; background: #fff; box-shadow: 0 4.6px 16.1px rgba(57,54,51,.28);
+    display: flex; align-items: center; justify-content: center; opacity: 0;
+    transform: translateZ(2px) scale(2.4) rotate(-20deg); transition: opacity 180ms ease-out, transform 340ms cubic-bezier(.34,1.56,.64,1);
+  }
+  .env .stamp::after { content: ""; width: 12.6px; height: 21.8px; border: solid var(--dark-green); border-width: 0 3.4px 3.4px 0; transform: rotate(45deg) translate(-2px,-3.4px); }
+  .morph.stamped .env .stamp { opacity: 1; transform: translateZ(2px) scale(1) rotate(-9deg); }
+  .morph.enveloped .env { opacity: 1; transform: translateY(0) scale(1); }
+  .morph.sent .env { opacity: 0; transform: translate(241.5px,-16.1px) rotate(-8deg) scale(.78); transition: opacity 600ms ease-out 100ms, transform 750ms cubic-bezier(.4,0,.2,1); }
+  .morph.sent .doc { opacity: 0; transform: translate(230px,-29.9px) rotate(-8deg) scale(.7); transition: opacity 500ms ease-out, transform 750ms cubic-bezier(.4,0,.2,1); }
 
-  .tl-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 18px;
-    margin-top: 20px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--muted-grey);
+  .receipt {
+    position: absolute; top: 0; left: 0; right: 0; margin: 0 auto; width: auto; max-width: 494px;
+    transform: translateY(16px) scale(.96);
+    opacity: 0; pointer-events: none; transition: opacity 400ms ease-out, transform 500ms cubic-bezier(.34,1.56,.64,1);
   }
-  .tl-legend span { display: inline-flex; align-items: center; gap: 7px; }
-  .tl-legend i { width: 13px; height: 9px; border-radius: 3px; display: block; flex: 0 0 auto; }
-  .tl-legend i.tl-ferie {
-    background: repeating-linear-gradient(45deg,
-      var(--koks-5) 0, var(--koks-5) 2.5px,
-      var(--sand-deep) 2.5px, var(--sand-deep) 7px);
+  .receipt > div { background: #fff; border: 1px solid var(--border); border-top: 3.4px solid var(--dark-green); border-radius: 16px; padding: 21px 21px 23px; box-shadow: 0 9.2px 29.9px rgba(57,54,51,.1); text-align: center; }
+  .rc-p { margin-top: 7px; font-size: 14.4px; line-height: 1.45; color: var(--text-muted); }
+  .rc-btn { display: inline-flex; align-items: center; justify-content: center; margin-top: 16px; padding: 13.8px 25.3px; border-radius: 11.5px; background: var(--dark-green); color: #fff; font-size: 14.9px; font-weight: 600; border: 0; font-family: inherit; cursor: pointer; text-decoration: none; transition: background-color 150ms ease-out; }
+  .rc-btn:hover { background: var(--green-dark); }
+  .rc-btn:active { transform: scale(.97); }
+  .morph.done .receipt { opacity: 1; transform: none; pointer-events: auto; }
+  .rc-pill { position: relative; display: inline-flex; align-items: center; gap: 9.2px; background: rgba(113,80,80,.12); color: var(--green-dark); border-radius: 999px; padding: 6.9px 17.2px; font-size: 14.4px; font-weight: 600; }
+  .rc-pill::before { content: ""; width: 19.5px; height: 19.5px; border-radius: 999px; background: var(--dark-green); flex: 0 0 auto; }
+  .rc-pill::after { content: ""; position: absolute; left: 24.1px; top: 50%; width: 4.6px; height: 9.2px; margin-top: -6.9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .rc-h { margin-top: 14px; font-size: 21.8px; font-weight: 700; letter-spacing: -.025em; color: var(--charcoal); }
+  .rc-eyebrow { margin-top: 16px; font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); }
+  .rc-list { display: flex; flex-direction: column; gap: 7px; margin-top: 11.5px; }
+  .rc-row { display: flex; align-items: center; gap: 12.6px; background: var(--beige); border-radius: 11.5px; padding: 12.6px 14.9px; min-height: 60px; text-align: left; opacity: 0; transform: translateY(6.9px); transition: opacity 350ms ease-out, transform 350ms ease-out; }
+  .morph.done .rc-row { opacity: 1; transform: none; }
+  .morph.done .rc-row:nth-child(1) { transition-delay: .25s; }
+  .morph.done .rc-row:nth-child(2) { transition-delay: .4s; }
+  .morph.done .rc-row:nth-child(3) { transition-delay: .55s; }
+  .rc-row .txt { flex: 1; min-width: 0; }
+  .rc-row strong { display: block; font-size: 14.9px; font-weight: 600; color: var(--charcoal); }
+  .rc-row span { display: block; font-size: 13.2px; line-height: 1.35; color: var(--text-muted); margin-top: 1px; }
+  .rc-row .tick { width: 25.3px; height: 25.3px; border-radius: 999px; background: var(--taupe); flex: 0 0 auto; position: relative; order: 2; }
+  .rc-row .tick::after { content: ""; position: absolute; left: 9.2px; top: 6.9px; width: 5.8px; height: 10.3px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+  /* telefon: tidslinjen holder sig inden for skærmen (samme regler som messe) */
+  @media (max-width: 827px) {
+    .morph { grid-template-columns: minmax(0, 1fr); }
+    .morph-tl, .tl-scroll, .tl-rows, .tl-track { min-width: 0; }
+    .tl-rows { gap: 0; margin-top: 14px; }
+    .tl-labels { display: none; }
+    .tl-months span { font-size: 9.8px; }
+    .tl-months span:nth-child(even) { visibility: hidden; }
+    .tl-seg { font-size: 9.2px; padding: 0 2px; }
+    .tl-seg .u { display: none; }
+    .tl-return { left: calc(63.44% + 6px); right: auto; font-size: 8.6px; }
+    .tl-legend { gap: 7px 14px; }
+    .tl-flag { transform: translateX(-30%); }
+    .tl-flag.on { animation: flagpop-m 500ms cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes flagpop-m { 0% { opacity: 0; transform: translateX(-30%) scale(.5); } 60% { opacity: 1; transform: translateX(-30%) scale(1.14); } 100% { opacity: 1; transform: translateX(-30%) scale(1); } }
+    .receipt > div { padding: 18px 16px 20px; }
   }
-  .dot-5 {
-    background: repeating-linear-gradient(135deg,
-      rgba(125,88,84,0.35) 0 3px,
-      rgba(125,88,84,0.08) 3px 6px);
+  @media (prefers-reduced-motion: reduce) {
+    .doc, .env { display: none; }
+    .morph.packing .morph-tl, .morph.done .morph-tl { opacity: 1; transform: none; }
+    .tl-seg, .tl-return, .tl-flag, .tl-legend span, .tl-birthline { clip-path: none !important; opacity: 1 !important; transform: none !important; }
   }
 
   /* ============================================================
@@ -708,9 +691,6 @@
     .sidebar { padding: 14px 16px 14px 18px; }
     .sidebar h3 { font-size: 13.5px; }
     .sidebar p  { font-size: 12.8px; line-height: 1.6; }
-    .timeline-teaser { padding: 22px 16px 20px; margin-top: 22px; }
-    .tl-flag { font-size: 9.5px; padding: 3px 9px 3px 6px; }
-    .tl-months { font-size: 9.5px; }
     .section { margin-top: 48px; }
     .section-label { gap: 12px; }
     .faq-question { padding: 16px 18px; }
@@ -799,37 +779,59 @@
     </div>
     <p class="section-sub" style="max-width: 680px;">Orlovsplanen bliver udfyldt af medarbejderen og delt med alle relevante parter og systemer.</p>
 
-    <div class="timeline-teaser">
-      <div class="timeline-scroll">
-        <div class="timeline-inner">
-          <div class="tl-rows">
-            <div class="tl-labels"><div></div><div>Medarbejder</div></div>
-            <div class="tl-track" id="timelineTrack">
-              <div class="tl-flag" style="left:14.26%"><span class="tl-baby">👶</span>Fødsel · 1. juni</div>
-              <span class="tl-birthline" style="left:14.26%" aria-hidden="true"></span>
-              <div class="tl-months">
-                <span>apr</span><span>maj</span><span class="on">jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
+      <div class="timeline-teaser">
+        <div class="morph" id="morph">
+          <div class="morph-tl">
+            <div class="tl-scroll">
+              <div class="tl-rows">
+                <div class="tl-labels"><div></div><div>Medarbejder</div></div>
+                <div class="tl-track">
+                  <div class="tl-flag"><span class="baby"></span>Fødsel · 1. juni</div>
+                  <span class="tl-birthline" aria-hidden="true"></span>
+                  <div class="tl-months">
+                    <span>apr</span><span>maj</span><span class="on">jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
+                  </div>
+                  <div class="tl-bar">
+                    <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--taupe)">4<span class="u">&nbsp;uger</span></span>
+                    <span class="tl-seg" style="left:14.26%;width:16.39%;background:var(--dark-green)">10 uger</span>
+                    <span class="tl-seg" style="left:30.66%;width:14.75%;background:var(--charcoal)">9 uger</span>
+                    <span class="tl-seg" style="left:45.41%;width:13.11%;background:#7a7771">8 uger</span>
+                    <span class="tl-seg tl-ferie" style="left:58.52%;width:4.92%"></span>
+                    <span class="tl-return"><i></i>Tilbage på arbejde</span>
+                  </div>
+                </div>
               </div>
-              <div class="tl-bar">
-                <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--koks-5)"></span>
-                <span class="tl-seg" style="left:14.26%;width:16.39%;background:var(--koks)">10 uger</span>
-                <span class="tl-seg" style="left:30.66%;width:14.75%;background:var(--charcoal)">9 uger</span>
-                <span class="tl-seg" style="left:45.41%;width:13.11%;background:#7a7771">8 uger</span>
-                <span class="tl-seg tl-ferie" style="left:58.52%;width:4.92%"></span>
-                <span class="tl-return" style="left:64.6%"><i></i>Tilbage på arbejde</span>
+            </div>
+            <div class="tl-legend">
+              <span><i style="background:var(--taupe)"></i>Graviditetsorlov</span>
+              <span><i style="background:var(--dark-green)"></i>Barselsorlov</span>
+              <span><i style="background:var(--charcoal)"></i>Øremærket forældreorlov</span>
+              <span><i style="background:#7a7771"></i>Overført forældreorlov</span>
+              <span><i class="tl-ferie"></i>Planlagt ferie</span>
+            </div>
+          </div>
+
+          <div class="pack" aria-hidden="true">
+            <span class="doc"><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="env"><span class="flap"></span><span class="stamp"></span></span>
+          </div>
+
+          <div class="receipt" role="status">
+            <div>
+              <span class="rc-pill">Afsendt</span>
+              <p class="rc-h">Dit orlovsoverblik er sendt</p>
+              <p class="rc-p">Dit orlovsforløb er blevet registreret og sendt til de relevante modtagere.</p>
+              <p class="rc-eyebrow">Sendt til</p>
+              <div class="rc-list">
+                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>HR og løn</strong><span>Løn- og HR-afdelingen er orienteret</span></span></div>
+                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Nærmeste leder</strong><span>Din leder er orienteret</span></span></div>
+                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Du modtager også en kopi</strong><span>En kopi af dit orlovsforløb er sendt til din mail</span></span></div>
               </div>
+              <button class="rc-btn" type="button" id="rc-download">Download orlovsforløb i PDF</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="tl-legend">
-        <span><i style="background:var(--koks-5)"></i>Graviditetsorlov</span>
-        <span><i style="background:var(--koks)"></i>Barselsorlov</span>
-        <span><i style="background:var(--charcoal)"></i>Øremærket forældreorlov</span>
-        <span><i style="background:#7a7771"></i>Overført forældreorlov</span>
-        <span><i class="tl-ferie"></i>Planlagt ferie</span>
-      </div>
-    </div>
   </section>
 
   <!-- ============================================================
@@ -1058,23 +1060,102 @@
     });
   });
 
-  /* -------- Tidslinje: afspil animation når den ses -------- */
-  var timelineTrack = document.getElementById('timelineTrack');
-  if (timelineTrack) {
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            timelineTrack.classList.add('in-view');
-            io.unobserve(timelineTrack);
-          }
-        });
-      }, { threshold: 0.4 });
-      io.observe(timelineTrack);
-    } else {
-      timelineTrack.classList.add('in-view');
-    }
+/* -------- Medarbejderens plan: tidslinje + morph (afspilles/loopes mens sektionen er synlig) -------- */
+(function () {
+  var morph = document.getElementById('morph');
+  if (!morph) return;
+  var tl = morph.closest('.timeline-teaser');
+  var tlSegs = [].slice.call(morph.querySelectorAll('.tl-seg'));
+  var tlLegend = [].slice.call(morph.querySelectorAll('.tl-legend span'));
+  var tlFlag = morph.querySelector('.tl-flag');
+  var tlBirth = morph.querySelector('.tl-birthline');
+  var tlReturn = morph.querySelector('.tl-return');
+  var morphTl = morph.querySelector('.morph-tl');
+  var morphRc = morph.querySelector('.receipt');
+  var tlTimers = [], morphTimers = [], replayTimer = null;
+  var LOOP_PAUSE = 3500;
+  var noMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function tlClear() {
+    tlTimers.forEach(clearTimeout); tlTimers = [];
+    tlSegs.concat(tlLegend).forEach(function (el) { el.classList.remove('on'); });
+    [tlFlag, tlBirth, tlReturn].forEach(function (el) { if (el) el.classList.remove('on'); });
   }
+  function tlAt(ms, fn) { tlTimers.push(setTimeout(fn, ms)); }
+  function tlPlay() {
+    tlClear();
+    void morph.offsetWidth;
+    tlAt(120, function () { if (tlFlag) tlFlag.classList.add('on'); });
+    tlAt(260, function () { if (tlBirth) tlBirth.classList.add('on'); });
+    tlSegs.forEach(function (seg, i) {
+      tlAt(800 + i * 850, function () {
+        seg.classList.add('on');
+        if (tlLegend[i]) tlLegend[i].classList.add('on');
+        sizeMorph();
+      });
+    });
+    tlAt(800 + tlSegs.length * 850, function () { if (tlReturn) tlReturn.classList.add('on'); });
+  }
+  function sizeMorph() {
+    var h = morph.classList.contains('done') ? morphRc.scrollHeight : morphTl.scrollHeight;
+    morph.style.height = h + 'px';
+    sendHeight();
+  }
+  function playMorph() {
+    morphTimers.forEach(clearTimeout); morphTimers = [];
+    morph.className = 'morph';
+    sizeMorph();
+    void morph.offsetWidth;
+    var base = 800 + tlSegs.length * 850 + 1400;
+    var steps = [[0, 'packing'], [1200, 'enveloped'], [2100, 'closed'], [2800, 'stamped'], [3600, 'sent']];
+    steps.forEach(function (s) {
+      morphTimers.push(setTimeout(function () { morph.classList.add(s[1]); sizeMorph(); }, base + s[0]));
+    });
+    var doneAt = base + steps[steps.length - 1][0] + 750;
+    morphTimers.push(setTimeout(function () { morph.classList.add('done'); sizeMorph(); }, doneAt));
+    if (noMotion) return;
+    morphTimers.push(setTimeout(function () {
+      if (!inView || document.hidden) return;
+      replay();
+    }, doneAt + LOOP_PAUSE));
+  }
+  function reset() {
+    clearTimeout(replayTimer);
+    morphTimers.forEach(clearTimeout); morphTimers = [];
+    morph.className = 'morph';
+    sizeMorph();
+    tlClear();
+  }
+  function replay() {
+    reset();
+    replayTimer = setTimeout(function () { tlPlay(); playMorph(); }, 260);
+  }
+
+  window.addEventListener('resize', sizeMorph);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && !noMotion && inView) replay();
+  });
+
+  var inView = false;
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !inView) {
+          inView = true;
+          replay();
+        } else if (!entry.isIntersecting && inView) {
+          inView = false;
+          reset();
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(tl);
+  } else {
+    inView = true;
+    morph.className = 'morph packing enveloped closed stamped done';
+    sizeMorph();
+  }
+})();
 
   /* -------- Proces: wiggle-pile ved hover på boks -------- */
   var boxArrowMap = {
