@@ -185,6 +185,7 @@
   .rc-p { margin-top: 7px; font-size: 14.4px; line-height: 1.45; color: var(--text-muted); }
   .rc-btn { display: inline-flex; align-items: center; justify-content: center; margin-top: 16px; padding: 13.8px 25.3px; border-radius: 11.5px; background: var(--dark-green); color: #fff; font-size: 14.9px; font-weight: 600; border: 0; font-family: inherit; cursor: pointer; text-decoration: none; transition: background-color 150ms ease-out; }
   .rc-btn:hover { background: var(--green-dark); }
+  .rc-btn:active { transform: scale(.97); }
   .morph.done .receipt { opacity: 1; transform: none; pointer-events: auto; }
   .rc-pill { position: relative; display: inline-flex; align-items: center; gap: 9.2px; background: rgba(113,80,80,.12); color: var(--green-dark); border-radius: 999px; padding: 6.9px 17.2px; font-size: 14.4px; font-weight: 600; }
   .rc-pill::before { content: ""; width: 19.5px; height: 19.5px; border-radius: 999px; background: var(--dark-green); flex: 0 0 auto; }
@@ -734,61 +735,6 @@ document.querySelectorAll('.logo img').forEach(function (img) {
     morph.className = 'morph packing enveloped closed stamped done';
     sizeMorph();
   }
-
-  var pdfBtn = document.getElementById('rc-download');
-  if (pdfBtn) pdfBtn.addEventListener('click', function () {
-    var lines = [
-      ['H', 'Orlovsforløb'],
-      ['P', 'Genereret af EasyLeave - eksempel'],
-      ['S', 'Medarbejder'],
-      ['P', 'Fødsel: 1. juni'],
-      ['S', 'Perioder'],
-      ['P', 'Graviditetsorlov      4 uger før fødsel'],
-      ['P', 'Barselsorlov          10 uger'],
-      ['P', 'Øremærket forældreorlov 9 uger'],
-      ['P', 'Overført forældreorlov  8 uger'],
-      ['P', 'Planlagt ferie         3 uger'],
-      ['S', 'Sendt til'],
-      ['P', 'HR/Løn - orienteret'],
-      ['P', 'Leder - orienteret'],
-      ['P', 'Medarbejderen selv - kopi pr. mail'],
-      ['S', 'Status'],
-      ['P', 'Afsendt og registreret']
-    ];
-    var y = 780, ops = [];
-    lines.forEach(function (l) {
-      var esc = l[1].replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)')
-        .replace(/æ/g, '\\346').replace(/ø/g, '\\370').replace(/å/g, '\\345')
-        .replace(/Æ/g, '\\306').replace(/Ø/g, '\\330').replace(/Å/g, '\\305');
-      if (l[0] === 'H') { ops.push('BT /F2 22 Tf 0.22 0.19 0.17 rg 60 ' + y + ' Td (' + esc + ') Tj ET'); y -= 34; }
-      else if (l[0] === 'S') { y -= 12; ops.push('BT /F2 12 Tf 0.44 0.31 0.31 rg 60 ' + y + ' Td (' + esc + ') Tj ET'); y -= 20; }
-      else { ops.push('BT /F1 11 Tf 0.28 0.26 0.24 rg 60 ' + y + ' Td (' + esc + ') Tj ET'); y -= 17; }
-    });
-    var stream = ops.join('\n');
-    var objs = [
-      '<< /Type /Catalog /Pages 2 0 R >>',
-      '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
-      '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>',
-      '<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream',
-      '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
-      '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'
-    ];
-    var pdf = '%PDF-1.4\n', offsets = [];
-    objs.forEach(function (o, i) {
-      offsets.push(pdf.length);
-      pdf += (i + 1) + ' 0 obj\n' + o + '\nendobj\n';
-    });
-    var xref = pdf.length;
-    pdf += 'xref\n0 ' + (objs.length + 1) + '\n0000000000 65535 f \n';
-    offsets.forEach(function (o) { pdf += String(o).padStart(10, '0') + ' 00000 n \n'; });
-    pdf += 'trailer\n<< /Size ' + (objs.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF';
-    var blob = new Blob([pdf], { type: 'application/pdf' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'orlovsforloeb-easyleave.pdf';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
-  });
 })();
 </script>
 </body>
