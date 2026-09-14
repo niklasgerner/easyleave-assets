@@ -61,7 +61,7 @@
   }
 
   body {
-    padding: 40px 24px 48px;
+    padding: 12px 24px 48px;
     overflow-x: hidden;
   }
 
@@ -278,128 +278,135 @@
     color: var(--muted-grey);
     max-width: 56ch;
   }
-  .timeline-track { position: relative; padding-top: 34px; }
   .timeline-scroll { overflow-x: auto; overflow-y: hidden; margin: 0 -2px; padding: 0 2px 2px; }
   .timeline-inner { min-width: 620px; }
 
-  .timeline-marker {
+  /* -------- Tidslinje — samme struktur/animation som landingpagens .timeline -------- */
+  .tl-rows { display: flex; align-items: stretch; gap: 10px; }
+  .tl-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    padding-bottom: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted-grey);
+  }
+  .tl-labels div:first-child { height: 46px; }
+  .tl-labels div:last-child { height: 34px; display: flex; align-items: center; white-space: nowrap; }
+
+  .tl-track { position: relative; flex: 1 1 auto; padding-top: 46px; }
+
+  .tl-flag {
     position: absolute;
     top: 0;
     transform: translateX(-50%);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    opacity: 0;
-    transition: opacity 500ms ease 200ms;
-    z-index: 2;
-  }
-  .timeline-track.in-view .timeline-marker { opacity: 1; }
-  .timeline-marker-pill {
-    background: var(--green-dark);
+    gap: 5px;
+    background: var(--koks);
     color: #fff;
-    font-size: 11.5px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.01em;
-    padding: 5px 12px;
+    padding: 4px 11px 4px 7px;
     border-radius: 999px;
     white-space: nowrap;
     box-shadow: 0 3px 10px rgba(58,56,53,0.18);
+    opacity: 0;
+    transition: opacity 450ms ease-out, transform 450ms cubic-bezier(.2,.7,.2,1);
   }
-  .timeline-marker-dot {
-    width: 2px;
-    height: 16px;
-    background: var(--green-dark);
-    margin-top: 2px;
-  }
+  .tl-track.in-view .tl-flag { opacity: 1; }
+  .tl-baby { font-size: 12px; line-height: 1; }
 
-  .timeline-bar-row {
-    display: flex;
-    align-items: center;
-    height: 34px;
-    border-radius: 999px;
-    background: var(--beige);
-    overflow: hidden;
-    position: relative;
-  }
-  .timeline-bar {
-    height: 100%;
+  .tl-birthline {
+    position: absolute;
+    top: 22px;
     width: 0;
+    height: 24px;
+    border-left: 1px dashed var(--koks);
+    opacity: 0;
+    transition: opacity 450ms ease-out 100ms;
+  }
+  .tl-track.in-view .tl-birthline { opacity: 1; }
+
+  .tl-months {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted-grey);
+    letter-spacing: 0.01em;
+  }
+  .tl-months span { flex: 1; text-align: left; }
+  .tl-months .on { color: var(--koks); font-weight: 700; }
+
+  .tl-bar {
+    position: relative;
+    height: 34px;
+    border-radius: 8px;
+    background: #eae4e4;
+    overflow: visible;
+  }
+  .tl-seg {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: width 1800ms cubic-bezier(.16,.6,.2,1);
-    overflow: hidden;
-  }
-  .timeline-track.in-view .timeline-bar { width: var(--w); }
-  .timeline-bar span {
-    font-size: 11px;
-    font-weight: 700;
     color: #fff;
+    font-size: 10.5px;
+    font-weight: 600;
     white-space: nowrap;
-    opacity: 0;
-    transition: opacity 400ms ease 1400ms;
+    overflow: hidden;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 550ms cubic-bezier(.22,1,.36,1);
+    transition-delay: 150ms;
   }
-  .timeline-track.in-view .timeline-bar span { opacity: 1; }
-
-  .bar-1 { background: var(--taupe); }
-  .bar-2 { background: var(--mauve); }
-  .bar-3 { background: var(--green-dark); }
-  .bar-4 { background: var(--grey-mid); }
-  .bar-4 span { color: var(--charcoal); }
-  .bar-5 {
-    background: repeating-linear-gradient(135deg,
-      rgba(125,88,84,0.16) 0 6px,
-      rgba(125,88,84,0.05) 6px 12px);
+  .tl-track.in-view .tl-seg { clip-path: inset(0 0 0 0); }
+  .tl-ferie {
+    background: repeating-linear-gradient(45deg,
+      var(--koks-5) 0, var(--koks-5) 2.5px,
+      var(--sand-deep) 2.5px, var(--sand-deep) 7px);
   }
 
-  .timeline-end-marker {
+  .tl-return {
     position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
+    top: 0;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 6px;
-    opacity: 0;
-    transition: opacity 400ms ease 1750ms;
-    white-space: nowrap;
-  }
-  .timeline-track.in-view .timeline-end-marker { opacity: 1; }
-  .timeline-end-marker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-dark); flex: 0 0 auto; }
-  .timeline-end-marker span {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--charcoal);
-    background: var(--off-white);
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
-
-  .timeline-months {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 11.5px;
+    gap: 5px;
+    font-size: 10.5px;
     font-weight: 600;
     color: var(--muted-grey);
-    letter-spacing: 0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 400ms ease-out 750ms;
   }
-  .timeline-months span { flex: 1; text-align: left; }
+  .tl-track.in-view .tl-return { opacity: 1; }
+  .tl-return i { width: 6px; height: 6px; border-radius: 50%; background: var(--koks); flex: 0 0 auto; display: block; }
 
-  .timeline-legend {
+  .tl-legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 18px;
+    gap: 8px 18px;
     margin-top: 20px;
     font-size: 12.5px;
     font-weight: 500;
     color: var(--muted-grey);
   }
-  .timeline-legend span { display: inline-flex; align-items: center; gap: 7px; }
-  .timeline-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
-  .dot-1 { background: var(--taupe); }
-  .dot-2 { background: var(--mauve); }
-  .dot-3 { background: var(--green-dark); }
-  .dot-4 { background: var(--grey-mid); }
+  .tl-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .tl-legend i { width: 13px; height: 9px; border-radius: 3px; display: block; flex: 0 0 auto; }
+  .tl-legend i.tl-ferie {
+    background: repeating-linear-gradient(45deg,
+      var(--koks-5) 0, var(--koks-5) 2.5px,
+      var(--sand-deep) 2.5px, var(--sand-deep) 7px);
+  }
   .dot-5 {
     background: repeating-linear-gradient(135deg,
       rgba(125,88,84,0.35) 0 3px,
@@ -698,8 +705,8 @@
     .sidebar h3 { font-size: 13.5px; }
     .sidebar p  { font-size: 12.8px; line-height: 1.6; }
     .timeline-teaser { padding: 22px 16px 20px; margin-top: 22px; }
-    .timeline-marker-pill { font-size: 10.5px; padding: 4px 10px; }
-    .timeline-months { font-size: 10px; }
+    .tl-flag { font-size: 9.5px; padding: 3px 9px 3px 6px; }
+    .tl-months { font-size: 9.5px; }
     .section { margin-top: 48px; }
     .section-label { gap: 12px; }
     .faq-question { padding: 16px 18px; }
@@ -788,39 +795,37 @@
 
     <div class="timeline-teaser">
       <div class="timeline-head">
-        <h3>Se orlovsplanen tage form</h3>
-        <p>Fra varslet fødselsdato til godkendt forløb – EasyLeave holder styr på tidslinjen for medarbejder, leder og administration.</p>
+        <h3>Fra medarbejderens plan til godkendt sag</h3>
+        <p>Orlovsplanen bliver udfyldt af medarbejderen og delt med alle relevante parter og systemer.</p>
       </div>
       <div class="timeline-scroll">
         <div class="timeline-inner">
-          <div class="timeline-track" id="timelineTrack">
-            <div class="timeline-marker" style="left:15%">
-              <span class="timeline-marker-pill">Fødsel · 1. juni</span>
-              <span class="timeline-marker-dot"></span>
-            </div>
-            <div class="timeline-bar-row">
-              <div class="timeline-bar bar-1" style="--w:15%"></div>
-              <div class="timeline-bar bar-2" style="--w:18%"><span>10 uger</span></div>
-              <div class="timeline-bar bar-3" style="--w:16%"><span>9 uger</span></div>
-              <div class="timeline-bar bar-4" style="--w:14%"><span>8 uger</span></div>
-              <div class="timeline-bar bar-5" style="--w:8%"></div>
-            </div>
-            <div class="timeline-end-marker" style="left:73%">
-              <span class="dot"></span>
-              <span>Tilbage på arbejde</span>
-            </div>
-            <div class="timeline-months">
-              <span>apr</span><span>maj</span><span>jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
+          <div class="tl-rows">
+            <div class="tl-labels"><div></div><div>Medarbejder</div></div>
+            <div class="tl-track" id="timelineTrack">
+              <div class="tl-flag" style="left:14.26%"><span class="tl-baby">👶</span>Fødsel · 1. juni</div>
+              <span class="tl-birthline" style="left:14.26%" aria-hidden="true"></span>
+              <div class="tl-months">
+                <span>apr</span><span>maj</span><span class="on">jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
+              </div>
+              <div class="tl-bar">
+                <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--koks-5)"></span>
+                <span class="tl-seg" style="left:14.26%;width:16.39%;background:var(--koks)">10 uger</span>
+                <span class="tl-seg" style="left:30.66%;width:14.75%;background:var(--charcoal)">9 uger</span>
+                <span class="tl-seg" style="left:45.41%;width:13.11%;background:#7a7771">8 uger</span>
+                <span class="tl-seg tl-ferie" style="left:58.52%;width:4.92%"></span>
+                <span class="tl-return" style="left:64.6%"><i></i>Tilbage på arbejde</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="timeline-legend">
-        <span><i class="dot dot-1"></i>Graviditetsorlov</span>
-        <span><i class="dot dot-2"></i>Barselsorlov</span>
-        <span><i class="dot dot-3"></i>Øremærket forældreorlov</span>
-        <span><i class="dot dot-4"></i>Overført forældreorlov</span>
-        <span><i class="dot dot-5"></i>Planlagt ferie</span>
+      <div class="tl-legend">
+        <span><i style="background:var(--koks-5)"></i>Graviditetsorlov</span>
+        <span><i style="background:var(--koks)"></i>Barselsorlov</span>
+        <span><i style="background:var(--charcoal)"></i>Øremærket forældreorlov</span>
+        <span><i style="background:#7a7771"></i>Overført forældreorlov</span>
+        <span><i class="tl-ferie"></i>Planlagt ferie</span>
       </div>
     </div>
   </section>
