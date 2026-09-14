@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyLeave - Digital orlovsadministration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Delt palette — matcher produkt/kontakt/data-vilkår/om-os/referencer/implementering (Barsel. Nemt.) */
+    --dark-green: #715050;
+    --green-dark: #4a3230;
+    --sage: #96706e;
+    --mauve: #8a5754;
+    --taupe: #d8beb8;
+    --charcoal: #3a3835;
+    --text: #3a3835;
+    --muted: #888580;
+    --muted-grey: #888580;
+    --text-muted: #6f7770;
+    --text-soft: #a19c96;
+    --off-white: #f5f3f0;
+    --cream: #f5f3f0;
+    --beige: #e6ded9;
+    --border: rgba(58, 56, 53, 0.08);
+    --shadow-card: 0 1px 2px rgba(58,56,53,0.04), 0 8px 28px rgba(58,56,53,0.08);
+    --shadow-hover: 0 4px 12px rgba(58,56,53,0.08), 0 18px 42px rgba(58,56,53,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body { padding: 14px 24px 48px; overflow: hidden; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+
+  /* -------- Shared eyebrow -------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sage);
+    margin: 0 0 16px 0; line-height: 1.4;
+  }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
+
+  /* -------- Hero -------- */
+  .hero { padding: clamp(20px, 3vw, 36px) 0 clamp(40px, 5vw, 64px); }
+  .hero .headline {
+    font-size: clamp(3rem, 9vw, 5.6rem); font-weight: 700; letter-spacing: -0.03em;
+    line-height: 0.98; color: var(--charcoal); margin: 0 0 28px 0;
+  }
+  .hero .headline .line1 { display: block; }
+  .hero .headline .accent { display: block; color: var(--dark-green); }
+  .hero .subcopy {
+    font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; color: var(--text-muted);
+    font-weight: 400; margin: 0 0 36px 0; max-width: 48ch; text-wrap: pretty;
+  }
+  .hero .cta {
+    display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; min-height: 58px;
+    background: var(--dark-green); color: #fff; text-decoration: none; font-family: inherit;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.01em; border-radius: 14px;
+    transition: transform 220ms cubic-bezier(.2,.7,.2,1), background-color 220ms ease;
+  }
+  .hero .cta:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .hero .cta .arrow { display: inline-block; transition: transform 220ms cubic-bezier(.2,.7,.2,1); }
+  .hero .cta:hover .arrow { transform: translateX(4px); }
+
+  /* -------- Section rhythm -------- */
+  .section { position: relative; z-index: 1; margin-top: 68px; }
+  .section:first-of-type { margin-top: 0; }
+  .section-label { display: flex; align-items: baseline; gap: 16px; padding-bottom: 18px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-num { font-size: 13px; font-weight: 700; color: var(--sage); letter-spacing: 0.04em; flex: 0 0 auto; }
+  .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
+  .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
+
+  /* -------- Benefit tiles -------- */
+  .benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .benefit-card {
+    background: var(--off-white); border-radius: 18px; padding: 28px 26px;
+    box-shadow: var(--shadow-card); transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .benefit-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .benefit-card h3 { font-size: 18px; font-weight: 700; color: var(--charcoal); margin-bottom: 10px; letter-spacing: -0.005em; }
+  .benefit-card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin-bottom: 16px; }
+  .benefit-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .benefit-card li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--charcoal); font-weight: 500; line-height: 1.4; }
+  .benefit-card li::before { content: "✓"; color: var(--sage); font-weight: 700; flex: 0 0 auto; }
+  .benefit-cta { text-align: center; margin-top: 32px; }
+  .benefit-cta a {
+    display: inline-flex; align-items: center; gap: 10px; background: var(--beige); color: var(--green-dark);
+    text-decoration: none; padding: 13px 28px; border-radius: 12px; font-weight: 700; font-size: 14.5px;
+    transition: background 180ms ease, transform 180ms ease;
+  }
+  .benefit-cta a:hover { background: #d8c9c2; transform: translateY(-1px); }
+
+  /* -------- Logo roller (ported 1:1 from index.html / referencer1.html) -------- */
+  .logo-card { background: var(--off-white); border-radius: 18px; box-shadow: var(--shadow-card); padding: 20px 0; }
+  .roller { width: 100%; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); }
+  .track { display: flex; width: max-content; animation: logo-scroll 40s linear infinite; align-items: center; }
+  .roller:hover .track { animation-play-state: paused; }
+  .logo {
+    --w: 200px; flex: 0 0 auto; height: 140px; display: flex; align-items: center; justify-content: center;
+    margin: 0 36px; opacity: 0.75; filter: grayscale(100%);
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+    cursor: pointer; text-decoration: none;
+  }
+  .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
+  .logo img { width: var(--w); height: auto; max-height: 100%; object-fit: contain; display: block; }
+  .s-bavarian    { --w: 150px; }
+  .s-bravida     { --w: 190px; }
+  .s-bygma       { --w: 192px; }
+  .s-gard        { --w: 186px; }
+  .s-jamo        { --w: 156px; }
+  .s-kmd         { --w: 200px; }
+  .s-lemvigh     { --w: 200px; }
+  .s-zenegy      { --w: 200px; }
+  .s-novax       { --w: 192px; }
+  .s-nti         { --w: 142px; }
+  .s-wicotec     { --w: 200px; }
+  .s-borneringen { --w: 200px; }
+  @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .logos-cta { text-align: center; margin-top: 24px; }
+  .logos-cta a { color: var(--dark-green); text-decoration: none; font-weight: 700; font-size: 14.5px; border-bottom: 1px solid rgba(74,50,48,0.25); transition: border-color 160ms ease; }
+  .logos-cta a:hover { border-bottom-color: var(--dark-green); }
+
+  /* -------- FAQ -------- */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 680px; margin: 0 auto; }
+  .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
+  .faq-question {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    width: 100%; padding: 20px 24px; background: none; border: none; text-align: left;
+    font-family: inherit; font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; color: var(--charcoal);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon { position: relative; width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--dark-green); }
+  .faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; background: #ffffff; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1); }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
+  .faq-answer a { color: var(--dark-green); font-weight: 600; text-decoration: none; }
+  .faq-answer a:hover { text-decoration: underline; }
+
+  /* -------- CTA banner -------- */
+  .cta-banner {
+    margin-top: 68px; background: var(--green-dark); border-radius: 20px;
+    padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 48px); text-align: center; color: #fff;
+  }
+  .cta-banner h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .cta-banner p { font-size: 15px; color: rgba(255,255,255,0.78); max-width: 52ch; margin: 0 auto 26px; }
+  .cta-banner a {
+    display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--green-dark);
+    text-decoration: none; padding: 15px 32px; border-radius: 12px; font-weight: 700; font-size: 15px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+  .cta-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    .benefit-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 14px 16px 48px; }
+    .hero { padding: 12px 0 32px; }
+    .logo { height: 96px; margin: 0 22px; }
+    .logo img { width: calc(var(--w) * 0.7); }
+    .section { margin-top: 52px; }
+    .faq-question { padding: 16px 18px; }
+    .faq-answer { padding: 0 18px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1 class="headline">
+        <span class="line1">Barsel.</span>
+        <span class="accent">Nemt.</span>
+      </h1>
+      <p class="subcopy">EasyLeave gør orlov til en god oplevelse for medarbejderen, frigør tid i organisationen og sikrer de data, der skal til for at løfte jeres refusionsgrundlag.</p>
+      <a class="cta" href="https://easyleave.dk/produkt" target="_top" rel="noopener">
+        Se løsningen
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <section class="section">
+      <div class="section-label">
+        <span class="section-num">01</span>
+        <h2>Sådan løfter EasyLeave jeres orlovsadministration</h2>
+      </div>
+      <div class="benefit-grid">
+        <article class="benefit-card">
+          <h3>Planlægning</h3>
+          <p>Medarbejderen guides gennem orlovsforløbet ud fra jeres gældende regler - uden behov for support eller ekspertviden.</p>
+          <ul>
+            <li>Guidet proces fra start til slut</li>
+            <li>Automatiske påmindelser undervejs</li>
+          </ul>
+        </article>
+        <article class="benefit-card">
+          <h3>Administration</h3>
+          <p>Alle orlovsforløb samles ét sted, så leder, medarbejder og administration altid arbejder ud fra de samme oplysninger.</p>
+          <ul>
+            <li>Ét samlet overblik over orlovsforløb</li>
+            <li>Frigjorte ressourcer på tværs</li>
+            <li>Integration med jeres systemer</li>
+          </ul>
+        </article>
+        <article class="benefit-card">
+          <h3>Opfølgning</h3>
+          <p>Styrer automatisk regler og datoer, så I kan holde tidsfrister og søge korrekt refusion uden forsinkelser.</p>
+          <ul>
+            <li>Korrekt data øger refusionsgrundlaget</li>
+            <li>Sporbarhed på dato og dokumentation</li>
+          </ul>
+        </article>
+      </div>
+      <div class="benefit-cta">
+        <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
+          Hør mere
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">
+        <span class="section-num">02</span>
+        <h2>Vi samarbejder med</h2>
+      </div>
+      <div class="logo-card">
+        <div class="roller"><div class="track">
+          <a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
+          <a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-matched.png" alt="Bravida"></a>
+          <a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
+          <a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/GARD-matched.png" alt="Gard"></a>
+          <a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
+          <a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
+          <a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
+          <a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
+          <a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Novax_logo-matched.png" alt="Novax"></a>
+          <a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti_primary_black-matched.png" alt="NTI"></a>
+          <a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
+          <a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
+          <a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-matched.png" alt="Bravida"></a>
+          <a class="logo s-bygma"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bygma_gruppen_cmyk-e1526633796235-matched.png" alt="Bygma Gruppen"></a>
+          <a class="logo s-gard"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/GARD-matched.png" alt="Gard"></a>
+          <a class="logo s-jamo"        href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-sikring-logo.jpg-matched.png" alt="Jamo Sikring"></a>
+          <a class="logo s-kmd"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></a>
+          <a class="logo s-lemvigh"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Lemvigh-M-ller_Long_RGB-matched.png" alt="Lemvigh-Müller"></a>
+          <a class="logo s-zenegy"      href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Logo_480x90_2x-bbe33b2b-3eb2-4c77-8f71-ccd076e6940e-matched.png" alt="Zenegy"></a>
+          <a class="logo s-novax"       href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Novax_logo-matched.png" alt="Novax"></a>
+          <a class="logo s-nti"         href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti_primary_black-matched.png" alt="NTI"></a>
+          <a class="logo s-wicotec"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Wicotec-matched.png" alt="Wicotec Kirkebjerg"></a>
+          <a class="logo s-borneringen" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
+        </div></div>
+      </div>
+      <div class="logos-cta">
+        <a href="https://easyleave.dk/referencer" target="_top" rel="noopener">Læs mere om vores kunder og partnere →</a>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-label">
+        <h2>Ofte stillede spørgsmål</h2>
+      </div>
+      <p class="section-sub" style="text-align:center; margin-left:auto; margin-right:auto;">Kort svar på det, virksomheder oftest spørger om, når de overvejer EasyLeave.</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad er EasyLeave?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">EasyLeave er en digital løsning til orlovsadministration. Medarbejderen guides gennem hele orlovsforløbet ud fra jeres gældende regler, mens planlægning, administration og opfølgning samles ét sted for organisationen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvem er løsningen til?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">EasyLeave passer til virksomheder og kommuner, uanset størrelse og kompleksitet, der ønsker at frigøre tid i HR og løn og samtidig sikre et korrekt refusionsgrundlag.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad koster EasyLeave?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Prisen tilpasses jeres organisation, så der er en klar sammenhæng mellem løsning og værdi. <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">Kontakt os</a> og få et konkret indblik i jeres muligheder.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Kan EasyLeave integreres med vores nuværende systemer?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Ja. EasyLeave integreres med jeres eksisterende løn- og HR-systemer, så leder, medarbejder og administration altid arbejder ud fra de samme oplysninger.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvordan er det med datasikkerhed og GDPR?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Al håndtering af personoplysninger sker i overensstemmelse med gældende lovgivning og jeres databehandleraftale. Se detaljerne under <a href="https://easyleave.dk/databehandling" target="_top" rel="noopener">Data &amp; vilkår</a>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor lang tid tager det at komme i gang?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">En typisk implementering tager 2-3 uger fra demo til go-live og kræver kun få timers arbejde fra jeres side. Læs mere om <a href="https://easyleave.dk/implementering" target="_top" rel="noopener">implementering</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-banner">
+      <h3>Klar til at gøre orlov nemt?</h3>
+      <p>Fortæl os kort om jeres organisation, så viser vi, hvordan EasyLeave kan passe ind hos jer.</p>
+      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
+        Kontakt os
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </div>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    setTimeout(sendHeight, 280);
+  });
+});
+
+function sendHeight() {
+  var h = document.documentElement.scrollHeight;
+  try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
+document.querySelectorAll('.logo img').forEach(function (img) {
+  img.addEventListener('load', sendHeight);
+});
+</script>
+</body>
+</html>
