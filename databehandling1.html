@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data og vilkår - EasyLeave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Delt palette — matcher produkt- og herowidget (Barsel. Nemt.) */
+    --dark-green: #715050;
+    --green: #715050;
+    --green-dark: #4a3230;
+    --sage: #96706e;
+    --mauve: #8a5754;
+    --taupe: #d8beb8;
+    --charcoal: #3a3835;
+    --text: #3a3835;
+    --muted: #888580;
+    --muted-grey: #888580;
+    --text-muted: #6f7770;
+    --text-soft: #a19c96;
+    --off-white: #f5f3f0;
+    --cream: #f5f3f0;
+    --beige: #e6ded9;
+    --beige-dark: #d8c9c2;
+    --grey-mid: #b7b0a9;
+    --border: rgba(58, 56, 53, 0.08);
+    --shadow-card: 0 1px 2px rgba(58,56,53,0.04), 0 8px 28px rgba(58,56,53,0.08);
+    --shadow-hover: 0 4px 12px rgba(58,56,53,0.08), 0 18px 42px rgba(58,56,53,0.12);
+    --shadow-sm: 0 1px 2px rgba(58, 56, 53, 0.04), 0 2px 8px rgba(58, 56, 53, 0.04);
+    --shadow-md: 0 4px 12px rgba(58, 56, 53, 0.05), 0 12px 24px rgba(58, 56, 53, 0.06);
+    --heading-color: #715050;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body { padding: 40px 24px 48px; overflow-x: hidden; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+
+  /* -------- Shared eyebrow -------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sage);
+    margin: 0 0 16px 0; line-height: 1.4;
+  }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
+
+  /* -------- Intro -------- */
+  .intro { text-align: center; max-width: 680px; margin: 0 auto 44px; padding: 8px 8px 4px; }
+  .intro h1 {
+    font-size: clamp(2.1rem, 4.4vw, 3rem); font-weight: 800; color: var(--charcoal);
+    letter-spacing: -0.02em; line-height: 1.12; max-width: 20ch; margin: 0 auto 18px;
+  }
+  .intro h1 .h-strong { color: var(--dark-green); }
+  .intro-sub { font-size: clamp(15.5px, 1.6vw, 18px); line-height: 1.6; color: var(--text-muted); max-width: 52ch; margin: 0 auto; text-wrap: pretty; }
+
+  /* -------- Trust strip -------- */
+  .trust-strip {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 14px 32px; padding: 20px 24px; background: var(--off-white); border-radius: 16px;
+    box-shadow: var(--shadow-card); margin-bottom: 56px;
+  }
+  .trust-item { display: flex; align-items: center; gap: 12px; font-size: 13.8px; font-weight: 600; color: var(--charcoal); white-space: nowrap; }
+  .trust-item-icon {
+    flex-shrink: 0; width: 32px; height: 32px; border-radius: 10px;
+    background: rgba(150,112,110,0.14); display: flex; align-items: center; justify-content: center; color: var(--sage);
+  }
+  .trust-item-icon svg { width: 16px; height: 16px; }
+
+  /* -------- Section rhythm -------- */
+  .section { position: relative; z-index: 1; margin-top: 76px; }
+  .section:first-of-type { margin-top: 0; }
+  .section-label { display: flex; align-items: baseline; gap: 16px; padding-bottom: 18px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-num { font-size: 13px; font-weight: 700; color: var(--sage); letter-spacing: 0.04em; flex: 0 0 auto; }
+  .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
+  .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
+
+  /* -------- Doc cards -------- */
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .doc-card {
+    background: var(--off-white); border-radius: 18px; padding: 30px 26px 26px;
+    display: flex; flex-direction: column; box-shadow: var(--shadow-card);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .doc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .doc-icon {
+    width: 52px; height: 52px; border-radius: 14px; background: rgba(150,112,110,0.14);
+    display: flex; align-items: center; justify-content: center; color: var(--sage); margin-bottom: 18px;
+  }
+  .doc-icon svg { width: 25px; height: 25px; }
+  .doc-card h3 { margin: 0 0 10px; font-size: 18px; font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; line-height: 1.3; }
+  .doc-card p { margin: 0 0 18px; font-size: 14px; color: var(--text-muted); line-height: 1.6; font-weight: 400; flex-grow: 1; }
+  .updated-tag {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--sage);
+    margin-bottom: 18px; padding: 5px 10px; background: rgba(150,112,110,0.12); border-radius: 999px; align-self: flex-start;
+  }
+  .updated-tag svg { width: 12px; height: 12px; }
+  .download-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--beige); color: var(--green-dark); text-decoration: none; padding: 12px 18px;
+    border-radius: 12px; font-size: 14.5px; font-weight: 600; font-family: inherit;
+    transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+  .download-btn:hover { background: var(--beige-dark); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(58,56,53,0.12); }
+  .download-btn:active { transform: translateY(0); }
+  .download-btn svg { width: 16px; height: 16px; }
+
+  /* -------- FAQ -------- */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
+  .faq-question {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    width: 100%; padding: 20px 24px; background: none; border: none; text-align: left;
+    font-family: inherit; font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; color: var(--charcoal);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon { position: relative; width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--dark-green); }
+  .faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; background: #ffffff; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1); }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
+
+  /* -------- Footer -------- */
+  .foot { text-align: center; font-size: 13.5px; color: var(--text-soft); padding: 40px 16px 4px; font-weight: 400; }
+  .foot a { color: var(--green-dark); text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(74,50,48,0.25); transition: border-color 160ms ease; }
+  .foot a:hover { border-bottom-color: var(--green-dark); }
+
+  /* -------- Tweaks panel -------- */
+  .tweaks-panel {
+    position: fixed; bottom: 20px; right: 20px; width: 280px; background: #ffffff;
+    border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px; font-family: 'Poppins', sans-serif; z-index: 9999; display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .tweaks-panel-head h4 { margin: 0; font-size: 13px; font-weight: 600; color: var(--green-dark); letter-spacing: 0.02em; }
+  .tweaks-close { background: none; border: none; cursor: pointer; color: #888; padding: 4px; font-size: 16px; line-height: 1; }
+  .tweaks-label { font-size: 11px; font-weight: 600; color: #6f7770; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .palette-swatch { border: 2px solid transparent; border-radius: 10px; padding: 8px; background: #f7f5f1; cursor: pointer; transition: border-color 160ms ease, transform 120ms ease; font-family: inherit; }
+  .palette-swatch:hover { transform: translateY(-1px); }
+  .palette-swatch.selected { border-color: var(--green-dark); }
+  .palette-swatch-bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin-bottom: 6px; }
+  .palette-swatch-bar span { flex: 1; }
+  .palette-swatch-name { font-size: 11.5px; font-weight: 500; color: var(--green-dark); text-align: left; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-strip { justify-content: flex-start; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 28px 16px 60px; }
+    .intro { margin-bottom: 32px; }
+    .trust-strip { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 20px; margin-bottom: 40px; }
+    .card-grid { grid-template-columns: 1fr; gap: 18px; }
+    .doc-card { padding: 24px 20px 22px; }
+    .section { margin-top: 48px; }
+    .faq-question { padding: 16px 18px; }
+    .faq-answer { padding: 0 18px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="intro">
+      <p class="eyebrow">Data &amp; vilkår</p>
+      <h1>Sikkerhed og <span class="h-strong">gennemsigtighed</span>, du kan stole på</h1>
+      <p class="intro-sub">Vores dokumentation er GDPR-compliant, opdateres løbende og findes her i fuld transparens - klar til download, når I skal bruge den.</p>
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item">
+        <span class="trust-item-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 5v6.5c0 5 3.4 9.4 8 10.5 4.6-1.1 8-5.5 8-10.5V5l-8-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+        </span>
+        GDPR-compliant
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"></path><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"></path></svg>
+        </span>
+        Hosted i EU (Microsoft Azure)
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.5-7.1"></path><polyline points="21 4 21 10 15 10"></polyline></svg>
+        </span>
+        Årligt opdateret
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+        </span>
+        Krypteret datahåndtering
+      </div>
+    </div>
+
+    <!-- Documents -->
+    <section class="section">
+      <div class="section-label">
+        <span class="section-num">01</span>
+        <h2>Dokumenter til download</h2>
+      </div>
+      <div class="card-grid">
+
+        <article class="doc-card">
+          <div class="doc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 5v6.5c0 5 3.4 9.4 8 10.5 4.6-1.1 8-5.5 8-10.5V5l-8-3z"></path></svg>
+          </div>
+          <h3>Egen-erklæring</h3>
+          <p>Indsigt i de tekniske sikkerhedsforanstaltninger, vi har implementeret for at beskytte de personoplysninger vi behandler - i overensstemmelse med databeskyttelsesforordningen (GDPR).</p>
+          <span class="updated-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            Sidst opdateret: maj 2026
+          </span>
+          <a class="download-btn" href="https://niklasgerner.github.io/easyleave-assets/egen-erklaering.pdf" target="_blank" rel="noopener" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PDF
+          </a>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="14" y2="17"></line></svg>
+          </div>
+          <h3>Databehandleraftale</h3>
+          <p>Sikrer, at persondata der behandles via EasyLeave håndteres sikkert og lovligt. Beskriver ansvarsfordelingen mellem EasyLeave og kunden - herunder sikkerhed, instruks, underdatabehandlere og tilsyn.</p>
+          <span class="updated-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            Sidst opdateret: maj 2026
+          </span>
+          <a class="download-btn" href="https://niklasgerner.github.io/easyleave-assets/databehandleraftale.pdf" target="_blank" rel="noopener" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PDF
+          </a>
+        </article>
+
+        <article class="doc-card">
+          <div class="doc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18"></path><path d="M8 15h4"></path></svg>
+          </div>
+          <h3>Abonnementsvilkår</h3>
+          <p>Fastlægger rammerne for brugen af EasyLeaves softwareløsning til administration og indberetning af barsel og andet fravær. De konkrete vilkår fremgår af den særskilte aftale ved opstart.</p>
+          <span class="updated-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            Sidst opdateret: maj 2026
+          </span>
+          <a class="download-btn" href="https://niklasgerner.github.io/easyleave-assets/abonnementsvilkaar.pdf" target="_blank" rel="noopener" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PDF
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-label">
+        <span class="section-num">02</span>
+        <h2>Spørgsmål om data &amp; sikkerhed</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor opbevares vores data?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Alle data hostes hos Microsoft Azure inden for EU, i overensstemmelse med GDPR. Data forlader ikke EU uden et gyldigt overførselsgrundlag.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvem har adgang til oplysningerne?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Kun de personer hos jer og os, der har et arbejdsbetinget behov, får adgang - efter princippet om mindst mulig adgang. Adgang og databehandling er beskrevet i databehandleraftalen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad sker der med data, hvis vi opsiger aftalen?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Data slettes eller returneres efter aftalens ophør, i henhold til de frister der er fastsat i databehandleraftalen og gældende lovgivning om opbevaringspligt.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Er databehandleraftalen inkluderet, eller skal vi selv udarbejde den?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Den er inkluderet og indgås automatisk som en del af opstarten - I skal ikke selv udarbejde den. Den kan downloades ovenfor til gennemsyn på forhånd. Har I brug for en særskilt databehandleraftale tilpasset jeres organisation, udarbejder vi naturligvis også gerne det.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor ofte opdateres dokumenterne?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Dokumenterne gennemgås mindst årligt og opdateres løbende, hvis lovgivning eller vores sikkerhedsforanstaltninger ændrer sig. Dato for seneste opdatering fremgår af hvert dokument.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      Har du spørgsmål til vores datahåndtering? <a href="mailto:info@easyleave.dk">Kontakt os.</a>
+    </div>
+
+  </div>
+
+  <!-- Tweaks panel -->
+  <div class="tweaks-panel" id="tweaksPanel">
+    <div class="tweaks-panel-head">
+      <h4>Tweaks</h4>
+      <button class="tweaks-close" id="tweaksClose" aria-label="Luk">✕</button>
+    </div>
+    <div class="tweaks-label">Farvepalette</div>
+    <div class="palette-grid" id="paletteGrid"></div>
+  </div>
+
+  <script>
+    // ============================================================
+    // FAQ TOGGLE
+    // ============================================================
+    document.querySelectorAll('.faq-question').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.faq-item');
+        var isOpen = item.classList.contains('open');
+        item.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        setTimeout(notifyHeight, 280);
+      });
+    });
+
+    // ============================================================
+    // FARVE-TWEAKS (kun synlige i designværktøjet)
+    // ============================================================
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{ "palette": 0 }/*EDITMODE-END*/;
+
+    const PALETTES = [
+      { name: "Barsel (ny, default)", vars: { "--green":"#715050","--green-dark":"#4a3230","--sage":"#96706e","--beige":"#e6ded9","--cream":"#f5f3f0","--text":"#3a3835" } },
+      { name: "Skov (klassisk)", vars: { "--green":"#2D4A3E","--green-dark":"#243b32","--sage":"#7A9E7E","--beige":"#E8E2D5","--cream":"#F5F2EC","--text":"#2D4A3E" } },
+      { name: "Hav", vars: { "--green":"#2C4257","--green-dark":"#23364a","--sage":"#7A93AE","--beige":"#DDE3E8","--cream":"#F1F3F5","--text":"#2C4257" } },
+      { name: "Mose", vars: { "--green":"#3B5043","--green-dark":"#2c3d33","--sage":"#8B9E6E","--beige":"#E2D9C2","--cream":"#F2EEE3","--text":"#3B5043" } }
+    ];
+
+    let currentTweak = Object.assign({}, TWEAK_DEFAULTS);
+
+    function applyPalette(i) {
+      const p = PALETTES[i] || PALETTES[0];
+      const root = document.documentElement;
+      Object.keys(p.vars).forEach(function(k) { root.style.setProperty(k, p.vars[k]); });
+      currentTweak.palette = i;
+      document.querySelectorAll('.palette-swatch').forEach(function(el, idx) { el.classList.toggle('selected', idx === i); });
+    }
+
+    function buildSwatches() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+      PALETTES.forEach(function(p, i) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'palette-swatch' + (i === currentTweak.palette ? ' selected' : '');
+        btn.innerHTML =
+          '<div class="palette-swatch-bar"><span style="background:' + p.vars['--green'] + '"></span><span style="background:' + p.vars['--sage'] + '"></span><span style="background:' + p.vars['--cream'] + '"></span><span style="background:' + p.vars['--beige'] + '"></span></div>' +
+          '<div class="palette-swatch-name">' + p.name + '</div>';
+        btn.addEventListener('click', function() {
+          applyPalette(i);
+          try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { palette: i } }, '*'); } catch(e) {}
+        });
+        grid.appendChild(btn);
+      });
+    }
+
+    applyPalette(currentTweak.palette);
+    buildSwatches();
+
+    const panel = document.getElementById('tweaksPanel');
+    window.addEventListener('message', function(e) {
+      const d = e.data || {};
+      if (d.type === '__activate_edit_mode')   panel.classList.add('active');
+      if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+    });
+    document.getElementById('tweaksClose').addEventListener('click', function() {
+      panel.classList.remove('active');
+      try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+    });
+    try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+    // ============================================================
+    // IFRAME AUTO-HEIGHT
+    // ============================================================
+    function notifyHeight() {
+      var h = document.documentElement.scrollHeight;
+      try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
+    }
+    window.addEventListener('load', notifyHeight);
+    window.addEventListener('resize', notifyHeight);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(notifyHeight); }
+  </script>
+</body>
+</html>

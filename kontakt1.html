@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt os - EasyLeave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Delt palette — matcher produkt- og herowidget (Barsel. Nemt.) */
+    --dark-green: #715050;
+    --green: #715050;
+    --green-dark: #4a3230;
+    --sage: #96706e;
+    --mauve: #8a5754;
+    --taupe: #d8beb8;
+    --charcoal: #3a3835;
+    --text: #3a3835;
+    --muted: #888580;
+    --muted-grey: #888580;
+    --text-muted: #6f7770;
+    --text-soft: #a19c96;
+    --off-white: #f5f3f0;
+    --cream: #f5f3f0;
+    --beige: #e6ded9;
+    --beige-dark: #d8c9c2;
+    --grey-mid: #b7b0a9;
+    --border: rgba(58, 56, 53, 0.08);
+    --field-line: rgba(58, 56, 53, 0.18);
+    --field-line-hover: rgba(58, 56, 53, 0.35);
+    --shadow-card: 0 1px 2px rgba(58,56,53,0.04), 0 8px 28px rgba(58,56,53,0.08);
+    --shadow-hover: 0 4px 12px rgba(58,56,53,0.08), 0 18px 42px rgba(58,56,53,0.12);
+    --shadow-sm: 0 1px 2px rgba(58, 56, 53, 0.04), 0 2px 8px rgba(58, 56, 53, 0.04);
+    --shadow-md: 0 4px 12px rgba(58, 56, 53, 0.05), 0 12px 24px rgba(58, 56, 53, 0.06);
+    --heading-color: #715050;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body { padding: 40px 24px 48px; overflow-x: hidden; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  /* -------- Shared eyebrow -------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sage);
+    margin: 0 0 16px 0; line-height: 1.4;
+  }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
+
+  /* -------- Intro -------- */
+  .intro {
+    text-align: center; max-width: 640px; margin: 0 auto 56px; padding: 8px 8px 4px;
+  }
+  .intro h1 {
+    font-size: clamp(2.1rem, 4.4vw, 3rem);
+    font-weight: 800; color: var(--charcoal);
+    letter-spacing: -0.02em; line-height: 1.12;
+    max-width: 18ch; margin: 0 auto 18px;
+  }
+  .intro h1 .h-strong { color: var(--dark-green); }
+  .intro-sub {
+    font-size: clamp(15.5px, 1.6vw, 18px); line-height: 1.6;
+    color: var(--text-muted); max-width: 50ch; margin: 0 auto; text-wrap: pretty;
+  }
+
+  /* -------- Layout -------- */
+  .layout {
+    display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 28px; align-items: start;
+  }
+
+  .side-card {
+    background: var(--off-white); border-radius: 18px; padding: 26px 24px;
+    box-shadow: var(--shadow-card); margin-bottom: 20px;
+  }
+  .side-card h3 {
+    font-size: 15px; font-weight: 700; color: var(--charcoal); margin-bottom: 16px; letter-spacing: -0.005em;
+  }
+  .step-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+  .step-row:last-child { margin-bottom: 0; }
+  .step-num-badge {
+    flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--green-dark); color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-row p { font-size: 13.8px; line-height: 1.55; color: var(--text-muted); padding-top: 3px; }
+  .step-row p strong { color: var(--charcoal); font-weight: 600; }
+
+  .direct-card {
+    background: var(--green-dark); border-radius: 18px; padding: 26px 24px; color: #fff;
+    box-shadow: var(--shadow-card);
+  }
+  .direct-card h3 { color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .direct-card p { font-size: 13.5px; color: rgba(255,255,255,0.7); line-height: 1.55; margin-bottom: 18px; }
+  .direct-line {
+    display: flex; align-items: center; gap: 12px; font-size: 14.5px; font-weight: 600; margin-bottom: 12px;
+  }
+  .direct-line:last-child { margin-bottom: 0; }
+  .direct-line a { color: #fff; text-decoration: none; }
+  .direct-line a:hover { text-decoration: underline; }
+  .direct-icon {
+    width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  }
+  .direct-icon svg { width: 16px; height: 16px; }
+
+  /* -------- Form card -------- */
+  .form-card {
+    background: var(--off-white); border-radius: 18px; padding: 32px clamp(20px,3vw,36px) 30px;
+    box-shadow: var(--shadow-card);
+  }
+  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 24px; }
+  .field { display: flex; flex-direction: column; position: relative; }
+  .field.full { grid-column: 1 / -1; }
+  .field label {
+    font-size: 12px; font-weight: 600; color: var(--muted-grey);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .field input, .field select, .field textarea {
+    appearance: none; -webkit-appearance: none; background: transparent; border: none;
+    border-bottom: 1px solid var(--field-line); border-radius: 0; padding: 8px 0 10px;
+    font-family: inherit; font-size: 15px; font-weight: 400; color: var(--text);
+    transition: border-color 180ms ease; outline: none; width: 100%;
+  }
+  .field textarea { resize: vertical; line-height: 1.6; padding: 8px 0 6px; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text-soft); }
+  .field input:hover, .field select:hover, .field textarea:hover { border-bottom-color: var(--field-line-hover); }
+  .field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--sage); }
+  .field input:focus + .field-underline, .field select:focus + .field-underline { transform: scaleX(1); }
+  .field-underline {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--sage);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none;
+  }
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: ""; position: absolute; right: 4px; top: 18px; width: 10px; height: 10px;
+    border-right: 1.5px solid var(--text-muted); border-bottom: 1.5px solid var(--text-muted);
+    transform: rotate(45deg); pointer-events: none; transition: border-color 180ms ease;
+  }
+  .select-wrap:hover::after { border-color: var(--green-dark); }
+  .field select { padding-right: 28px; cursor: pointer; }
+  .field select option { color: var(--text); background: #fff; }
+
+  .form-footer {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    margin-top: 30px; flex-wrap: wrap;
+  }
+  .consent {
+    display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+    font-size: 13.5px; color: var(--text-muted); line-height: 1.5; flex: 1 1 auto;
+  }
+  .consent input { position: absolute; opacity: 0; pointer-events: none; }
+  .consent-box {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px;
+    border: 1.5px solid var(--field-line); background: #fff;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+    transition: border-color 160ms ease, background 160ms ease;
+  }
+  .consent:hover .consent-box { border-color: var(--sage); }
+  .consent-box svg { width: 12px; height: 12px; color: #fff; opacity: 0; transform: scale(0.6); transition: opacity 160ms ease, transform 160ms ease; }
+  .consent input:checked + .consent-box { background: var(--green-dark); border-color: var(--green-dark); }
+  .consent input:checked + .consent-box svg { opacity: 1; transform: scale(1); }
+  .consent input:focus-visible + .consent-box { outline: 2px solid var(--sage); outline-offset: 2px; }
+
+  .submit-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--green-dark); color: #fff; border: none; padding: 14px 28px;
+    border-radius: 12px; font-size: 14px; font-weight: 600; font-family: inherit;
+    cursor: pointer; letter-spacing: 0.01em;
+    transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+  .submit-btn:hover { background: #3a2725; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(58,56,53,0.22); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+  .submit-btn svg { width: 16px; height: 16px; }
+
+  .success { display: none; flex-direction: column; align-items: center; text-align: center; padding: 30px 24px 14px; }
+  .success.active { display: flex; }
+  .form-card.sent .form-grid, .form-card.sent .form-footer { display: none; }
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%; background: rgba(150,112,110,0.14); color: var(--sage);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+  }
+  .success-icon svg { width: 30px; height: 30px; }
+  .success h3 { margin: 0 0 6px; font-size: 19px; font-weight: 700; color: var(--charcoal); }
+  .success p { margin: 0; font-size: 14px; color: var(--text-muted); line-height: 1.55; max-width: 380px; }
+
+  /* -------- FAQ (identisk mønster som produkt-siden) -------- */
+  .section { position: relative; z-index: 1; margin-top: 76px; }
+  .section-label {
+    display: flex; align-items: baseline; gap: 16px; padding-bottom: 18px;
+    margin-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .section-num { font-size: 13px; font-weight: 700; color: var(--sage); letter-spacing: 0.04em; flex: 0 0 auto; }
+  .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
+  .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
+
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
+  .faq-question {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    width: 100%; padding: 20px 24px; background: none; border: none; text-align: left;
+    font-family: inherit; font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; color: var(--charcoal);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon { position: relative; width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--dark-green); }
+  .faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; background: #ffffff; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1); }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
+
+  /* -------- Footer note -------- */
+  .foot { text-align: center; font-size: 13.5px; color: var(--text-soft); padding: 40px 16px 4px; font-weight: 400; }
+  .foot a { color: var(--green-dark); text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(74,50,48,0.25); transition: border-color 160ms ease; }
+  .foot a:hover { border-bottom-color: var(--green-dark); }
+
+  /* -------- Tweaks panel -------- */
+  .tweaks-panel {
+    position: fixed; bottom: 20px; right: 20px; width: 280px; background: #ffffff;
+    border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px; font-family: 'Poppins', sans-serif; z-index: 9999; display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .tweaks-panel-head h4 { margin: 0; font-size: 13px; font-weight: 600; color: var(--green-dark); letter-spacing: 0.02em; }
+  .tweaks-close { background: none; border: none; cursor: pointer; color: #888; padding: 4px; font-size: 16px; line-height: 1; }
+  .tweaks-label { font-size: 11px; font-weight: 600; color: #6f7770; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .palette-swatch { border: 2px solid transparent; border-radius: 10px; padding: 8px; background: #f7f5f1; cursor: pointer; transition: border-color 160ms ease, transform 120ms ease; font-family: inherit; }
+  .palette-swatch:hover { transform: translateY(-1px); }
+  .palette-swatch.selected { border-color: var(--green-dark); }
+  .palette-swatch-bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin-bottom: 6px; }
+  .palette-swatch-bar span { flex: 1; }
+  .palette-swatch-name { font-size: 11.5px; font-weight: 500; color: var(--green-dark); text-align: left; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 28px 16px 60px; }
+    .intro { margin-bottom: 40px; }
+    .form-card { padding: 24px 20px 22px; }
+    .form-grid { grid-template-columns: 1fr; gap: 18px; }
+    .form-footer { flex-direction: column; align-items: stretch; }
+    .submit-btn { width: 100%; }
+    .side-card, .direct-card { padding: 20px; }
+    .section { margin-top: 48px; }
+    .faq-question { padding: 16px 18px; }
+    .faq-answer { padding: 0 18px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="intro">
+      <p class="eyebrow">Kontakt</p>
+      <h1>Klar til at gøre orlov <span class="h-strong">nemt</span>?</h1>
+      <p class="intro-sub">Udfyld formularen, så kontakter vi dig for at aftale et kort møde. Her tager vi udgangspunkt i jeres processer og viser, hvordan EasyLeave kan passe ind hos jer.</p>
+    </div>
+
+    <div class="layout">
+      <!-- Left: reassurance -->
+      <div class="left-col">
+        <div class="side-card">
+          <h3>Sådan foregår det</h3>
+          <div class="step-row">
+            <span class="step-num-badge">1</span>
+            <p><strong>Du sender formularen.</strong> Fortæl kort om jeres situation - det tager under et minut.</p>
+          </div>
+          <div class="step-row">
+            <span class="step-num-badge">2</span>
+            <p><strong>Vi ringer eller skriver.</strong> Typisk inden for én arbejdsdag, for at aftale et tidspunkt.</p>
+          </div>
+          <div class="step-row">
+            <span class="step-num-badge">3</span>
+            <p><strong>Kort, uforpligtende møde.</strong> Vi tilbyder at vise løsningen ud fra jeres processer på en kort demo.</p>
+          </div>
+        </div>
+
+        <div class="direct-card">
+          <h3>Foretrækker du direkte kontakt?</h3>
+          <p>Ring eller skriv direkte, så vender vi tilbage hurtigst muligt.</p>
+          <div class="direct-line">
+            <span class="direct-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </span>
+            <a href="tel:+4542175828">+45 42 17 58 28</a>
+          </div>
+          <div class="direct-line">
+            <span class="direct-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </span>
+            <a href="mailto:info@easyleave.dk">info@easyleave.dk</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="form-card" id="formCard">
+        <form id="contactForm" novalidate>
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="navn">Navn</label>
+              <input id="navn" name="navn" type="text" autocomplete="name" required>
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field">
+              <label for="stilling">Antal medarbejdere</label>
+              <div class="select-wrap">
+                <select id="stilling" name="stilling" required>
+                  <option value="" disabled selected>Vælg</option>
+                  <option value="0-49">0-49</option>
+                  <option value="50-99">50-99</option>
+                  <option value="100-499">100-499</option>
+                  <option value="500-999">500-999</option>
+                  <option value="1000-4999">1.000-4.999</option>
+                  <option value="5000+">5.000+</option>
+                </select>
+              </div>
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field">
+              <label for="virksomhed">Virksomhed</label>
+              <input id="virksomhed" name="virksomhed" type="text" autocomplete="organization" required>
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field">
+              <label for="jobrolle">Jobrolle</label>
+              <div class="select-wrap">
+                <select id="jobrolle" name="jobrolle" required>
+                  <option value="" disabled selected>Vælg</option>
+                  <option value="hr-specialist">HR-specialist</option>
+                  <option value="hr-direktor">HR-direktør</option>
+                  <option value="lonspecialist">Lønspecialist</option>
+                  <option value="lonchef">Lønchef</option>
+                  <option value="adm-direktor">Adm. direktør</option>
+                  <option value="okonomidirektor">Økonomidirektør</option>
+                  <option value="it-ansvarlig">IT-ansvarlig</option>
+                  <option value="andet">Andet</option>
+                </select>
+              </div>
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field">
+              <label for="telefon">Telefon <span style="font-weight:400;color:var(--text-soft);">(valgfrit)</span></label>
+              <input id="telefon" name="telefon" type="tel" autocomplete="tel">
+              <span class="field-underline"></span>
+            </div>
+
+            <div class="field full">
+              <label for="besked">Hvad vil du gerne vide mere om? <span style="font-weight:400;color:var(--text-soft);">(valgfrit)</span></label>
+              <textarea id="besked" name="besked" rows="3" placeholder="Fortæl os kort om din situation eller hvad du ønsker at høre mere om..."></textarea>
+              <span class="field-underline"></span>
+            </div>
+
+          </div>
+
+          <div class="form-footer">
+            <label class="consent">
+              <input id="consent" name="consent" type="checkbox" required>
+              <span class="consent-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <span>Jeg accepterer at modtage henvendelse fra EasyLeave ApS</span>
+            </label>
+
+            <button class="submit-btn" type="submit" id="submitBtn">
+              Send
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="success" id="successState" aria-live="polite">
+          <div class="success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h3>Tak for din henvendelse</h3>
+          <p>Vi har modtaget dine oplysninger og vender tilbage hurtigst muligt, typisk inden for én arbejdsdag, for at aftale et passende tidspunkt.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-label">
+        <span class="section-num">02</span>
+        <h2>Ofte stillede spørgsmål</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor lang tid tager det at komme i gang?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">De fleste virksomheder er i luften inden for få uger. Implementeringen tilpasses jeres eksisterende systemer og overenskomster, så tidsplanen afhænger af kompleksiteten hos jer.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Er der en bindingsperiode?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">De konkrete vilkår - herunder eventuel binding - aftales individuelt og fremgår af abonnementsaftalen. Vi gennemgår dem sammen med jer, før noget underskrives.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad koster EasyLeave?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Prisen afhænger af antal medarbejdere og jeres behov for integration. Send os antallet af ansatte i formularen, så vender vi tilbage med et konkret tilbud - I er ikke forpligtet til at booke et møde for at høre prisen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Kan vi få en uforpligtende demo?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Ja. Send formularen, så aftaler vi et kort, uforpligtende møde, hvor vi viser løsningen ud fra jeres egne processer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      Foretrækker du en e-mail? Skriv direkte til <a href="mailto:info@easyleave.dk">info@easyleave.dk</a>
+    </div>
+
+  </div>
+
+  <!-- Tweaks panel -->
+  <div class="tweaks-panel" id="tweaksPanel">
+    <div class="tweaks-panel-head">
+      <h4>Tweaks</h4>
+      <button class="tweaks-close" id="tweaksClose" aria-label="Luk">✕</button>
+    </div>
+    <div class="tweaks-label">Farvepalette</div>
+    <div class="palette-grid" id="paletteGrid"></div>
+  </div>
+
+  <script>
+    // ============================================================
+    // FORM SUBMIT
+    // ============================================================
+    const form = document.getElementById('contactForm');
+    const card = document.getElementById('formCard');
+    const successState = document.getElementById('successState');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = 'Sender...'; }
+
+      const payload = {
+        navn: document.getElementById('navn').value,
+        antal_ansatte: document.getElementById('stilling').value,
+        virksomhed: document.getElementById('virksomhed').value,
+        jobrolle: document.getElementById('jobrolle').value,
+        email: document.getElementById('email').value,
+        telefon: document.getElementById('telefon').value,
+        besked: document.getElementById('besked').value
+      };
+
+      try {
+        await fetch('https://defaultc073457ef2924fedaedddbf23bec76.ed.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2953819ae7934edba2f818b28e6895a2/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=wnYHafOioaEmczfA9LPH48cDR3DsoGMOUlIVLwcbV6s', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch(error) { console.error('Power Automate fejl:', error); }
+
+      card.classList.add('sent');
+      successState.classList.add('active');
+      try { successState.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
+      notifyHeight();
+    });
+
+    // ============================================================
+    // FAQ TOGGLE
+    // ============================================================
+    document.querySelectorAll('.faq-question').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.faq-item');
+        var isOpen = item.classList.contains('open');
+        item.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        setTimeout(notifyHeight, 280);
+      });
+    });
+
+    // ============================================================
+    // FARVE-TWEAKS (kun synlige i designværktøjet)
+    // ============================================================
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{ "palette": 0 }/*EDITMODE-END*/;
+
+    const PALETTES = [
+      { name: "Barsel (ny, default)", vars: { "--green":"#715050","--green-dark":"#4a3230","--sage":"#96706e","--beige":"#e6ded9","--cream":"#f5f3f0","--text":"#3a3835" } },
+      { name: "Skov (klassisk)", vars: { "--green":"#2D4A3E","--green-dark":"#243b32","--sage":"#7A9E7E","--beige":"#E8E2D5","--cream":"#F5F2EC","--text":"#2D4A3E" } },
+      { name: "Hav", vars: { "--green":"#2C4257","--green-dark":"#23364a","--sage":"#7A93AE","--beige":"#DDE3E8","--cream":"#F1F3F5","--text":"#2C4257" } },
+      { name: "Mose", vars: { "--green":"#3B5043","--green-dark":"#2c3d33","--sage":"#8B9E6E","--beige":"#E2D9C2","--cream":"#F2EEE3","--text":"#3B5043" } }
+    ];
+
+    let currentTweak = Object.assign({}, TWEAK_DEFAULTS);
+
+    function applyPalette(i) {
+      const p = PALETTES[i] || PALETTES[0];
+      const root = document.documentElement;
+      Object.keys(p.vars).forEach(function(k) { root.style.setProperty(k, p.vars[k]); });
+      currentTweak.palette = i;
+      document.querySelectorAll('.palette-swatch').forEach(function(el, idx) { el.classList.toggle('selected', idx === i); });
+    }
+
+    function buildSwatches() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+      PALETTES.forEach(function(p, i) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'palette-swatch' + (i === currentTweak.palette ? ' selected' : '');
+        btn.innerHTML =
+          '<div class="palette-swatch-bar"><span style="background:' + p.vars['--green'] + '"></span><span style="background:' + p.vars['--sage'] + '"></span><span style="background:' + p.vars['--cream'] + '"></span><span style="background:' + p.vars['--beige'] + '"></span></div>' +
+          '<div class="palette-swatch-name">' + p.name + '</div>';
+        btn.addEventListener('click', function() {
+          applyPalette(i);
+          try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { palette: i } }, '*'); } catch(e) {}
+        });
+        grid.appendChild(btn);
+      });
+    }
+
+    applyPalette(currentTweak.palette);
+    buildSwatches();
+
+    const panel = document.getElementById('tweaksPanel');
+    window.addEventListener('message', function(e) {
+      const d = e.data || {};
+      if (d.type === '__activate_edit_mode')   panel.classList.add('active');
+      if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+    });
+    document.getElementById('tweaksClose').addEventListener('click', function() {
+      panel.classList.remove('active');
+      try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+    });
+    try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+    // ============================================================
+    // IFRAME AUTO-HEIGHT
+    // ============================================================
+    function notifyHeight() {
+      var h = document.documentElement.scrollHeight;
+      try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
+    }
+    window.addEventListener('load', notifyHeight);
+    window.addEventListener('resize', notifyHeight);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(notifyHeight); }
+  </script>
+</body>
+</html>
