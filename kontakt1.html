@@ -208,7 +208,7 @@
   .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
   .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
 
-  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; margin: 0 auto; }
   .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
   .faq-question {
     display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
@@ -231,7 +231,7 @@
   .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
 
   /* -------- Footer note -------- */
-  .foot { text-align: center; font-size: 13.5px; color: var(--text-soft); padding: 40px 16px 4px; font-weight: 400; }
+  .foot { text-align: center; font-size: 13.5px; color: var(--text-soft); padding: 28px 16px 4px; font-weight: 400; }
   .foot a { color: var(--green-dark); text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(74,50,48,0.25); transition: border-color 160ms ease; }
   .foot a:hover { border-bottom-color: var(--green-dark); }
 
@@ -259,7 +259,7 @@
     .layout { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
-    body { padding: 28px 16px 60px; }
+    body { padding: 28px 16px 24px; }
     .intro { margin-bottom: 40px; }
     .form-card { padding: 24px 20px 22px; }
     .form-grid { grid-template-columns: 1fr; gap: 18px; }
@@ -469,7 +469,7 @@
     </section>
 
     <div class="foot">
-      Foretrækker du en e-mail? Skriv direkte til <a href="mailto:info@easyleave.dk">info@easyleave.dk</a>
+      Foretrækker du en e-mail? Skriv direkte til os på <a href="mailto:info@easyleave.dk">info@easyleave.dk</a>
     </div>
 
   </div>
