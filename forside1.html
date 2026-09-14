@@ -91,10 +91,9 @@
   /* -------- Medarbejderens plan (tidslinje + morph — ported 1:1 fra easyleave.dk/messe) -------- */
   .timeline-teaser {
     --pad: 23px; --babymask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M12 2a9 9 0 0 0-9 9v1.2A2.8 2.8 0 0 0 4.6 17 8.5 8.5 0 0 0 12 22a8.5 8.5 0 0 0 7.4-5A2.8 2.8 0 0 0 21 12.2V11a9 9 0 0 0-9-9zm-3 9.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm6 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm-3 3.6c1.5 0 2.8.7 3.4 1.7a4.4 4.4 0 0 1-6.8 0c.6-1 1.9-1.7 3.4-1.7z'/%3E%3C/svg%3E");
-    margin-top: 28px; background: var(--off-white); border-radius: 18px;
-    padding: 28px clamp(18px, 3vw, 32px) 24px; box-shadow: var(--shadow-card);
+    margin-top: 12px; overflow-x: clip;
   }
-  .tl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 0 calc(var(--pad) * -1); padding: 0 var(--pad); }
+  .tl-scroll { overflow: visible; margin: 0; padding: 0; }
   .tl-scroll::-webkit-scrollbar { display: none; }
   .tl-rows { display: flex; gap: 9px; margin-top: 16px; min-width: 598px; }
   .tl-labels { width: 67px; flex: 0 0 auto; display: flex; flex-direction: column; gap: 7px; padding-top: 23px; }
@@ -178,15 +177,15 @@
   .morph.sent .doc { opacity: 0; transform: translate(230px,-29.9px) rotate(-8deg) scale(.7); transition: opacity 500ms ease-out, transform 750ms cubic-bezier(.4,0,.2,1); }
 
   .receipt {
-    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; justify-self: center; align-self: center;
-    width: 100%; max-width: 494px; left: 50%; transform: translateX(-50%) translateY(16px) scale(.96);
+    position: absolute; top: 0; left: 0; right: 0; margin: 0 auto; width: auto; max-width: 494px;
+    transform: translateY(16px) scale(.96);
     opacity: 0; pointer-events: none; transition: opacity 400ms ease-out, transform 500ms cubic-bezier(.34,1.56,.64,1);
   }
   .receipt > div { background: #fff; border: 1px solid var(--border); border-top: 3.4px solid var(--dark-green); border-radius: 16px; padding: 21px 21px 23px; box-shadow: 0 9.2px 29.9px rgba(57,54,51,.1); text-align: center; }
   .rc-p { margin-top: 7px; font-size: 14.4px; line-height: 1.45; color: var(--text-muted); }
   .rc-btn { display: inline-flex; align-items: center; justify-content: center; margin-top: 16px; padding: 13.8px 25.3px; border-radius: 11.5px; background: var(--dark-green); color: #fff; font-size: 14.9px; font-weight: 600; border: 0; font-family: inherit; cursor: pointer; text-decoration: none; transition: background-color 150ms ease-out; }
   .rc-btn:hover { background: var(--green-dark); }
-  .morph.done .receipt { opacity: 1; transform: translateX(-50%); pointer-events: auto; }
+  .morph.done .receipt { opacity: 1; transform: none; pointer-events: auto; }
   .rc-pill { position: relative; display: inline-flex; align-items: center; gap: 9.2px; background: rgba(113,80,80,.12); color: var(--green-dark); border-radius: 999px; padding: 6.9px 17.2px; font-size: 14.4px; font-weight: 600; }
   .rc-pill::before { content: ""; width: 19.5px; height: 19.5px; border-radius: 999px; background: var(--dark-green); flex: 0 0 auto; }
   .rc-pill::after { content: ""; position: absolute; left: 24.1px; top: 50%; width: 4.6px; height: 9.2px; margin-top: -6.9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
@@ -204,10 +203,22 @@
   .rc-row .tick { width: 25.3px; height: 25.3px; border-radius: 999px; background: var(--taupe); flex: 0 0 auto; position: relative; order: 2; }
   .rc-row .tick::after { content: ""; position: absolute; left: 9.2px; top: 6.9px; width: 5.8px; height: 10.3px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
 
-  @media (max-width: 640px) {
-    .timeline-teaser { padding: 22px 16px 20px; margin-top: 22px; }
-    .tl-flag { font-size: 9.5px; padding: 3px 9px 3px 6px; }
-    .tl-months span { font-size: 8.5px; }
+  /* telefon: tidslinjen holder sig inden for skærmen (samme regler som messe) */
+  @media (max-width: 827px) {
+    .morph { grid-template-columns: minmax(0, 1fr); }
+    .morph-tl, .tl-scroll, .tl-rows, .tl-track { min-width: 0; }
+    .tl-rows { gap: 0; margin-top: 14px; }
+    .tl-labels { display: none; }
+    .tl-months span { font-size: 9.8px; }
+    .tl-months span:nth-child(even) { visibility: hidden; }
+    .tl-seg { font-size: 9.2px; padding: 0 2px; }
+    .tl-seg .u { display: none; }
+    .tl-return { left: calc(63.44% + 6px); right: auto; font-size: 8.6px; }
+    .tl-legend { gap: 7px 14px; }
+    .tl-flag { transform: translateX(-30%); }
+    .tl-flag.on { animation: flagpop-m 500ms cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes flagpop-m { 0% { opacity: 0; transform: translateX(-30%) scale(.5); } 60% { opacity: 1; transform: translateX(-30%) scale(1.14); } 100% { opacity: 1; transform: translateX(-30%) scale(1); } }
+    .receipt > div { padding: 18px 16px 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .doc, .env { display: none; }
@@ -376,7 +387,7 @@
                     <span>apr</span><span>maj</span><span class="on">jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
                   </div>
                   <div class="tl-bar">
-                    <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--taupe)"></span>
+                    <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--taupe)">4<span class="u">&nbsp;uger</span></span>
                     <span class="tl-seg" style="left:14.26%;width:16.39%;background:var(--dark-green)">10 uger</span>
                     <span class="tl-seg" style="left:30.66%;width:14.75%;background:var(--charcoal)">9 uger</span>
                     <span class="tl-seg" style="left:45.41%;width:13.11%;background:#7a7771">8 uger</span>
