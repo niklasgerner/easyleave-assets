@@ -52,28 +52,56 @@
   }
   .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
 
-  /* -------- Hero -------- */
-  .hero { padding: clamp(20px, 3vw, 36px) 0 clamp(40px, 5vw, 64px); }
+  /* -------- Hero (text one side, phone the other) -------- */
+  .hero-row { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: clamp(24px, 4vw, 56px); padding: clamp(4px, 1vw, 12px) 0 clamp(20px, 3vw, 32px); }
   .hero .headline {
-    font-size: clamp(3rem, 9vw, 5.6rem); font-weight: 700; letter-spacing: -0.03em;
-    line-height: 0.98; color: var(--charcoal); margin: 0 0 28px 0;
+    font-size: clamp(2.8rem, 6.5vw, 4.6rem); font-weight: 700; letter-spacing: -0.03em;
+    line-height: 0.98; color: var(--charcoal); margin: 0 0 24px 0;
   }
   .hero .headline .line1 { display: block; }
   .hero .headline .accent { display: block; color: var(--dark-green); }
   .hero .subcopy {
     font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; color: var(--text-muted);
-    font-weight: 400; margin: 0 0 36px 0; max-width: 50ch; text-wrap: pretty;
+    font-weight: 400; margin: 0; max-width: 46ch; text-wrap: pretty;
   }
   .hero .subcopy strong { color: var(--charcoal); font-weight: 700; }
-  .hero .cta {
-    display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; min-height: 58px;
+
+  /* -------- Single-app-preview -------- */
+  .phone-preview { display: flex; justify-content: center; }
+  .phone-preview iframe { width: 100%; max-width: 320px; height: 580px; border: 0; display: block; }
+  @media (max-width: 800px) {
+    .hero-row { grid-template-columns: 1fr; text-align: center; }
+    .hero .subcopy { margin: 0 auto; }
+    .phone-preview { order: -1; }
+  }
+
+  /* -------- Primary CTA (moved below section 01) -------- */
+  .primary-cta { text-align: center; margin-top: 32px; }
+  .primary-cta a {
+    display: inline-flex; align-items: center; gap: 12px; padding: 17px 38px; min-height: 56px;
     background: var(--dark-green); color: #fff; text-decoration: none; font-family: inherit;
-    font-size: 17px; font-weight: 700; letter-spacing: -0.01em; border-radius: 14px;
+    font-size: 16px; font-weight: 700; letter-spacing: -0.01em; border-radius: 14px;
     transition: transform 220ms cubic-bezier(.2,.7,.2,1), background-color 220ms ease;
   }
-  .hero .cta:hover { background: var(--green-dark); transform: translateY(-2px); }
-  .hero .cta .arrow { display: inline-block; transition: transform 220ms cubic-bezier(.2,.7,.2,1); }
-  .hero .cta:hover .arrow { transform: translateX(4px); }
+  .primary-cta a:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .primary-cta .arrow { display: inline-block; transition: transform 220ms cubic-bezier(.2,.7,.2,1); }
+  .primary-cta a:hover .arrow { transform: translateX(4px); }
+
+  /* -------- Messer -------- */
+  .messe-card {
+    background: var(--off-white); border-radius: 20px; padding: clamp(28px, 3.5vw, 40px);
+    box-shadow: var(--shadow-card);
+  }
+  .messe-card > p { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 28px; }
+  .messe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 24px; }
+  .messe-item { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+  .messe-item .month { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
+  .messe-item h3 { font-size: 16px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+  .messe-item p { font-size: 13px; color: var(--text-muted); }
+  .messe-item .place { font-size: 12.5px; color: var(--text-soft); margin-top: 6px; }
+  .messe-cta { text-align: center; }
+  .messe-cta a { color: var(--dark-green); text-decoration: none; font-weight: 700; font-size: 14.5px; border-bottom: 1px solid rgba(74,50,48,0.25); transition: border-color 160ms ease; }
+  .messe-cta a:hover { border-bottom-color: var(--dark-green); }
 
   /* -------- Section rhythm -------- */
   .section { position: relative; z-index: 1; margin-top: 68px; }
@@ -95,13 +123,6 @@
   .benefit-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .benefit-card li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--charcoal); font-weight: 500; line-height: 1.4; }
   .benefit-card li::before { content: "✓"; color: var(--sage); font-weight: 700; flex: 0 0 auto; }
-  .benefit-cta { text-align: center; margin-top: 32px; }
-  .benefit-cta a {
-    display: inline-flex; align-items: center; gap: 10px; background: var(--beige); color: var(--green-dark);
-    text-decoration: none; padding: 13px 28px; border-radius: 12px; font-weight: 700; font-size: 14.5px;
-    transition: background 180ms ease, transform 180ms ease;
-  }
-  .benefit-cta a:hover { background: #d8c9c2; transform: translateY(-1px); }
 
   /* -------- Logo roller (ported 1:1 from index.html / referencer1.html) -------- */
   /* Full-bleed: runs edge-to-edge regardless of .wrap's max-width, matching the roller's current unboxed treatment */
@@ -126,7 +147,8 @@
   .logos-cta a:hover { border-bottom-color: var(--dark-green); }
 
   /* -------- FAQ -------- */
-  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 680px; margin: 0 auto; }
+  .faq-wrap { max-width: 680px; margin: 0 auto; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
   .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
   .faq-question {
     display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
@@ -152,14 +174,14 @@
 
   /* -------- CTA banner -------- */
   .cta-banner {
-    margin-top: 68px; background: var(--green-dark); border-radius: 20px;
-    padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 48px); text-align: center; color: #fff;
+    margin: 68px auto 0; max-width: 760px; background: var(--green-dark); border-radius: 20px;
+    padding: clamp(22px, 3vw, 32px) clamp(24px, 4vw, 40px); text-align: center; color: #fff;
   }
-  .cta-banner h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
-  .cta-banner p { font-size: 15px; color: rgba(255,255,255,0.78); max-width: 52ch; margin: 0 auto 26px; }
+  .cta-banner h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .cta-banner p { font-size: 14.5px; color: rgba(255,255,255,0.78); max-width: 48ch; margin: 0 auto 20px; }
   .cta-banner a {
     display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--green-dark);
-    text-decoration: none; padding: 15px 32px; border-radius: 12px; font-weight: 700; font-size: 15px;
+    text-decoration: none; padding: 14px 30px; border-radius: 12px; font-weight: 700; font-size: 14.5px;
     transition: transform 180ms ease, box-shadow 180ms ease;
   }
   .cta-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
@@ -170,7 +192,9 @@
   }
   @media (max-width: 640px) {
     body { padding: 14px 16px 48px; }
-    .hero { padding: 12px 0 32px; }
+    .hero-row { padding: 12px 0 24px; }
+    .phone-preview iframe { max-width: 280px; height: 520px; }
+    .messe-grid { grid-template-columns: 1fr; }
     .logo { width: 120px; height: 40px; margin: 0 20px; }
     .section { margin-top: 52px; }
     .faq-question { padding: 16px 18px; }
@@ -181,17 +205,17 @@
 <body>
   <div class="wrap">
 
-    <div class="hero">
-      <p class="eyebrow">Velkommen til EasyLeave</p>
-      <h1 class="headline">
-        <span class="line1">Barsel.</span>
-        <span class="accent">Nemt.</span>
-      </h1>
-      <p class="subcopy">Den bedste barselsproces er <strong>tryg</strong>, <strong>integreret</strong>, <strong>tilpasset</strong>, <strong>samlet</strong>, <strong>korrekt</strong> og <strong>til tiden</strong>. Barsel, som det burde være.</p>
-      <a class="cta" href="https://easyleave.dk/produkt" target="_top" rel="noopener">
-        Prøv løsningen
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
+    <div class="hero-row">
+      <div class="hero">
+        <h1 class="headline">
+          <span class="line1">Barsel.</span>
+          <span class="accent">Nemt.</span>
+        </h1>
+        <p class="subcopy">Den bedste barselsproces er <strong>tryg</strong>, <strong>integreret</strong>, <strong>tilpasset</strong>, <strong>samlet</strong>, <strong>korrekt</strong> og <strong>til tiden</strong>. Barsel, som det burde være.</p>
+      </div>
+      <div class="phone-preview">
+        <iframe src="https://niklasgerner.github.io/easyleave-assets/singlephone.html" title="EasyLeave app - orlovsplan" scrolling="no"></iframe>
+      </div>
     </div>
 
     <section class="section">
@@ -226,15 +250,12 @@
           </ul>
         </article>
       </div>
-      <div class="benefit-cta">
-        <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
-          Hør mere
-          <span aria-hidden="true">→</span>
+      <div class="primary-cta">
+        <a href="https://easyleave.dk/produkt" target="_top" rel="noopener">
+          Se løsningen
+          <span class="arrow" aria-hidden="true">→</span>
         </a>
       </div>
-      <p class="logos-cta" style="margin-top:16px;">
-        <a href="https://easyleave.dk/produkt" target="_top" rel="noopener">Se hele løsningen i detaljer →</a>
-      </p>
     </section>
 
     <section class="section">
@@ -273,11 +294,48 @@
       </div>
     </section>
 
+    <section class="section">
+      <div class="section-label">
+        <span class="section-num">03</span>
+        <h2>Mød os fysisk</h2>
+      </div>
+      <div class="messe-card">
+        <p>Du kan også møde os på årets vigtigste HR- og digitaliseringsbegivenheder. Kig forbi til en snak om orlov, refusion og digitale arbejdsgange.</p>
+        <div class="messe-grid">
+          <div class="messe-item">
+            <span class="month">Sep</span>
+            <h3>Træfpunkt HR – Dansk HR</h3>
+            <p>Danmarks største HR-messe</p>
+            <p class="place">Lokomotivværkstedet, København</p>
+          </div>
+          <div class="messe-item">
+            <span class="month">2026</span>
+            <h3>KL's Digitaliseringsmesse</h3>
+            <p>Fokus på digitalisering i kommunerne</p>
+            <p class="place">Odense Congress Center</p>
+          </div>
+        </div>
+        <div class="messe-cta">
+          <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">Eller book et møde med os →</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-banner">
+      <h3>Klar til at gøre orlov nemt?</h3>
+      <p>Fortæl os kort om jeres organisation, så viser vi, hvordan EasyLeave kan passe ind hos jer.</p>
+      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
+        Kontakt os
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
     <section class="section" id="faq">
+      <div class="faq-wrap">
       <div class="section-label">
         <h2>Ofte stillede spørgsmål</h2>
       </div>
-      <p class="section-sub" style="text-align:center; margin-left:auto; margin-right:auto;">Kort svar på det, virksomheder oftest spørger om, når de overvejer EasyLeave.</p>
+      <p class="section-sub">Kort svar på det, virksomheder oftest spørger om, når de overvejer EasyLeave.</p>
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
@@ -346,16 +404,8 @@
           </div>
         </div>
       </div>
+      </div>
     </section>
-
-    <div class="cta-banner">
-      <h3>Klar til at gøre orlov nemt?</h3>
-      <p>Fortæl os kort om jeres organisation, så viser vi, hvordan EasyLeave kan passe ind hos jer.</p>
-      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
-        Kontakt os
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
 
   </div>
 
