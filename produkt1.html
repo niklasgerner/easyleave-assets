@@ -68,6 +68,8 @@
   .wrap {
     max-width: 1100px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
   }
 
   /* -------- Shared eyebrow -------- */
@@ -139,7 +141,7 @@
 
   /* -------- Section rhythm -------- */
   .section { position: relative; z-index: 1; margin-top: 76px; }
-  .section:first-of-type { margin-top: 0; }
+  #plan { margin-top: 0; }
 
   .section-label {
     display: flex;
@@ -744,9 +746,9 @@
   <!-- ============================================================
        01 — Sådan opleves det
        ============================================================ -->
-  <section class="section" id="opleves">
+  <section class="section" id="opleves" style="order:3">
     <div class="section-label">
-      <span class="section-num">01</span>
+      <span class="section-num">03</span>
       <h2>Sådan opleves det</h2>
     </div>
     <p class="section-sub">To korte videoer der viser varsling og indberetning, sådan som medarbejderen selv oplever dem.</p>
@@ -792,12 +794,16 @@
       </div>
 
     </div>
+  </section>
+
+  <section class="section" id="plan" style="order:1">
+    <div class="section-label">
+      <span class="section-num">01</span>
+      <h2>Medarbejderens plan</h2>
+    </div>
+    <p class="section-sub">Orlovsplanen bliver udfyldt af medarbejderen og delt med alle relevante parter og systemer.</p>
 
     <div class="timeline-teaser">
-      <div class="timeline-head">
-        <h3>Fra medarbejderens plan til godkendt sag</h3>
-        <p>Orlovsplanen bliver udfyldt af medarbejderen og delt med alle relevante parter og systemer.</p>
-      </div>
       <div class="timeline-scroll">
         <div class="timeline-inner">
           <div class="tl-rows">
@@ -833,7 +839,7 @@
   <!-- ============================================================
        02 — Sådan fungerer det
        ============================================================ -->
-  <section class="section" id="fungerer">
+  <section class="section" id="fungerer" style="order:2">
     <div class="section-label">
       <span class="section-num">02</span>
       <h2>Sådan fungerer det</h2>
@@ -936,7 +942,7 @@
   <!-- ============================================================
        03 — Spørgsmål & svar
        ============================================================ -->
-  <section class="section" id="faq">
+  <section class="section" id="faq" style="order:4">
     <div class="section-label">
       <h2>Spørgsmål &amp; svar</h2>
     </div>
