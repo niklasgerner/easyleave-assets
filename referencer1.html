@@ -99,7 +99,7 @@
   }
 
   /* -------- Testimonials -------- */
-  .quote-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .quote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .quote-card {
     background: var(--off-white); border-radius: 18px; padding: clamp(24px, 2.5vw, 32px);
     box-shadow: var(--shadow-card); display: flex; flex-direction: column;
@@ -115,6 +115,8 @@
   }
   .quote-name { font-size: 14px; font-weight: 700; color: var(--charcoal); }
   .quote-role { font-size: 12.5px; color: var(--text-muted); }
+  .quote-scale { font-size: 12px; color: var(--text-soft); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.4; }
+  .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
 
   /* -------- Partner highlight -------- */
   .partner-card {
@@ -142,9 +144,12 @@
   .cta-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
 
   /* -------- Responsive -------- */
+  @media (max-width: 980px) {
+    .quote-grid { grid-template-columns: 1fr 1fr; }
+    .partner-card { flex-direction: column; text-align: center; }
+  }
   @media (max-width: 760px) {
     .quote-grid { grid-template-columns: 1fr; }
-    .partner-card { flex-direction: column; text-align: center; }
   }
   @media (max-width: 640px) {
     body { padding: 14px 16px 48px; }
@@ -210,7 +215,7 @@
       <div class="quote-grid">
         <article class="quote-card">
           <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">Med EasyLeave har vi fået struktur, overblik og en ensartet proces på tværs af organisationen. Det sparer ikke kun tid for lederne i institutionerne og for os i administrationen, men skaber også tryghed for medarbejderne, fordi de nu bliver guidet sikkert gennem et område, som ellers opleves komplekst.</p>
+          <p class="quote-text">Vi har fået struktur, overblik og en ensartet proces på tværs af organisationen. Det sparer tid for både lederne og administrationen - og skaber tryghed for medarbejderne.</p>
           <div class="quote-by">
             <span class="quote-avatar">LH</span>
             <div>
@@ -218,10 +223,11 @@
               <div class="quote-role">Teamleder Løn hos Børneringen</div>
             </div>
           </div>
+          <p class="quote-scale">Paraplyorganisation med +2.000 lønmodtagere fordelt på +100 institutioner</p>
         </article>
         <article class="quote-card">
           <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">Vores medarbejdere og ledere er tilfredse med systemet. Den automatiske videresendelse af udfyldte barselsplaner til relevante parter skaber stor værdi og sikrer, at alle har den nødvendige information samtidig. Opsætningen er intuitiv og understøtter Bravidas fokus på transparens, troværdighed og tillid.</p>
+          <p class="quote-text">Barselsplanerne sendes automatisk videre, så alle har den nødvendige information samtidig. Den faste struktur giver et effektivt workflow for leder, medarbejder og lønkontor.</p>
           <div class="quote-by">
             <span class="quote-avatar">AH</span>
             <div>
@@ -229,6 +235,19 @@
               <div class="quote-role">Lønchef hos Bravida</div>
             </div>
           </div>
+          <p class="quote-scale">Teknisk servicevirksomhed med +3.000 medarbejdere, både administrative og faglærte</p>
+        </article>
+        <article class="quote-card">
+          <p class="quote-mark">&ldquo;</p>
+          <p class="quote-text">Orlovshåndtering er blevet langt mere overskuelig, hurtigere og mindre administrativt tung. Vores ledere bruger ikke længere unødigt mange timer på manuel administration.</p>
+          <div class="quote-by">
+            <span class="quote-avatar">MT</span>
+            <div>
+              <div class="quote-name">Mette Thøgersen</div>
+              <div class="quote-role">Teamchef Løn hos Landsorganisationen Danske Daginstitutioner</div>
+            </div>
+          </div>
+          <p class="quote-scale">+4.000 lønmodtagere fordelt på cirka 270 institutioner</p>
         </article>
       </div>
     </section>
