@@ -61,16 +61,6 @@
   .intro h1 .h-strong { color: var(--dark-green); }
   .intro-sub { font-size: clamp(15.5px, 1.6vw, 18px); line-height: 1.6; color: var(--text-muted); max-width: 60ch; margin: 0 auto; text-wrap: pretty; }
 
-  /* -------- Stat banner -------- */
-  .stat-banner {
-    display: flex; align-items: center; gap: 28px; background: var(--green-dark);
-    color: #fff; border-radius: 20px; padding: 30px clamp(22px, 3vw, 40px);
-    margin-bottom: 56px; box-shadow: var(--shadow-card);
-  }
-  .stat-num { font-size: clamp(2.6rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -0.02em; flex: 0 0 auto; }
-  .stat-text { font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,0.82); max-width: 46ch; }
-  .stat-text strong { color: #fff; font-weight: 700; }
-
   /* -------- Section rhythm -------- */
   .section { position: relative; z-index: 1; margin-top: 68px; }
   .section:first-of-type { margin-top: 0; }
@@ -81,7 +71,7 @@
   /* -------- Logo roller (per-logo images cropped to their true content so every
      logo occupies the same visual footprint - the source "-matched" files were
      all padded onto a common square canvas at very different fill ratios). -------- */
-  .logo-card { background: var(--off-white); border-radius: 18px; box-shadow: var(--shadow-card); padding: 20px 0; }
+  .logo-bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 32px 0; }
   .roller { width: 100%; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); }
   .track { display: flex; width: max-content; animation: logo-scroll 40s linear infinite; align-items: center; }
   .roller:hover .track { animation-play-state: paused; }
@@ -93,6 +83,8 @@
   }
   .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
   .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .logo.logo-lg img { transform: scale(1.3); }
+  .logo.logo-sm img { transform: scale(0.72); }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 640px) {
     .logo { width: 120px; height: 40px; margin: 0 20px; }
@@ -108,7 +100,7 @@
   .quote-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
   .quote-mark { font-size: 42px; font-weight: 800; color: var(--taupe); line-height: 1; margin-bottom: 6px; font-family: Georgia, serif; }
   .quote-text { font-size: 15px; line-height: 1.65; color: var(--text); flex: 1; margin-bottom: 22px; }
-  .quote-by { display: flex; align-items: center; gap: 12px; }
+  .quote-by { display: flex; align-items: center; gap: 12px; margin-top: auto; }
   .quote-avatar {
     width: 42px; height: 42px; border-radius: 50%; background: var(--dark-green); color: #fff;
     display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex: 0 0 auto;
@@ -118,27 +110,43 @@
   .quote-scale { font-size: 12px; color: var(--text-soft); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.4; }
   .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
 
-  /* -------- Partner highlight -------- */
-  .partner-card {
-    background: var(--off-white); border-radius: 18px; padding: clamp(28px, 3vw, 40px);
-    box-shadow: var(--shadow-card); display: flex; align-items: center; gap: clamp(24px, 3vw, 40px);
+  /* -------- Partner highlight (reuses .quote-card, just narrower/centered) -------- */
+  .partner-quote-card { max-width: 700px; margin: 0 auto; }
+
+  /* -------- FAQ -------- */
+  .faq-wrap { max-width: 800px; margin: 0 auto; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
+  .faq-question {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    width: 100%; padding: 20px 24px; background: none; border: none; text-align: left;
+    font-family: inherit; font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; color: var(--charcoal);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
-  .partner-logo { flex: 0 0 auto; width: 140px; display: flex; align-items: center; justify-content: center; }
-  .partner-logo img { max-width: 100%; height: auto; }
-  .partner-quote { flex: 1; }
-  .partner-quote .quote-mark { color: var(--sage); }
-  .partner-quote .quote-text { font-size: 16.5px; font-style: italic; color: var(--charcoal); margin-bottom: 16px; }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon { position: relative; width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--dark-green); }
+  .faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; background: #ffffff; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1); }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
 
   /* -------- CTA banner -------- */
   .cta-banner {
-    margin-top: 68px; background: var(--green-dark); border-radius: 20px;
-    padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 48px); text-align: center; color: #fff;
+    margin: 68px auto 0; max-width: 760px; background: var(--green-dark); border-radius: 20px;
+    padding: clamp(22px, 3vw, 32px) clamp(24px, 4vw, 40px); text-align: center; color: #fff;
   }
-  .cta-banner h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
-  .cta-banner p { font-size: 15px; color: rgba(255,255,255,0.78); max-width: 52ch; margin: 0 auto 26px; }
+  .cta-banner h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .cta-banner p { font-size: 14.5px; color: rgba(255,255,255,0.78); max-width: 48ch; margin: 0 auto 20px; }
   .cta-banner a {
     display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--green-dark);
-    text-decoration: none; padding: 15px 32px; border-radius: 12px; font-weight: 700; font-size: 15px;
+    text-decoration: none; padding: 14px 30px; border-radius: 12px; font-weight: 700; font-size: 14.5px;
     transition: transform 180ms ease, box-shadow 180ms ease;
   }
   .cta-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
@@ -146,14 +154,12 @@
   /* -------- Responsive -------- */
   @media (max-width: 980px) {
     .quote-grid { grid-template-columns: 1fr 1fr; }
-    .partner-card { flex-direction: column; text-align: center; }
   }
   @media (max-width: 760px) {
     .quote-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     body { padding: 14px 16px 48px; }
-    .stat-banner { flex-direction: column; text-align: center; gap: 12px; padding: 26px 20px; }
     .section { margin-top: 52px; }
   }
 </style>
@@ -163,13 +169,8 @@
 
     <div class="intro">
       <p class="eyebrow">Referencer</p>
-      <h1>Organisationer der <span class="h-strong">bruger EasyLeave</span></h1>
-      <p class="intro-sub">Et udvalg af de virksomheder og organisationer, der i dag bruger EasyLeave til at forenkle deres orlovsadministration - og frigive tid til det, der egentlig betyder noget. Uanset branche eller størrelse.</p>
-    </div>
-
-    <div class="stat-banner">
-      <div class="stat-num">70%</div>
-      <p class="stat-text"><strong>Op til 70% reduktion</strong> i manuel orlovshåndtering - med mindre risiko for fejl og et mere smidigt forløb for både medarbejdere og organisation.</p>
+      <h1>Vi passer til <span class="h-strong">enhver organisation</span></h1>
+      <p class="intro-sub">Fra 20 til flere tusinde medarbejdere, i det private og det offentlige - se hvordan virksomheder og organisationer som jeres allerede bruger EasyLeave til at forenkle orlovsadministrationen.</p>
     </div>
 
     <section class="section">
@@ -177,30 +178,28 @@
         <span class="section-num">01</span>
         <h2>Et udvalg af vores kunder</h2>
       </div>
-      <div class="logo-card">
+      <div class="logo-bleed">
         <div class="roller"><div class="track">
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
+          <a class="logo logo-lg" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bygma-crop.png" alt="Bygma Gruppen"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-crop.png" alt="Jamo Sikring"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-crop.png" alt="KMD"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/lemvigh-crop.png" alt="Lemvigh-Müller"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/zenegy-crop.png" alt="Zenegy"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
+          <a class="logo logo-lg" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bavarian-crop.png" alt="Bavarian Nordic"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-crop.png" alt="Bravida"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bygma-crop.png" alt="Bygma Gruppen"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/jamo-crop.png" alt="Jamo Sikring"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/gard-crop.png" alt="Gard"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-crop.png" alt="KMD"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/lemvigh-crop.png" alt="Lemvigh-Müller"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/zenegy-crop.png" alt="Zenegy"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
-          <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/novax-crop.png" alt="Novax"></a>
+          <a class="logo logo-sm" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/nti-crop.png" alt="NTI"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/wicotec-crop.png" alt="Wicotec Kirkebjerg"></a>
           <a class="logo" href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/logo-dark.png" alt="Børneringen"></a>
         </div></div>
@@ -244,7 +243,7 @@
             <span class="quote-avatar">MT</span>
             <div>
               <div class="quote-name">Mette Thøgersen</div>
-              <div class="quote-role">Teamchef Løn hos Landsorganisationen Danske Daginstitutioner</div>
+              <div class="quote-role">Teamchef Løn hos LDD</div>
             </div>
           </div>
           <p class="quote-scale">+4.000 lønmodtagere fordelt på cirka 270 institutioner</p>
@@ -257,18 +256,59 @@
         <span class="section-num">03</span>
         <h2>Vores partnere</h2>
       </div>
-      <div class="partner-card">
-        <div class="partner-logo"><img src="https://niklasgerner.github.io/easyleave-assets/kmd-logo-green-with-nec-rgb-matched.png" alt="KMD"></div>
-        <div class="partner-quote">
-          <p class="quote-mark">&ldquo;</p>
-          <p class="quote-text">EasyLeave er fremtidens måde at håndtere orlov på. Derfor har vi i KMD indgået et strategisk samarbejde - så vi sammen kan løfte standarden for orlovsadministration hos danske virksomheder.</p>
-          <div class="quote-by">
-            <div>
-              <div class="quote-name">Leif Ilsø</div>
-              <div class="quote-role">Business Development Director hos KMD</div>
+      <article class="quote-card partner-quote-card">
+        <p class="quote-mark">&ldquo;</p>
+        <p class="quote-text">EasyLeave er fremtidens måde at håndtere orlov på. Derfor har vi i KMD indgået et strategisk samarbejde - så vi sammen kan løfte standarden for orlovsadministration hos danske virksomheder.</p>
+        <div class="quote-by">
+          <span class="quote-avatar">LI</span>
+          <div>
+            <div class="quote-name">Leif Ilsø</div>
+            <div class="quote-role">Business Development Director hos KMD</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="faq-wrap">
+      <div class="section-label">
+        <h2>Spørgsmål om størrelse og branche</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvilken virksomhedsstørrelse passer til EasyLeave?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Alle. Vi har kunder fra 20 medarbejdere til flere tusinde. Er I mange, sikrer EasyLeave ensartethed og overblik på tværs af organisationen. Er I få, får I den ekspertise i orlovsregler, som ellers ikke findes internt.</p>
             </div>
           </div>
         </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Er EasyLeave kun til private virksomheder?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Nej. Vi har i dag mere end 6.000 brugere ansat på offentlige overenskomster, og løsningen understøtter specifikt de regler og processer, der gælder for det offentlige.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvilke brancher passer EasyLeave til?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Vi spænder bredt - fra industri og handel til daginstitutioner, forsikring og kommuner. Så længe I har medarbejdere med ret til orlov, er EasyLeave relevant.</p>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </section>
 
@@ -284,6 +324,16 @@
   </div>
 
 <script>
+document.querySelectorAll('.faq-question').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    setTimeout(sendHeight, 280);
+  });
+});
+
 function sendHeight() {
   var h = document.documentElement.scrollHeight;
   try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
