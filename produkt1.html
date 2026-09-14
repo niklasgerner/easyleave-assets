@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produktet - EasyLeave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Streng 2-farve palette — rød koks + creme/sand, matcher messestanden */
+    --koks: #7d5854;
+    --koks-2: #916d69;
+    --koks-3: #5c403d;
+    --koks-4: #b6a09b;
+    --koks-5: #ddc9c3;
+    --sand: #f4f1ec;
+    --sand-deep: #e8e1d8;
+
+    --dark-green: var(--koks);
+    --green: var(--koks);
+    --green-dark: var(--koks);
+    --sage: var(--koks);
+    --mauve: var(--koks-2);
+    --taupe: var(--koks-5);
+    --grey-mid: var(--koks-4);
+
+    --charcoal: #3a3835;
+    --text: #3a3835;
+    --muted: #888580;
+    --muted-grey: #888580;
+    --text-muted: #6f7770;
+    --off-white: var(--sand);
+    --cream: var(--sand);
+    --beige: var(--sand-deep);
+    --border: rgba(58, 56, 53, 0.08);
+    --shadow-card: 0 1px 2px rgba(58,56,53,0.04), 0 8px 28px rgba(58,56,53,0.08);
+    --shadow-hover: 0 4px 12px rgba(58,56,53,0.08), 0 18px 42px rgba(58,56,53,0.12);
+    --shadow-sm: 0 1px 2px rgba(58, 56, 53, 0.04), 0 2px 8px rgba(58, 56, 53, 0.04);
+    --shadow-md: 0 4px 12px rgba(58, 56, 53, 0.05), 0 12px 24px rgba(58, 56, 53, 0.06);
+
+    --heading-color: var(--koks);
+
+    --box-1: #7d5854; --box-1-top: #916d69;
+    --box-2: #7d5854; --box-2-top: #916d69;
+    --box-3: #3a3835; --box-3-top: #524f4a;
+    --box-4: #7d5854; --box-4-top: #916d69;
+    --box-5: #7d5854; --box-5-top: #916d69;
+    --box-6: #3a3835; --box-6-top: #524f4a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    padding: 40px 24px 48px;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* -------- Shared eyebrow -------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .eyebrow::before,
+  .eyebrow::after {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--sage);
+    flex: 0 0 auto;
+  }
+
+  /* -------- Top intro (page header) -------- */
+  .intro {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 64px;
+    padding: 8px 8px 4px;
+  }
+
+  .intro .particles { position: absolute; inset: -40px; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particle  { position: absolute; border-radius: 50%; opacity: 0.22; filter: blur(0.4px); animation: drift 14s ease-in-out infinite; }
+  .p1 { width:14px; height:14px; background:var(--sage);       top:4%;  left:6%;  animation-duration:13s; animation-delay:0s;  }
+  .p2 { width:10px; height:10px; background:var(--mauve);      top:14%; left:94%; animation-duration:17s; animation-delay:-3s; }
+  .p3 { width:16px; height:16px; background:var(--taupe);      top:82%; left:3%;  animation-duration:18s; animation-delay:-6s; }
+  .p4 { width:12px; height:12px; background:var(--green-dark); top:88%; left:92%; animation-duration:15s; animation-delay:-1s; }
+  @keyframes drift {
+    0%   { transform: translate(0,0)        scale(1);    }
+    50%  { transform: translate(14px,-18px) scale(1.08); }
+    100% { transform: translate(0,0)        scale(1);    }
+  }
+
+  .intro-content { position: relative; z-index: 1; }
+
+  .intro h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 800;
+    color: var(--charcoal);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    max-width: 20ch;
+    margin: 0 auto 18px;
+  }
+  .intro h1 .h-soft   { color: var(--charcoal); font-weight: 700; }
+  .intro h1 .h-strong { color: var(--koks); font-weight: 800; }
+
+  .intro-sub {
+    font-size: clamp(15.5px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 52ch;
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+
+  /* -------- Section rhythm -------- */
+  .section { position: relative; z-index: 1; margin-top: 76px; }
+  .section:first-of-type { margin-top: 0; }
+
+  .section-label {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sage);
+    letter-spacing: 0.04em;
+    flex: 0 0 auto;
+  }
+  .section-label h2 {
+    font-size: clamp(1.3rem, 2.3vw, 1.6rem);
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 62ch;
+    margin: 14px 0 32px;
+  }
+
+  /* ============================================================
+     01 — Sådan opleves det (videoer)
+     ============================================================ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+  }
+
+  .unit {
+    background: var(--off-white);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    transition: box-shadow 240ms ease, transform 240ms ease;
+  }
+  .unit:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .video-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #1a1a1a;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(58,56,53,0.18);
+  }
+  .video-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(58,56,53,0.15);
+    transition: background 200ms ease;
+  }
+  .video-wrap:hover .play-btn { background: rgba(58,56,53,0.28); }
+  .play-btn svg {
+    width: 68px; height: 68px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
+    transition: transform 200ms ease;
+  }
+  .video-wrap:hover .play-btn svg { transform: scale(1.08); }
+
+  .sidebar {
+    background: #ffffff;
+    border-radius: 12px;
+    border-left: 3px solid var(--green-dark);
+    padding: 16px 18px 16px 20px;
+    box-shadow: 0 1px 2px rgba(58,56,53,0.04);
+  }
+  .sidebar h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -0.005em;
+    margin-bottom: 10px;
+  }
+  .sidebar p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted-grey);
+    font-weight: 400;
+  }
+  .sidebar p + p { margin-top: 9px; }
+
+  /* -------- Tidslinje-teaser — inspireret af landingpagens orlovsplan -------- */
+  .timeline-teaser {
+    margin-top: 28px;
+    background: var(--off-white);
+    border-radius: 18px;
+    padding: 28px clamp(18px, 3vw, 32px) 24px;
+    box-shadow: var(--shadow-card);
+  }
+  .timeline-head { margin-bottom: 30px; }
+  .timeline-head h3 {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--charcoal);
+    margin: 0 0 6px;
+  }
+  .timeline-head p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted-grey);
+    max-width: 56ch;
+  }
+  .timeline-track { position: relative; padding-top: 34px; }
+  .timeline-scroll { overflow-x: auto; overflow-y: hidden; margin: 0 -2px; padding: 0 2px 2px; }
+  .timeline-inner { min-width: 620px; }
+
+  .timeline-marker {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 500ms ease 200ms;
+    z-index: 2;
+  }
+  .timeline-track.in-view .timeline-marker { opacity: 1; }
+  .timeline-marker-pill {
+    background: var(--green-dark);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(58,56,53,0.18);
+  }
+  .timeline-marker-dot {
+    width: 2px;
+    height: 16px;
+    background: var(--green-dark);
+    margin-top: 2px;
+  }
+
+  .timeline-bar-row {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--beige);
+    overflow: hidden;
+    position: relative;
+  }
+  .timeline-bar {
+    height: 100%;
+    width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 1800ms cubic-bezier(.16,.6,.2,1);
+    overflow: hidden;
+  }
+  .timeline-track.in-view .timeline-bar { width: var(--w); }
+  .timeline-bar span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 400ms ease 1400ms;
+  }
+  .timeline-track.in-view .timeline-bar span { opacity: 1; }
+
+  .bar-1 { background: var(--taupe); }
+  .bar-2 { background: var(--mauve); }
+  .bar-3 { background: var(--green-dark); }
+  .bar-4 { background: var(--grey-mid); }
+  .bar-4 span { color: var(--charcoal); }
+  .bar-5 {
+    background: repeating-linear-gradient(135deg,
+      rgba(125,88,84,0.16) 0 6px,
+      rgba(125,88,84,0.05) 6px 12px);
+  }
+
+  .timeline-end-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 400ms ease 1750ms;
+    white-space: nowrap;
+  }
+  .timeline-track.in-view .timeline-end-marker { opacity: 1; }
+  .timeline-end-marker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-dark); flex: 0 0 auto; }
+  .timeline-end-marker span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--charcoal);
+    background: var(--off-white);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .timeline-months {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted-grey);
+    letter-spacing: 0.02em;
+  }
+  .timeline-months span { flex: 1; text-align: left; }
+
+  .timeline-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    margin-top: 20px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted-grey);
+  }
+  .timeline-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .timeline-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+  .dot-1 { background: var(--taupe); }
+  .dot-2 { background: var(--mauve); }
+  .dot-3 { background: var(--green-dark); }
+  .dot-4 { background: var(--grey-mid); }
+  .dot-5 {
+    background: repeating-linear-gradient(135deg,
+      rgba(125,88,84,0.35) 0 3px,
+      rgba(125,88,84,0.08) 3px 6px);
+  }
+
+  /* ============================================================
+     02 — Sådan fungerer det (proces-flow)
+     ============================================================ */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr 64px 1fr;
+    grid-template-rows: 175px 70px 175px;
+    align-items: center;
+    position: relative;
+  }
+
+  .box-1 { grid-column: 1; grid-row: 1; }
+  .arrow-1 { grid-column: 2; grid-row: 1; }
+  .box-2 { grid-column: 3; grid-row: 1; }
+  .arrow-2 { grid-column: 4; grid-row: 1; }
+  .box-3 { grid-column: 5; grid-row: 1; }
+  .arrow-down { grid-column: 5; grid-row: 2; }
+  .box-6 { grid-column: 1; grid-row: 3; }
+  .arrow-5 { grid-column: 2; grid-row: 3; }
+  .box-5 { grid-column: 3; grid-row: 3; }
+  .arrow-4 { grid-column: 4; grid-row: 3; }
+  .box-4 { grid-column: 5; grid-row: 3; }
+
+  .step-box {
+    border-radius: 16px;
+    padding: 26px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.45;
+    height: 175px;
+    font-size: 15.5px;
+    color: #ffffff;
+    letter-spacing: -0.005em;
+    cursor: default;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 1px 2px rgba(45, 74, 62, 0.05), 0 6px 18px rgba(45, 74, 62, 0.10);
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease;
+  }
+  .step-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(45, 74, 62, 0.12), 0 12px 28px rgba(45, 74, 62, 0.10);
+  }
+
+  .step-box.box-1 { background: var(--box-1); }
+  .step-box.box-2 { background: var(--box-2); }
+  .step-box.box-3 { background: var(--box-3); }
+  .step-box.box-4 { background: var(--box-4); }
+  .step-box.box-5 { background: var(--box-5); }
+  .step-box.box-6 { background: var(--box-6); }
+
+  .step-num {
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--green);
+    font-size: 19px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 12px rgba(45, 74, 62, 0.20), 0 0 0 4px rgba(255, 255, 255, 0.55);
+    z-index: 2;
+  }
+
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-left: -22px;
+    margin-right: 0;
+  }
+  .arrow-connector svg { width: 64px; height: 64px; overflow: visible; }
+  .arrow-connector.left { margin-left: 0; margin-right: -22px; }
+
+  .arrow-down-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-top: -22px;
+    margin-bottom: 0;
+  }
+  .arrow-down-container svg { width: 60px; height: 60px; overflow: visible; transform: rotate(0deg); }
+
+  @keyframes wiggle-right {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(10deg); }
+    40%  { transform: rotate(-8deg); }
+    60%  { transform: rotate(5deg); }
+    80%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes wiggle-left {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-5deg); }
+    80%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .arrow-connector:not(.left):hover .wiggle-inner,
+  .arrow-connector:not(.left).wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+  .arrow-connector.left:hover .wiggle-inner,
+  .arrow-connector.left.wiggling .wiggle-inner {
+    animation: wiggle-left 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+  .arrow-down-container:hover .wiggle-inner,
+  .arrow-down-container.wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .footer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    margin-top: 32px;
+  }
+  .footer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--box-3);
+    box-shadow: 0 0 0 4px rgba(125, 88, 84, 0.18);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* ============================================================
+     03 — Spørgsmål & svar (FAQ)
+     ============================================================ */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: var(--off-white);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(58, 56, 53, 0.06);
+  }
+  .faq-question {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: clamp(16px, 1.5vw, 18px);
+    font-weight: 600;
+    color: var(--charcoal);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--dark-green);
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1);
+  }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer {
+    margin: 0;
+    padding: 0 24px 22px 24px;
+    font-size: clamp(14.5px, 1.3vw, 16px);
+    line-height: 1.65;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* -------- Tweaks panel (procesfarver) -------- */
+  .tweaks-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+    display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .tweaks-panel-head h4 { margin: 0; font-size: 13px; font-weight: 600; color: #2D4A3E; letter-spacing: 0.02em; }
+  .tweaks-close { background: none; border: none; cursor: pointer; color: #888; padding: 4px; font-size: 16px; line-height: 1; }
+  .tweaks-label { font-size: 11px; font-weight: 600; color: #6f7770; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .box-color-list { display: flex; flex-direction: column; gap: 7px; }
+  .box-color-row { display: flex; align-items: center; gap: 8px; }
+  .box-color-label { font-size: 11.5px; font-weight: 500; color: #2D4A3E; width: 50px; flex-shrink: 0; }
+  .hex-swatch { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; cursor: pointer; position: relative; overflow: hidden; }
+  .hex-swatch input[type="color"] { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); border: none; background: transparent; cursor: pointer; padding: 0; }
+  .hex-input { flex: 1; font-family: 'Poppins', sans-serif; font-size: 12.5px; font-weight: 500; color: #2D4A3E; padding: 7px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; outline: none; text-transform: uppercase; letter-spacing: 0.02em; }
+  .hex-input:focus { border-color: #7A9E7E; }
+  .tweaks-divider { height: 1px; background: #eee; margin: 14px 0 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .particle, .unit, .timeline-bar, .timeline-marker { transition: none !important; animation: none !important; }
+  }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 900px) {
+    body { padding: 32px 18px 40px; }
+    .intro { margin-bottom: 48px; }
+    .grid { gap: 24px; }
+    .unit { padding: 16px; gap: 16px; }
+    .section { margin-top: 60px; }
+  }
+
+  @media (max-width: 880px) {
+    .flow { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
+    .box-1  { grid-column: 1; grid-row: 1; }
+    .arrow-1 { grid-column: 1; grid-row: 2; }
+    .box-2  { grid-column: 1; grid-row: 3; }
+    .arrow-2 { grid-column: 1; grid-row: 4; }
+    .box-3  { grid-column: 1; grid-row: 5; }
+    .arrow-down { grid-column: 1; grid-row: 6; }
+    .box-4  { grid-column: 1; grid-row: 7; }
+    .arrow-4 { grid-column: 1; grid-row: 8; }
+    .box-5  { grid-column: 1; grid-row: 9; }
+    .arrow-5 { grid-column: 1; grid-row: 10; }
+    .box-6  { grid-column: 1; grid-row: 11; }
+    .arrow-connector, .arrow-connector.left, .arrow-down-container { margin: -10px 0; padding: 6px 0; }
+    .step-box { height: auto; min-height: 84px; padding: 18px 18px; font-size: 14.5px; }
+    .arrow-connector:not(.left) svg { width: 50px; height: 50px; transform: rotate(90deg); }
+    .arrow-down-container svg { width: 50px; height: 50px; transform: rotate(0deg); }
+    .arrow-connector.left svg { width: 50px; height: 50px; transform: scaleX(-1) rotate(-90deg); }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 28px 16px 100px; }
+    .intro { margin-bottom: 40px; }
+    .grid { grid-template-columns: 1fr; gap: 22px; }
+    .unit { padding: 14px; gap: 14px; }
+    .sidebar { padding: 14px 16px 14px 18px; }
+    .sidebar h3 { font-size: 13.5px; }
+    .sidebar p  { font-size: 12.8px; line-height: 1.6; }
+    .timeline-teaser { padding: 22px 16px 20px; margin-top: 22px; }
+    .timeline-marker-pill { font-size: 10.5px; padding: 4px 10px; }
+    .timeline-months { font-size: 10px; }
+    .section { margin-top: 48px; }
+    .section-label { gap: 12px; }
+    .faq-question { padding: 16px 18px; }
+    .faq-answer { padding: 0 18px 18px 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .step-box { min-height: 76px; padding: 16px 14px; font-size: 13.8px; }
+    .arrow-connector:not(.left) svg { width: 42px; height: 42px; transform: rotate(90deg); }
+    .arrow-down-container svg       { width: 42px; height: 42px; transform: rotate(0deg); }
+    .arrow-connector.left svg       { width: 42px; height: 42px; transform: scaleX(-1) rotate(-90deg); }
+    .step-num { width: 34px; height: 34px; font-size: 15px; top: -12px; left: -12px; box-shadow: 0 3px 8px rgba(45, 74, 62, 0.22), 0 0 0 3px #ffffff; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Page intro -->
+  <header class="intro">
+    <div class="particles" aria-hidden="true">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+    </div>
+    <div class="intro-content">
+      <p class="eyebrow">Produktet</p>
+      <h1><span>Fra </span><span class="h-soft">manuel proces</span><br><span>til </span><span class="h-strong">digitalt værktøj</span></h1>
+      <p class="intro-sub">Sådan oplever medarbejder, leder og administration EasyLeave i praksis – fra første varsel til godkendt refusion.</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       01 — Sådan opleves det
+       ============================================================ -->
+  <section class="section" id="opleves">
+    <div class="section-label">
+      <span class="section-num">01</span>
+      <h2>Sådan opleves det</h2>
+    </div>
+    <p class="section-sub">To korte videoer der viser varsling og indberetning, sådan som medarbejderen selv oplever dem.</p>
+
+    <div class="grid">
+
+      <!-- Video 1 -->
+      <div class="unit">
+        <div class="video-wrap" data-id="pFcc5Wfcs0o?rel=0&amp;modestbranding=1&amp;vq=hd720&amp;hd=1">
+          <img src="https://img.youtube.com/vi/pFcc5Wfcs0o/maxresdefault.jpg" alt="Sådan varsles orlov med EasyLeave" loading="lazy">
+          <div class="play-btn" aria-label="Afspil video">
+            <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="34" cy="34" r="34" fill="#576048"></circle>
+              <polygon points="27,20 52,34 27,48" fill="#ffffff"></polygon>
+            </svg>
+          </div>
+        </div>
+        <aside class="sidebar">
+          <h3>Sådan varsles orlov</h3>
+          <p>Det tager under to minutter at varsle sin barsel med EasyLeave.</p>
+          <p>I kan uploade jeres stamdata så vi kan genkende medarbejderen, og kun eksponere de valg og regler, som er relevante for netop deres situation. Alle orlovstyper og ansættelsesforhold understøttes, der tages højde for anciennitetskrav og virksomhedsspecifikke regler, som opsættes ved opstart.</p>
+          <p>Når varslingen er afsendt, notificeres leder og løn/HR automatisk - og det korrekte datagrundlag er etableret til næste skridt i forløbet.</p>
+        </aside>
+      </div>
+
+      <!-- Video 2 -->
+      <div class="unit">
+        <div class="video-wrap" data-id="nFEQoNhW8RI?rel=0&amp;modestbranding=1&amp;vq=hd720&amp;hd=1">
+          <img src="https://img.youtube.com/vi/nFEQoNhW8RI/maxresdefault.jpg" alt="Sådan indberettes et fuldt orlovsforløb med EasyLeave" loading="lazy">
+          <div class="play-btn" aria-label="Afspil video">
+            <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="34" cy="34" r="34" fill="#576048"></circle>
+              <polygon points="27,20 52,34 27,48" fill="#ffffff"></polygon>
+            </svg>
+          </div>
+        </div>
+        <aside class="sidebar">
+          <h3>Sådan indberettes et fuldt orlovsforløb</h3>
+          <p>Medarbejderen bliver automatisk påmindet, når det er tid til at indberette det fulde orlovsforløb.</p>
+          <p>Indberetningen følger samme princip som varslingen: Medarbejderen præsenteres kun for de valg, der er relevante i netop deres situation. EasyLeave er datostyret og håndterer hele spektret - drypvis-, udskudt orlov, indlæggelse, eventuel godkendelsesflow ved andet fravær samt andre virksomhedsspecifikke tilpasninger - uden at det komplicerer oplevelsen for medarbejderen.</p>
+          <p>Når indberetningen er afsendt, har virksomheden et komplet og korrekt datagrundlag klar til refusionssøgning og videre opfølgning - uden manuelle mellemled.</p>
+        </aside>
+      </div>
+
+    </div>
+
+    <div class="timeline-teaser">
+      <div class="timeline-head">
+        <h3>Se orlovsplanen tage form</h3>
+        <p>Fra varslet fødselsdato til godkendt forløb – EasyLeave holder styr på tidslinjen for medarbejder, leder og administration.</p>
+      </div>
+      <div class="timeline-scroll">
+        <div class="timeline-inner">
+          <div class="timeline-track" id="timelineTrack">
+            <div class="timeline-marker" style="left:15%">
+              <span class="timeline-marker-pill">Fødsel · 1. juni</span>
+              <span class="timeline-marker-dot"></span>
+            </div>
+            <div class="timeline-bar-row">
+              <div class="timeline-bar bar-1" style="--w:15%"></div>
+              <div class="timeline-bar bar-2" style="--w:18%"><span>10 uger</span></div>
+              <div class="timeline-bar bar-3" style="--w:16%"><span>9 uger</span></div>
+              <div class="timeline-bar bar-4" style="--w:14%"><span>8 uger</span></div>
+              <div class="timeline-bar bar-5" style="--w:8%"></div>
+            </div>
+            <div class="timeline-end-marker" style="left:73%">
+              <span class="dot"></span>
+              <span>Tilbage på arbejde</span>
+            </div>
+            <div class="timeline-months">
+              <span>apr</span><span>maj</span><span>jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-legend">
+        <span><i class="dot dot-1"></i>Graviditetsorlov</span>
+        <span><i class="dot dot-2"></i>Barselsorlov</span>
+        <span><i class="dot dot-3"></i>Øremærket forældreorlov</span>
+        <span><i class="dot dot-4"></i>Overført forældreorlov</span>
+        <span><i class="dot dot-5"></i>Planlagt ferie</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       02 — Sådan fungerer det
+       ============================================================ -->
+  <section class="section" id="fungerer">
+    <div class="section-label">
+      <span class="section-num">02</span>
+      <h2>Sådan fungerer det</h2>
+    </div>
+    <p class="section-sub">Fra varsling til fuld indberetning – sådan flyder en orlovssag igennem EasyLeave for medarbejder, leder og administration.</p>
+
+    <div class="flow">
+
+      <!-- ── ROW 1 ── -->
+      <div class="step-box box-1">
+        <span class="step-num">1</span>
+        Medarbejder tilgår EasyLeave via QR eller intranet
+      </div>
+
+      <div class="arrow-connector arrow-1">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-1)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-2">
+        <span class="step-num">2</span>
+        Medarbejder varsler orlov i EasyLeave
+      </div>
+
+      <div class="arrow-connector arrow-2">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-2)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-3">
+        <span class="step-num">3</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <!-- ── DOWN ARROW (col 5) ── -->
+      <div class="arrow-down-container arrow-down">
+        <svg viewBox="0 0 716.82 711.35" style="width:56px;height:56px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(358.41,355.68) rotate(90) scale(-1,1) translate(-358.41,-355.68)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-3)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ── ROW 2 (right → left) ── -->
+      <div class="step-box box-6">
+        <span class="step-num">6</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <div class="arrow-connector left arrow-5">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-5)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-5">
+        <span class="step-num">5</span>
+        Medarbejder indberetter fuldt orlovsforløb
+      </div>
+
+      <div class="arrow-connector left arrow-4">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-4)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-4">
+        <span class="step-num">4</span>
+        Automatisk påmindelse til medarbejder og leder om orlovsindberetning
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      <div class="footer-dot"></div>
+      <span>Mulighed for integration med administrations-, tids- og refusionssystemer, så data flyder automatisk og korrekt.</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       03 — Spørgsmål & svar
+       ============================================================ -->
+  <section class="section" id="faq">
+    <div class="section-label">
+      <span class="section-num">03</span>
+      <h2>Spørgsmål &amp; svar</h2>
+    </div>
+    <p class="section-sub">Sådan fungerer varsling, indberetning og refusion i EasyLeave i praksis.</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Hvordan varsler medarbejderen sin orlov?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Det tager under to minutter at varsle sin barsel med EasyLeave. Medarbejderen guides kun gennem de valg og regler, der er relevante for netop deres situation og ansættelsesforhold.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Understøtter EasyLeave alle typer orlov?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Ja. Løsningen dækker hele spektret - blandt andet drypvis orlov, udskudt orlov og indlæggelse - og tager højde for anciennitetskrav og jeres virksomhedsspecifikke regler.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Hvad sker der, når varslingen er sendt?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Leder og løn/HR notificeres automatisk, og det korrekte datagrundlag er etableret til næste skridt i forløbet - uden manuelle mellemled.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Hvordan fungerer indberetningen af orlov?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Medarbejderen bliver automatisk påmindet, når det er tid til at indberette, og præsenteres igen kun for de valg, der er relevante for netop deres situation. Når indberetningen er afsendt, har virksomheden et komplet og korrekt datagrundlag klar til refusionssøgning.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Hvordan hjælper EasyLeave med refusion?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Løsningen styrer automatisk regler og datoer, så I kan holde tidsfrister og søge korrekt refusion uden forsinkelser - med fuld sporbarhed på dato og dokumentation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Kan EasyLeave integreres med vores løn- og HR-systemer?
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer-inner">
+            <p class="faq-answer">Ja. EasyLeave integrerer med jeres eksisterende systemer, så leder, medarbejder og administration altid arbejder ud fra de samme oplysninger, uden dobbeltregistrering.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Tweaks panel (procesfarver) -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <div class="tweaks-panel-head">
+    <h4>Tweaks</h4>
+    <button class="tweaks-close" id="tweaksClose" aria-label="Luk">✕</button>
+  </div>
+  <div class="tweaks-label">Boks-farver (proces)</div>
+  <div class="box-color-list" id="boxColorList"></div>
+</div>
+
+<script>
+  /* -------- Auto-resize: send content height til parent (iframe embed) -------- */
+  var lastH = 0;
+  function sendHeight() {
+    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    if (Math.abs(h - lastH) > 2) {
+      lastH = h;
+      window.parent.postMessage({ iframeHeight: h }, '*');
+    }
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  if (document.fonts) { document.fonts.ready.then(sendHeight); }
+  setTimeout(sendHeight, 1500);
+
+  /* -------- Video click-to-play -------- */
+  document.querySelectorAll('.video-wrap').forEach(function(wrap) {
+    wrap.addEventListener('click', function() {
+      var id = wrap.getAttribute('data-id');
+      wrap.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '&autoplay=1&mute=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen allowtransparency="true"></iframe>';
+    });
+    wrap.querySelectorAll('img').forEach(function(img) {
+      if (img.complete) { sendHeight(); }
+      else { img.addEventListener('load', sendHeight); img.addEventListener('error', sendHeight); }
+    });
+  });
+
+  /* -------- Tidslinje: afspil animation når den ses -------- */
+  var timelineTrack = document.getElementById('timelineTrack');
+  if (timelineTrack) {
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            timelineTrack.classList.add('in-view');
+            io.unobserve(timelineTrack);
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(timelineTrack);
+    } else {
+      timelineTrack.classList.add('in-view');
+    }
+  }
+
+  /* -------- Proces: wiggle-pile ved hover på boks -------- */
+  var boxArrowMap = {
+    'box-1': 'arrow-1',
+    'box-2': 'arrow-2',
+    'box-3': 'arrow-down-container',
+    'box-4': 'arrow-4',
+    'box-5': 'arrow-5',
+  };
+  function triggerWiggle(arrowClass) {
+    var el = document.querySelector('.' + arrowClass);
+    if (!el) return;
+    el.classList.remove('wiggling');
+    void el.offsetWidth;
+    el.classList.add('wiggling');
+    el.addEventListener('animationend', function() { el.classList.remove('wiggling'); }, { once: true });
+  }
+  document.querySelectorAll('.step-box').forEach(function(box) {
+    var boxClass = Array.prototype.find.call(box.classList, function(c) { return c.indexOf('box-') === 0; });
+    var arrowClass = boxArrowMap[boxClass];
+    if (arrowClass) box.addEventListener('mouseenter', function() { triggerWiggle(arrowClass); });
+  });
+
+  /* -------- FAQ accordion -------- */
+  document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+  document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
+    wrap.addEventListener('transitionend', sendHeight);
+  });
+
+  /* -------- Tweaks panel: boksfarver (proces) -------- */
+  function lighten(hex, amt) {
+    var m = hex.match(/^#?([0-9a-f]{6})$/i);
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    var r = (n >> 16) & 0xff, g = (n >> 8) & 0xff, b = n & 0xff;
+    r = Math.min(255, Math.round(r + (255 - r) * amt));
+    g = Math.min(255, Math.round(g + (255 - g) * amt));
+    b = Math.min(255, Math.round(b + (255 - b) * amt));
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  }
+  function isValidHex(v) { return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v); }
+  function normalizeHex(v) {
+    if (!v) return null;
+    v = v.trim();
+    if (v[0] !== '#') v = '#' + v;
+    if (/^#[0-9a-f]{3}$/i.test(v)) v = '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+    return isValidHex(v) ? v.toUpperCase() : null;
+  }
+  var defaultBoxColors = ["#869375", "#576048", "#99716f", "#869375", "#576048", "#99716f"];
+  var currentBoxColors = defaultBoxColors.slice();
+
+  function applyBoxColor(n, hex, opts) {
+    opts = opts || {};
+    var norm = normalizeHex(hex);
+    if (!norm) return;
+    var root = document.documentElement;
+    root.style.setProperty('--box-' + n, norm);
+    root.style.setProperty('--box-' + n + '-top', lighten(norm, 0.18));
+    currentBoxColors[n - 1] = norm;
+    syncBoxColorInputs(n);
+    if (opts.persist) {
+      try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { boxColors: currentBoxColors } }, '*'); } catch(e) {}
+    }
+  }
+  function syncBoxColorInputs(onlyN) {
+    currentBoxColors.forEach(function(hex, idx) {
+      var n = idx + 1;
+      if (onlyN && n === onlyN) return;
+      var sw = document.getElementById('boxSwatch-' + n);
+      var pi = document.getElementById('boxPicker-' + n);
+      var hx = document.getElementById('boxHex-' + n);
+      if (sw) sw.style.background = hex;
+      if (pi) pi.value = hex;
+      if (hx) hx.value = hex;
+    });
+  }
+  function buildBoxColorRows() {
+    var list = document.getElementById('boxColorList');
+    list.innerHTML = '';
+    for (var n = 1; n <= 6; n++) {
+      (function(n) {
+        var row = document.createElement('div');
+        row.className = 'box-color-row';
+        row.innerHTML =
+          '<span class="box-color-label">Boks ' + n + '</span>' +
+          '<label class="hex-swatch" id="boxSwatch-' + n + '"><input type="color" id="boxPicker-' + n + '" aria-label="Vælg farve boks ' + n + '" /></label>' +
+          '<input class="hex-input" id="boxHex-' + n + '" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks ' + n + '" />';
+        list.appendChild(row);
+        var picker = row.querySelector('#boxPicker-' + n);
+        var hex = row.querySelector('#boxHex-' + n);
+        picker.addEventListener('input', function(e) { applyBoxColor(n, e.target.value); });
+        picker.addEventListener('change', function(e) { applyBoxColor(n, e.target.value, { persist: true }); });
+        hex.addEventListener('input', function(e) { var norm = normalizeHex(e.target.value); if (norm) applyBoxColor(n, norm); });
+        hex.addEventListener('change', function(e) {
+          var norm = normalizeHex(e.target.value);
+          if (norm) applyBoxColor(n, norm, { persist: true });
+          else hex.value = currentBoxColors[n - 1] || '';
+        });
+      })(n);
+    }
+    syncBoxColorInputs();
+  }
+  buildBoxColorRows();
+
+  var panel = document.getElementById('tweaksPanel');
+  window.addEventListener('message', function(e) {
+    var d = e.data || {};
+    if (d.type === '__activate_edit_mode')   panel.classList.add('active');
+    if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+  });
+  document.getElementById('tweaksClose').addEventListener('click', function() {
+    panel.classList.remove('active');
+    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+</script>
+
+</body></html>
