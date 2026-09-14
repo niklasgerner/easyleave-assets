@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementering - EasyLeave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Delt palette — matcher produkt/kontakt/data-vilkår/om-os/referencer (Barsel. Nemt.) */
+    --dark-green: #715050;
+    --green-dark: #4a3230;
+    --sage: #96706e;
+    --mauve: #8a5754;
+    --taupe: #d8beb8;
+    --charcoal: #3a3835;
+    --text: #3a3835;
+    --muted: #888580;
+    --muted-grey: #888580;
+    --text-muted: #6f7770;
+    --text-soft: #a19c96;
+    --off-white: #f5f3f0;
+    --cream: #f5f3f0;
+    --beige: #e6ded9;
+    --border: rgba(58, 56, 53, 0.08);
+    --shadow-card: 0 1px 2px rgba(58,56,53,0.04), 0 8px 28px rgba(58,56,53,0.08);
+    --shadow-hover: 0 4px 12px rgba(58,56,53,0.08), 0 18px 42px rgba(58,56,53,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: auto;
+    background: transparent;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body { padding: 14px 24px 48px; overflow: hidden; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+
+  /* -------- Shared eyebrow -------- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sage);
+    margin: 0 0 16px 0; line-height: 1.4;
+  }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
+
+  /* -------- Intro -------- */
+  .intro { text-align: center; max-width: 720px; margin: 0 auto 44px; padding: 0 8px 4px; }
+  .intro h1 {
+    font-size: clamp(2.1rem, 4.4vw, 3rem); font-weight: 800; color: var(--charcoal);
+    letter-spacing: -0.02em; line-height: 1.14; max-width: 22ch; margin: 0 auto 18px;
+  }
+  .intro h1 .h-strong { color: var(--dark-green); }
+  .intro-sub { font-size: clamp(15.5px, 1.6vw, 18px); line-height: 1.6; color: var(--text-muted); max-width: 58ch; margin: 0 auto; text-wrap: pretty; }
+
+  /* -------- Stat tiles -------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 56px; }
+  .stat-tile {
+    background: var(--off-white); border-radius: 18px; padding: 26px 22px; text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .stat-tile .n { display: block; font-size: clamp(1.9rem, 3.2vw, 2.4rem); font-weight: 800; color: var(--dark-green); letter-spacing: -0.02em; margin-bottom: 4px; }
+  .stat-tile .l { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  .stat-tile .d { font-size: 13.5px; line-height: 1.5; color: var(--text-muted); }
+
+  /* -------- Section rhythm -------- */
+  .section { position: relative; z-index: 1; margin-top: 68px; }
+  .section:first-of-type { margin-top: 0; }
+  .section-label { display: flex; align-items: baseline; gap: 16px; padding-bottom: 18px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-num { font-size: 13px; font-weight: 700; color: var(--sage); letter-spacing: 0.04em; flex: 0 0 auto; }
+  .section-label h2 { font-size: clamp(1.3rem, 2.3vw, 1.6rem); font-weight: 700; color: var(--charcoal); letter-spacing: -0.01em; }
+  .section-sub { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); max-width: 62ch; margin: 14px 0 32px; }
+
+  /* -------- Step cards -------- */
+  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px 22px; box-shadow: var(--shadow-card); }
+  .step-card .no { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  .step-card b { display: block; font-size: 18px; font-weight: 700; color: var(--charcoal); margin-bottom: 8px; letter-spacing: -0.005em; }
+  .step-card p { font-size: 14px; line-height: 1.55; color: var(--text-muted); }
+  .step-note { margin-top: 20px; font-size: 13px; color: var(--text-soft); text-align: center; }
+
+  /* -------- Quote block -------- */
+  .quote-block {
+    margin-top: 68px; background: var(--off-white); border-radius: 20px;
+    padding: clamp(28px, 3.5vw, 44px) clamp(24px, 4vw, 56px); box-shadow: var(--shadow-card);
+    max-width: 820px; margin-left: auto; margin-right: auto;
+  }
+  .quote-block .quote-mark { font-size: 48px; font-weight: 800; color: var(--taupe); line-height: 1; margin-bottom: 4px; font-family: Georgia, serif; }
+  .quote-block p.text { font-size: 17px; line-height: 1.65; color: var(--charcoal); font-style: italic; margin-bottom: 18px; }
+  .quote-block .by { font-size: 14px; font-weight: 700; color: var(--charcoal); }
+  .quote-block .role { font-size: 12.5px; color: var(--text-muted); }
+
+  /* -------- Pricing teaser -------- */
+  .price-banner {
+    margin-top: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    background: var(--green-dark); border-radius: 20px; padding: clamp(28px, 3.5vw, 40px) clamp(24px, 3.5vw, 44px); color: #fff;
+  }
+  .price-banner h3 { font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .price-banner p { font-size: 14.5px; color: rgba(255,255,255,0.78); max-width: 52ch; }
+  .price-banner a {
+    flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--green-dark);
+    text-decoration: none; padding: 15px 30px; border-radius: 12px; font-weight: 700; font-size: 14.5px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+  .price-banner a:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
+
+  /* -------- FAQ -------- */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; margin: 0 auto; }
+  .faq-item { background: var(--off-white); border-radius: 14px; overflow: hidden; border: 1px solid rgba(58, 56, 53, 0.06); }
+  .faq-question {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    width: 100%; padding: 20px 24px; background: none; border: none; text-align: left;
+    font-family: inherit; font-size: clamp(16px, 1.5vw, 18px); font-weight: 600; color: var(--charcoal);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .faq-question:focus-visible { outline: 2px solid var(--dark-green); outline-offset: -2px; }
+  .faq-icon { position: relative; width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--dark-green); }
+  .faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; background: #ffffff; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); transition: transform 220ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .faq-icon::before { width: 10px; height: 2px; }
+  .faq-icon::after { width: 2px; height: 10px; }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms cubic-bezier(.2,.7,.2,1); }
+  .faq-item.open .faq-answer-wrap { grid-template-rows: 1fr; }
+  .faq-answer-inner { overflow: hidden; }
+  .faq-answer { margin: 0; padding: 0 24px 22px 24px; font-size: clamp(14.5px, 1.3vw, 16px); line-height: 1.65; color: var(--muted); font-weight: 400; }
+  .faq-answer a { color: var(--dark-green); font-weight: 600; text-decoration: none; }
+  .faq-answer a:hover { text-decoration: underline; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .step-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 14px 16px 48px; }
+    .intro { margin-bottom: 32px; }
+    .price-banner { flex-direction: column; text-align: center; }
+    .section { margin-top: 52px; }
+    .faq-question { padding: 16px 18px; }
+    .faq-answer { padding: 0 18px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="intro">
+      <p class="eyebrow">Implementering</p>
+      <h1>Implementering med <span class="h-strong">ejerskab</span> og klar kommunikation</h1>
+      <p class="intro-sub">Fra demo til go-live, uden at det belaster jeres organisation med en tung implementeringsproces.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <span class="n">&lt; 4 uger</span>
+        <span class="l">Til drift</span>
+        <p class="d">Fra opstart til drift. Glem årelange IT-implementeringer - vi tager ansvaret.</p>
+      </div>
+      <div class="stat-tile">
+        <span class="n">3-4 timer</span>
+        <span class="l">Jeres indsats</span>
+        <p class="d">Samlet tidsforbrug hos jer på opsætning og implementering.</p>
+      </div>
+      <div class="stat-tile">
+        <span class="n">2 møder</span>
+        <span class="l">Plus én workbook</span>
+        <p class="d">Ét opstartsmøde og én gennemgang. Resten står vi for.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-label">
+        <span class="section-num">01</span>
+        <h2>Sådan forløber det</h2>
+      </div>
+      <p class="section-sub">Vi kortlægger jeres regler og arbejdsgange, opsætter løsningen i tæt dialog med jer, og klæder jeres administration på med træning og dokumentation - så I får fuldt ejerskab fra dag ét.</p>
+      <div class="step-grid">
+        <div class="step-card">
+          <span class="no">Trin 1</span>
+          <b>Opstart</b>
+          <p>Workbook på 30 minutter og ét møde om jeres regler og roller.</p>
+        </div>
+        <div class="step-card">
+          <span class="no">Trin 2</span>
+          <b>Konfiguration</b>
+          <p>Vi opsætter og tester løsningen. To timer hos jer til gennemgang.</p>
+        </div>
+        <div class="step-card">
+          <span class="no">Trin 3</span>
+          <b>I drift</b>
+          <p>Overdragelse og færdigt materiale til ledere og medarbejdere.</p>
+        </div>
+      </div>
+      <p class="step-note">Ved komplekse integrationsopsætninger forventes større ressourcebrug på begge sider.</p>
+    </section>
+
+    <div class="quote-block">
+      <p class="quote-mark">&ldquo;</p>
+      <p class="text">En typisk implementering kræver kun få timers arbejde fra jeres side og tager normalt 2-3 uger fra demo til go-live. Det betyder, at I får en løsning, der hurtigt kan skabe værdi, uden at belaste organisationen med en tung implementeringsproces.</p>
+      <div class="by">Tine Merete Volf-Nielsen</div>
+      <div class="role">Medstifter &amp; Adm. direktør, EasyLeave</div>
+    </div>
+
+    <div class="price-banner">
+      <div>
+        <h3>Hvad koster EasyLeave?</h3>
+        <p>Prissætningen tilpasses jeres organisation, så der er en klar sammenhæng mellem løsning og værdi - uanset størrelse og kompleksitet.</p>
+      </div>
+      <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">
+        Kontakt os
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <section class="section" id="faq">
+      <div class="section-label">
+        <h2>Spørgsmål om implementering</h2>
+      </div>
+      <p class="section-sub">Sådan kommer I fra demo til go-live med ejerskab og klar kommunikation.</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor lang tid tager en implementering?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">En typisk implementering tager normalt 2-3 uger fra demo til go-live, så I hurtigt får en løsning, der skaber værdi.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvor meget arbejde kræver det af os?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Kun få timers arbejde fra jeres side - typisk 3-4 timer samlet. Vi driver processen og tilpasser løsningen i tæt dialog med jer, uden at belaste organisationen med en tung implementeringsproces.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvordan foregår selve implementeringen?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">I tre trin: Opstart, med en workbook på 30 minutter og ét møde om regler og roller. Konfiguration, hvor vi opsætter og tester løsningen med to timer hos jer til gennemgang. Og I drift, med overdragelse og færdigt materiale til ledere og medarbejdere.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Får vi træning og dokumentation?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Ja. Jeres administration klædes på med træning og dokumentation, så I får fuldt ejerskab over løsningen fra dag ét.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad koster implementeringen?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Prisen tilpasses jeres organisation, så der er en klar sammenhæng mellem løsning og værdi. <a href="https://easyleave.dk/kontakt" target="_top" rel="noopener">Kontakt os</a> for et konkret indblik.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Hvad sker der efter go-live?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer-inner">
+              <p class="faq-answer">Vi understøtter forankringen ud i organisationen, så alle kender den nye proces og deres ansvar, og løsningen fortsætter med at skabe værdi fremadrettet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    setTimeout(sendHeight, 280);
+  });
+});
+
+function sendHeight() {
+  var h = document.documentElement.scrollHeight;
+  try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
+</script>
+</body>
+</html>
