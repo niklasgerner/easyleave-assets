@@ -77,19 +77,24 @@
   .roller { width: 100%; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); }
   .track { display: flex; width: max-content; animation: logo-scroll 40s linear infinite; align-items: center; }
   .roller:hover .track { animation-play-state: paused; }
+  /* Height-fixed, width-auto: each (now true-cropped) logo keeps its real aspect
+     ratio, so the gap between one logo's ink and the next is just the margin -
+     no leftover dead space from forcing mismatched shapes into one fixed box. */
   .logo {
-    width: 170px; height: 56px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
-    margin: 0 28px; opacity: 0.75; filter: grayscale(100%);
+    height: 48px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+    margin: 0 26px; opacity: 0.75; filter: grayscale(100%);
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     cursor: pointer; text-decoration: none;
   }
   .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
-  .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .logo.logo-lg img { transform: scale(1.3); }
-  .logo.logo-sm img { transform: scale(0.72); }
+  .logo img { height: 100%; width: auto; max-width: 200px; object-fit: contain; display: block; }
+  .logo.logo-lg { height: 62px; }
+  .logo.logo-sm { height: 34px; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 640px) {
-    .logo { width: 120px; height: 40px; margin: 0 20px; }
+    .logo { height: 36px; margin: 0 18px; }
+    .logo.logo-lg { height: 46px; }
+    .logo.logo-sm { height: 26px; }
   }
 
   /* -------- Testimonials -------- */
@@ -111,6 +116,7 @@
   .quote-scale { font-size: 12px; color: var(--text-soft); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.4; }
   .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
   .quote-company-logo { height: 30px; width: auto; max-width: 150px; object-fit: contain; object-position: left center; display: block; margin-bottom: 16px; }
+  .quote-company-logo-sm { height: 20px; }
   .quote-company-logo-bottom { height: 48px; width: auto; max-width: 200px; object-fit: contain; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
 
   /* -------- Partner highlight (reuses .quote-card, just narrower/centered) -------- */
@@ -120,7 +126,7 @@
   .partner-dataflow { text-align: center; margin-top: 32px; }
   .partner-dataflow .wallhead { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 18px; }
   .partner-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 32px; }
-  .partner-row img { height: 32px; width: auto; object-fit: contain; opacity: 0.85; }
+  .partner-row img { height: 34px; width: 110px; object-fit: contain; object-position: center; opacity: 0.85; }
   .partner-row .soon { font-size: 13px; color: var(--text-soft); font-style: italic; }
 
   /* -------- FAQ -------- */
@@ -237,7 +243,7 @@
           <p class="quote-scale">Paraplyorganisation med +2.000 lønmodtagere fordelt på +100 institutioner</p>
         </article>
         <article class="quote-card">
-          <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/bravida-quote-logo.png" alt="Bravida">
+          <img class="quote-company-logo quote-company-logo-sm" src="https://niklasgerner.github.io/easyleave-assets/bravida-quote-logo.png" alt="Bravida">
           <p class="quote-text">&bdquo;Barselsplanerne sendes automatisk videre, så alle har den nødvendige information samtidig. Den faste struktur giver et effektivt workflow for leder, medarbejder og lønkontor.&ldquo;</p>
           <div class="quote-by">
             <img class="quote-avatar-img" src="https://niklasgerner.github.io/easyleave-assets/anette-holse.jpg" alt="Anette Holse">
@@ -246,7 +252,7 @@
               <div class="quote-role">Lønchef hos Bravida</div>
             </div>
           </div>
-          <p class="quote-scale">Teknisk servicevirksomhed med +3.000 medarbejdere, både administrative og faglærte</p>
+          <p class="quote-scale">Teknisk servicevirksomhed med +3.000 medarbejdere</p>
         </article>
         <article class="quote-card">
           <img class="quote-company-logo" src="https://niklasgerner.github.io/easyleave-assets/ldd-quote-logo.png" alt="LDD">
