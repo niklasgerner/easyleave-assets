@@ -82,13 +82,13 @@
      no leftover dead space from forcing mismatched shapes into one fixed box. */
   .logo {
     height: 48px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
-    margin: 0 26px; opacity: 0.75; filter: grayscale(100%);
+    margin: 0 34px; opacity: 0.75; filter: grayscale(100%);
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     cursor: pointer; text-decoration: none;
   }
   .logo:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.05); }
   .logo img { height: 100%; width: auto; max-width: 200px; object-fit: contain; display: block; }
-  .logo.logo-lg { height: 62px; }
+  .logo.logo-lg { height: 74px; }
   .logo.logo-sm { height: 34px; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 640px) {
@@ -117,7 +117,7 @@
   .quote-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
   .quote-company-logo { height: 30px; width: auto; max-width: 150px; object-fit: contain; object-position: left center; display: block; margin-bottom: 16px; }
   .quote-company-logo-sm { height: 20px; }
-  .quote-company-logo-bottom { height: 48px; width: auto; max-width: 200px; object-fit: contain; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .quote-company-logo-inline { height: 44px; width: auto; max-width: 160px; object-fit: contain; margin-left: auto; }
 
   /* -------- Partner highlight (reuses .quote-card, just narrower/centered) -------- */
   .partner-quote-card { max-width: 700px; margin: 0 auto; }
@@ -192,7 +192,7 @@
     <section class="section">
       <div class="section-label">
         <span class="section-num">01</span>
-        <h2>Et udvalg af vores kunder</h2>
+        <h2>Vi samarbejder med</h2>
       </div>
       <div class="logo-bleed">
         <div class="roller"><div class="track">
@@ -282,8 +282,8 @@
             <div class="quote-name">Leif Ilsø</div>
             <div class="quote-role">Business Development Director hos KMD</div>
           </div>
+          <img class="quote-company-logo-inline" src="https://niklasgerner.github.io/easyleave-assets/kmd-quote-logo.png" alt="KMD">
         </div>
-        <img class="quote-company-logo-bottom" src="https://niklasgerner.github.io/easyleave-assets/kmd-quote-logo.png" alt="KMD">
       </article>
       <div class="partner-dataflow">
         <p class="wallhead">Partnere og dataflow</p>
@@ -371,9 +371,6 @@ function sendHeight() {
 window.addEventListener('load', sendHeight);
 window.addEventListener('resize', sendHeight);
 if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
-if ('ResizeObserver' in window) {
-  new ResizeObserver(sendHeight).observe(document.body);
-}
 document.querySelectorAll('.logo img').forEach(function (img) {
   img.addEventListener('load', sendHeight);
 });

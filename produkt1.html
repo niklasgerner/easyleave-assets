@@ -732,12 +732,6 @@
 
   <!-- Page intro -->
   <header class="intro">
-    <div class="particles" aria-hidden="true">
-      <span class="particle p1"></span>
-      <span class="particle p2"></span>
-      <span class="particle p3"></span>
-      <span class="particle p4"></span>
-    </div>
     <div class="intro-content">
       <p class="eyebrow">Produktet</p>
       <h1><span>Fra </span><span class="h-soft">manuel proces</span><br><span>til </span><span class="h-strong">digitalt værktøj</span></h1>
@@ -1051,9 +1045,6 @@
   window.addEventListener('resize', sendHeight);
   if (document.fonts) { document.fonts.ready.then(sendHeight); }
   setTimeout(sendHeight, 1500);
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(sendHeight).observe(document.body);
-  }
 
   /* -------- Video click-to-play -------- */
   document.querySelectorAll('.video-wrap').forEach(function(wrap) {

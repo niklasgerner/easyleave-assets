@@ -607,9 +607,6 @@
     window.addEventListener('load', notifyHeight);
     window.addEventListener('resize', notifyHeight);
     if (document.fonts && document.fonts.ready) { document.fonts.ready.then(notifyHeight); }
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(notifyHeight).observe(document.body);
-    }
   </script>
 </body>
 </html>
