@@ -103,7 +103,8 @@
   .benefit-cta a:hover { background: #d8c9c2; transform: translateY(-1px); }
 
   /* -------- Logo roller (ported 1:1 from index.html / referencer1.html) -------- */
-  .logo-card { background: var(--off-white); border-radius: 18px; box-shadow: var(--shadow-card); padding: 20px 0; }
+  /* Full-bleed: runs edge-to-edge regardless of .wrap's max-width, matching the roller's current unboxed treatment */
+  .logo-bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
   .roller { width: 100%; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%); }
   .track { display: flex; width: max-content; animation: logo-scroll 40s linear infinite; align-items: center; }
   .roller:hover .track { animation-play-state: paused; }
@@ -247,7 +248,7 @@
         <span class="section-num">02</span>
         <h2>Vi samarbejder med</h2>
       </div>
-      <div class="logo-card">
+      <div class="logo-bleed">
         <div class="roller"><div class="track">
           <a class="logo s-bavarian"    href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/Bavarian_Nordic_logo-matched%20(1).png" alt="Bavarian Nordic"></a>
           <a class="logo s-bravida"     href="https://easyleave.dk/referencer" target="_top" rel="noopener"><img src="https://niklasgerner.github.io/easyleave-assets/bravida-matched.png" alt="Bravida"></a>
