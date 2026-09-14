@@ -187,6 +187,7 @@
     align-items: center;
     gap: 20px;
     padding: clamp(20px, 2vw, 26px) clamp(22px, 2.2vw, 28px) 0;
+    transition: padding 320ms cubic-bezier(.2,.7,.2,1);
   }
   .row-side .card .photo {
     width: clamp(140px, 18vw, 208px);
@@ -194,11 +195,49 @@
     flex: 0 0 auto;
     border-radius: 18px;
     aspect-ratio: 1 / 1;
+    cursor: pointer;
+    transition: width 380ms cubic-bezier(.2,.7,.2,1), height 380ms cubic-bezier(.2,.7,.2,1),
+                border-radius 380ms cubic-bezier(.2,.7,.2,1);
   }
+  .row-side .card .photo:hover { box-shadow: 0 0 0 3px rgba(113, 80, 80, 0.18) inset; }
+  .row-side .card .photo::after {
+    content: "⤢";
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(58, 56, 53, 0.55);
+    color: #fff;
+    font-size: 13px;
+    line-height: 26px;
+    text-align: center;
+    transition: transform 380ms cubic-bezier(.2,.7,.2,1);
+  }
+  .row-side .card.is-open .photo::after { content: "×"; font-size: 17px; transform: rotate(180deg); }
   .row-side .card-head .head-text { min-width: 0; }
   .row-side .card .name { margin: 0 0 2px; }
   .row-side .card .title { margin: 0; }
   .row-side .card .body { padding-top: 14px; }
+
+  /* Tap a small photo to blow it up to founder size; tap again to shrink it back. */
+  .row-side .card.is-open .card-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+  }
+  .row-side .card.is-open .photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 6 / 5;
+    border-radius: 0;
+  }
+  .row-side .card.is-open .head-text {
+    padding: clamp(20px, 2vw, 26px) clamp(22px, 2.2vw, 28px) 0;
+  }
+  .row-side .card.is-open .name { font-size: var(--name-size-featured); }
 
   /* Placeholder (no photo) */
   .photo-placeholder {
@@ -629,7 +668,7 @@
 
       <article class="card" data-person="niklas" style="--photo-pos-x: 60%; --photo-origin-y: 67%; --photo-scale: 1.70;">
         <div class="card-head">
-          <div class="photo">
+          <div class="photo" role="button" tabindex="0" aria-expanded="false" aria-label="Se stort billede af Niklas">
             <img src="https://niklasgerner.github.io/easyleave-assets/niklas-opt.jpg" alt="Niklas, Commercial Lead hos EasyLeave" loading="lazy">
           </div>
           <div class="head-text">
@@ -648,7 +687,7 @@
 
       <article class="card" data-person="christoffer" style="--photo-pos-x: 59%; --photo-origin-y: 61%; --photo-scale: 1.75;">
         <div class="card-head">
-          <div class="photo">
+          <div class="photo" role="button" tabindex="0" aria-expanded="false" aria-label="Se stort billede af Christoffer">
             <img src="https://niklasgerner.github.io/easyleave-assets/christoffer-opt.jpg" alt="Christoffer, Developer hos EasyLeave" loading="lazy">
           </div>
           <div class="head-text">
@@ -666,7 +705,7 @@
 
       <article class="card" data-person="henrik" style="--photo-pos-x: 46%; --photo-origin-y: 62%; --photo-scale: 2.15;">
         <div class="card-head">
-          <div class="photo">
+          <div class="photo" role="button" tabindex="0" aria-expanded="false" aria-label="Se stort billede af Henrik">
             <img src="https://niklasgerner.github.io/easyleave-assets/henrik-opt.jpg" alt="Henrik, Partner hos EasyLeave" loading="lazy">
           </div>
           <div class="head-text">
@@ -685,7 +724,7 @@
 
       <article class="card" data-person="emma" style="--photo-pos-x: 53%; --photo-origin-y: 72%; --photo-scale: 1.80;">
         <div class="card-head">
-          <div class="photo">
+          <div class="photo" role="button" tabindex="0" aria-expanded="false" aria-label="Se stort billede af Emma">
             <img src="https://niklasgerner.github.io/easyleave-assets/emma-opt.jpg" alt="Emma hos EasyLeave" loading="lazy">
           </div>
           <div class="head-text">
@@ -734,6 +773,20 @@ if (document.fonts) { document.fonts.ready.then(sendHeight); }
 // Also re-emit after any contenteditable change (bios may reflow card heights).
 document.addEventListener('input', function(e) {
   if (e.target && e.target.isContentEditable) sendHeight();
+});
+
+// Tap a small team photo to blow it up to founder size; tap again to shrink it back.
+document.querySelectorAll('.row-side .photo[role="button"]').forEach(function (photo) {
+  function toggle() {
+    var card = photo.closest('.card');
+    var isOpen = card.classList.toggle('is-open');
+    photo.setAttribute('aria-expanded', String(isOpen));
+    setTimeout(sendHeight, 400);
+  }
+  photo.addEventListener('click', toggle);
+  photo.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
 });
 </script>
 
