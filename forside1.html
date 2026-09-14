@@ -54,8 +54,8 @@
   }
   .eyebrow::before, .eyebrow::after { content: ""; width: 22px; height: 2px; background: var(--sage); flex: 0 0 auto; }
 
-  /* -------- Hero (text one side, phone the other) -------- */
-  .hero-row { display: grid; grid-template-columns: 1.3fr 0.7fr; align-items: start; gap: clamp(24px, 4vw, 56px); padding: clamp(4px, 1vw, 12px) 0 clamp(20px, 3vw, 32px); }
+  /* -------- Hero (headline+subcopy centered, phone stacked below) -------- */
+  .hero-row { display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(12px, 2vw, 20px); padding: clamp(4px, 1vw, 12px) 0 0; }
   .hero .headline {
     font-size: clamp(3.2rem, 8vw, 5.6rem); font-weight: 700; letter-spacing: -0.03em;
     line-height: 0.98; color: var(--charcoal); margin: 0 0 24px 0;
@@ -64,7 +64,7 @@
   .hero .headline .accent { display: block; color: var(--dark-green); }
   .hero .subcopy {
     font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; color: var(--text-muted);
-    font-weight: 400; margin: 0; max-width: 46ch; text-wrap: pretty;
+    font-weight: 400; margin: 0 auto; max-width: 46ch; text-wrap: pretty;
   }
   .hero .subcopy strong { color: var(--charcoal); font-weight: 700; }
 
@@ -74,18 +74,13 @@
      transform - shrinking the box itself instead would crop the content. */
   .phone-preview {
     width: 300px; height: 540px; overflow: hidden; position: relative;
-    margin-bottom: -170px; transition: transform 260ms cubic-bezier(.2,.7,.2,1);
+    margin: 8px auto -170px; transition: transform 260ms cubic-bezier(.2,.7,.2,1);
   }
   .phone-preview:hover { transform: rotate(-2deg) scale(1.03); }
   .phone-preview iframe {
     width: 380px; height: 680px; border: 0; display: block; pointer-events: none;
     position: absolute; top: 0; left: 0;
     transform: scale(0.79); transform-origin: top left;
-  }
-  @media (max-width: 800px) {
-    .hero-row { grid-template-columns: 1fr; text-align: center; }
-    .hero .subcopy { margin: 0 auto; }
-    .phone-preview { order: -1; margin: 0 auto; }
   }
 
   /* -------- Primary CTA (moved below section 01) -------- */
