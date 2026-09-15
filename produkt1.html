@@ -810,26 +810,6 @@
               <span><i class="tl-ferie"></i>Planlagt ferie</span>
             </div>
           </div>
-
-          <div class="pack" aria-hidden="true">
-            <span class="doc"><i></i><i></i><i></i><i></i><i></i></span>
-            <span class="env"><span class="flap"></span><span class="stamp"></span></span>
-          </div>
-
-          <div class="receipt" role="status">
-            <div>
-              <span class="rc-pill">Afsendt</span>
-              <p class="rc-h">Dit orlovsoverblik er sendt</p>
-              <p class="rc-p">Dit orlovsforløb er blevet registreret og sendt til de relevante modtagere.</p>
-              <p class="rc-eyebrow">Sendt til</p>
-              <div class="rc-list">
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>HR og løn</strong><span>Løn- og HR-afdelingen er orienteret</span></span></div>
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Nærmeste leder</strong><span>Din leder er orienteret</span></span></div>
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Du modtager også en kopi</strong><span>En kopi af dit orlovsforløb er sendt til din mail</span></span></div>
-              </div>
-              <button class="rc-btn" type="button" id="rc-download">Download orlovsforløb i PDF</button>
-            </div>
-          </div>
         </div>
       </div>
   </section>
@@ -1060,100 +1040,33 @@
     });
   });
 
-/* -------- Medarbejderens plan: tidslinje + morph (afspilles/loopes mens sektionen er synlig) -------- */
+/* -------- Medarbejderens plan: tidslinjen afspilles én gang når den ses og bliver stående -------- */
 (function () {
   var morph = document.getElementById('morph');
   if (!morph) return;
-  var tl = morph.closest('.timeline-teaser');
   var tlSegs = [].slice.call(morph.querySelectorAll('.tl-seg'));
   var tlLegend = [].slice.call(morph.querySelectorAll('.tl-legend span'));
   var tlFlag = morph.querySelector('.tl-flag');
   var tlBirth = morph.querySelector('.tl-birthline');
   var tlReturn = morph.querySelector('.tl-return');
-  var morphTl = morph.querySelector('.morph-tl');
-  var morphRc = morph.querySelector('.receipt');
-  var tlTimers = [], morphTimers = [], replayTimer = null;
-  var LOOP_PAUSE = 3500;
-  var noMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function tlClear() {
-    tlTimers.forEach(clearTimeout); tlTimers = [];
-    tlSegs.concat(tlLegend).forEach(function (el) { el.classList.remove('on'); });
-    [tlFlag, tlBirth, tlReturn].forEach(function (el) { if (el) el.classList.remove('on'); });
-  }
-  function tlAt(ms, fn) { tlTimers.push(setTimeout(fn, ms)); }
-  function tlPlay() {
-    tlClear();
-    void morph.offsetWidth;
-    tlAt(120, function () { if (tlFlag) tlFlag.classList.add('on'); });
-    tlAt(260, function () { if (tlBirth) tlBirth.classList.add('on'); });
+  function play() {
+    setTimeout(function () { if (tlFlag) tlFlag.classList.add('on'); }, 120);
+    setTimeout(function () { if (tlBirth) tlBirth.classList.add('on'); }, 260);
     tlSegs.forEach(function (seg, i) {
-      tlAt(800 + i * 850, function () {
+      setTimeout(function () {
         seg.classList.add('on');
         if (tlLegend[i]) tlLegend[i].classList.add('on');
-        sizeMorph();
-      });
+      }, 800 + i * 850);
     });
-    tlAt(800 + tlSegs.length * 850, function () { if (tlReturn) tlReturn.classList.add('on'); });
+    setTimeout(function () { if (tlReturn) tlReturn.classList.add('on'); sendHeight(); }, 800 + tlSegs.length * 850);
   }
-  function sizeMorph() {
-    var h = morph.classList.contains('done') ? morphRc.scrollHeight : morphTl.scrollHeight;
-    morph.style.height = h + 'px';
-    sendHeight();
-  }
-  function playMorph() {
-    morphTimers.forEach(clearTimeout); morphTimers = [];
-    morph.className = 'morph';
-    sizeMorph();
-    void morph.offsetWidth;
-    var base = 800 + tlSegs.length * 850 + 1400;
-    var steps = [[0, 'packing'], [1200, 'enveloped'], [2100, 'closed'], [2800, 'stamped'], [3600, 'sent']];
-    steps.forEach(function (s) {
-      morphTimers.push(setTimeout(function () { morph.classList.add(s[1]); sizeMorph(); }, base + s[0]));
-    });
-    var doneAt = base + steps[steps.length - 1][0] + 750;
-    morphTimers.push(setTimeout(function () { morph.classList.add('done'); sizeMorph(); }, doneAt));
-    if (noMotion) return;
-    morphTimers.push(setTimeout(function () {
-      if (!inView || document.hidden) return;
-      replay();
-    }, doneAt + LOOP_PAUSE));
-  }
-  function reset() {
-    clearTimeout(replayTimer);
-    morphTimers.forEach(clearTimeout); morphTimers = [];
-    morph.className = 'morph';
-    sizeMorph();
-    tlClear();
-  }
-  function replay() {
-    reset();
-    replayTimer = setTimeout(function () { tlPlay(); playMorph(); }, 260);
-  }
-
-  window.addEventListener('resize', sizeMorph);
-  document.addEventListener('visibilitychange', function () {
-    if (!document.hidden && !noMotion && inView) replay();
-  });
-
-  var inView = false;
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !inView) {
-          inView = true;
-          replay();
-        } else if (!entry.isIntersecting && inView) {
-          inView = false;
-          reset();
-        }
-      });
+      if (entries[0].isIntersecting) { io.disconnect(); play(); }
     }, { threshold: 0.35 });
-    io.observe(tl);
+    io.observe(morph);
   } else {
-    inView = true;
-    morph.className = 'morph packing enveloped closed stamped done';
-    sizeMorph();
+    play();
   }
 })();
 
