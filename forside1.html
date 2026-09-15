@@ -273,6 +273,8 @@
     box-shadow: var(--shadow-card); transition: transform 220ms ease, box-shadow 220ms ease;
   }
   .benefit-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .benefit-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(150,112,110,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--dark-green); }
+  .benefit-icon svg { width: 22px; height: 22px; }
   .benefit-card h3 { font-size: 18px; font-weight: 700; color: var(--charcoal); margin-bottom: 10px; letter-spacing: -0.005em; }
   .benefit-card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin-bottom: 16px; }
   .benefit-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
@@ -371,72 +373,17 @@
     <section class="section">
       <div class="section-label">
         <span class="section-num">01</span>
-        <h2>Medarbejderens plan</h2>
-      </div>
-      <p class="section-sub" style="max-width: 680px;">Orlovsplanen bliver udfyldt af medarbejderen og delt med alle relevante parter og systemer.</p>
-
-      <div class="timeline-teaser">
-        <div class="morph" id="morph">
-          <div class="morph-tl">
-            <div class="tl-scroll">
-              <div class="tl-rows">
-                <div class="tl-labels"><div></div><div>Medarbejder</div></div>
-                <div class="tl-track">
-                  <div class="tl-flag"><span class="baby"></span>Fødsel · 1. juni</div>
-                  <span class="tl-birthline" aria-hidden="true"></span>
-                  <div class="tl-months">
-                    <span>apr</span><span>maj</span><span class="on">jun</span><span>jul</span><span>aug</span><span>sep</span><span>okt</span><span>nov</span><span>dec</span><span>jan</span><span>feb</span><span>mar</span><span>apr</span><span>maj</span>
-                  </div>
-                  <div class="tl-bar">
-                    <span class="tl-seg" style="left:7.7%;width:6.56%;background:var(--taupe)">4<span class="u">&nbsp;uger</span></span>
-                    <span class="tl-seg" style="left:14.26%;width:16.39%;background:var(--dark-green)">10 uger</span>
-                    <span class="tl-seg" style="left:30.66%;width:14.75%;background:var(--charcoal)">9 uger</span>
-                    <span class="tl-seg" style="left:45.41%;width:13.11%;background:#7a7771">8 uger</span>
-                    <span class="tl-seg tl-ferie" style="left:58.52%;width:4.92%"></span>
-                    <span class="tl-return"><i></i>Tilbage på arbejde</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tl-legend">
-              <span><i style="background:var(--taupe)"></i>Graviditetsorlov</span>
-              <span><i style="background:var(--dark-green)"></i>Barselsorlov</span>
-              <span><i style="background:var(--charcoal)"></i>Øremærket forældreorlov</span>
-              <span><i style="background:#7a7771"></i>Overført forældreorlov</span>
-              <span><i class="tl-ferie"></i>Planlagt ferie</span>
-            </div>
-          </div>
-
-          <div class="pack" aria-hidden="true">
-            <span class="doc"><i></i><i></i><i></i><i></i><i></i></span>
-            <span class="env"><span class="flap"></span><span class="stamp"></span></span>
-          </div>
-
-          <div class="receipt" role="status">
-            <div>
-              <span class="rc-pill">Afsendt</span>
-              <p class="rc-h">Dit orlovsoverblik er sendt</p>
-              <p class="rc-p">Dit orlovsforløb er blevet registreret og sendt til de relevante modtagere.</p>
-              <p class="rc-eyebrow">Sendt til</p>
-              <div class="rc-list">
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>HR og løn</strong><span>Løn- og HR-afdelingen er orienteret</span></span></div>
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Nærmeste leder</strong><span>Din leder er orienteret</span></span></div>
-                <div class="rc-row"><span class="tick"></span><span class="txt"><strong>Du modtager også en kopi</strong><span>En kopi af dit orlovsforløb er sendt til din mail</span></span></div>
-              </div>
-              <button class="rc-btn" type="button" id="rc-download">Download orlovsforløb i PDF</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-label">
-        <span class="section-num">02</span>
         <h2>Sådan løfter EasyLeave jeres orlovsadministration</h2>
       </div>
       <div class="benefit-grid">
         <article class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="3.5" width="16" height="17" rx="2.5"></rect>
+              <path d="M8 8h8M8 12h5"></path>
+              <path d="m8.25 15.75 1.5 1.5L13.5 13.5"></path>
+            </svg>
+          </span>
           <h3>Planlægning</h3>
           <p>Medarbejderen guides gennem orlovsforløbet ud fra jeres gældende regler - uden behov for support eller ekspertviden.</p>
           <ul>
@@ -445,6 +392,12 @@
           </ul>
         </article>
         <article class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="7" width="14" height="14" rx="2.5"></rect>
+              <path d="M7 7V5.5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H17"></path>
+            </svg>
+          </span>
           <h3>Administration</h3>
           <p>Alle orlovsforløb samles ét sted, så leder, medarbejder og administration altid arbejder ud fra de samme oplysninger.</p>
           <ul>
@@ -454,6 +407,13 @@
           </ul>
         </article>
         <article class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="13" r="8"></circle>
+              <path d="M12 9v4.2l3 1.8"></path>
+              <path d="M9.5 2h5M12 2v3"></path>
+            </svg>
+          </span>
           <h3>Opfølgning</h3>
           <p>Styrer automatisk regler og datoer, så I kan holde tidsfrister og søge korrekt refusion uden forsinkelser.</p>
           <ul>
@@ -472,7 +432,7 @@
 
     <section class="section">
       <div class="section-label">
-        <span class="section-num">03</span>
+        <span class="section-num">02</span>
         <h2>Vi samarbejder med</h2>
       </div>
       <div class="logo-bleed">
@@ -510,7 +470,7 @@
 
     <section class="section">
       <div class="section-label">
-        <span class="section-num">04</span>
+        <span class="section-num">03</span>
         <h2>Mød os fysisk</h2>
       </div>
       <p class="messe-intro">Du kan også møde os på årets vigtigste HR- og digitaliseringsbegivenheder. Kig forbi til en snak om orlov, refusion og digitale arbejdsgange.</p>
@@ -640,102 +600,6 @@ document.querySelectorAll('.logo img').forEach(function (img) {
   img.addEventListener('load', sendHeight);
 });
 
-/* -------- Medarbejderens plan: tidslinje + morph (afspilles/loopes mens sektionen er synlig) -------- */
-(function () {
-  var morph = document.getElementById('morph');
-  if (!morph) return;
-  var tl = morph.closest('.timeline-teaser');
-  var tlSegs = [].slice.call(morph.querySelectorAll('.tl-seg'));
-  var tlLegend = [].slice.call(morph.querySelectorAll('.tl-legend span'));
-  var tlFlag = morph.querySelector('.tl-flag');
-  var tlBirth = morph.querySelector('.tl-birthline');
-  var tlReturn = morph.querySelector('.tl-return');
-  var morphTl = morph.querySelector('.morph-tl');
-  var morphRc = morph.querySelector('.receipt');
-  var tlTimers = [], morphTimers = [], replayTimer = null;
-  var LOOP_PAUSE = 3500;
-  var noMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function tlClear() {
-    tlTimers.forEach(clearTimeout); tlTimers = [];
-    tlSegs.concat(tlLegend).forEach(function (el) { el.classList.remove('on'); });
-    [tlFlag, tlBirth, tlReturn].forEach(function (el) { if (el) el.classList.remove('on'); });
-  }
-  function tlAt(ms, fn) { tlTimers.push(setTimeout(fn, ms)); }
-  function tlPlay() {
-    tlClear();
-    void morph.offsetWidth;
-    tlAt(120, function () { if (tlFlag) tlFlag.classList.add('on'); });
-    tlAt(260, function () { if (tlBirth) tlBirth.classList.add('on'); });
-    tlSegs.forEach(function (seg, i) {
-      tlAt(800 + i * 850, function () {
-        seg.classList.add('on');
-        if (tlLegend[i]) tlLegend[i].classList.add('on');
-        sizeMorph();
-      });
-    });
-    tlAt(800 + tlSegs.length * 850, function () { if (tlReturn) tlReturn.classList.add('on'); });
-  }
-  function sizeMorph() {
-    var h = morph.classList.contains('done') ? morphRc.scrollHeight : morphTl.scrollHeight;
-    morph.style.height = h + 'px';
-    sendHeight();
-  }
-  function playMorph() {
-    morphTimers.forEach(clearTimeout); morphTimers = [];
-    morph.className = 'morph';
-    sizeMorph();
-    void morph.offsetWidth;
-    var base = 800 + tlSegs.length * 850 + 1400;
-    var steps = [[0, 'packing'], [1200, 'enveloped'], [2100, 'closed'], [2800, 'stamped'], [3600, 'sent']];
-    steps.forEach(function (s) {
-      morphTimers.push(setTimeout(function () { morph.classList.add(s[1]); sizeMorph(); }, base + s[0]));
-    });
-    var doneAt = base + steps[steps.length - 1][0] + 750;
-    morphTimers.push(setTimeout(function () { morph.classList.add('done'); sizeMorph(); }, doneAt));
-    if (noMotion) return;
-    morphTimers.push(setTimeout(function () {
-      if (!inView || document.hidden) return;
-      replay();
-    }, doneAt + LOOP_PAUSE));
-  }
-  function reset() {
-    clearTimeout(replayTimer);
-    morphTimers.forEach(clearTimeout); morphTimers = [];
-    morph.className = 'morph';
-    sizeMorph();
-    tlClear();
-  }
-  function replay() {
-    reset();
-    replayTimer = setTimeout(function () { tlPlay(); playMorph(); }, 260);
-  }
-
-  window.addEventListener('resize', sizeMorph);
-  document.addEventListener('visibilitychange', function () {
-    if (!document.hidden && !noMotion && inView) replay();
-  });
-
-  var inView = false;
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !inView) {
-          inView = true;
-          replay();
-        } else if (!entry.isIntersecting && inView) {
-          inView = false;
-          reset();
-        }
-      });
-    }, { threshold: 0.35 });
-    io.observe(tl);
-  } else {
-    inView = true;
-    morph.className = 'morph packing enveloped closed stamped done';
-    sizeMorph();
-  }
-})();
 </script>
 </body>
 </html>
