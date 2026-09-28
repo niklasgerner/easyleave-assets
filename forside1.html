@@ -873,7 +873,8 @@ document.querySelectorAll('.faq-answer-wrap').forEach(function (wrap) {
 });
 
 function sendHeight() {
-  var h = document.documentElement.scrollHeight;
+  // Mål selve indholdet: documentElement.scrollHeight bliver aldrig mindre end iframens egen højde, så siden kunne ikke krympe igen, når en FAQ lukkes
+  var h = Math.ceil(document.body.getBoundingClientRect().height);
   try { window.parent.postMessage({ type: 'iframeHeight', height: h }, '*'); } catch(e) {}
 }
 window.addEventListener('load', sendHeight);
