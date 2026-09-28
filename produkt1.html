@@ -50,6 +50,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .step-box { cursor: default; user-select: none; }
 
   html, body {
     height: auto;
@@ -399,264 +400,160 @@
   }
 
   /* ============================================================
-     02 — Sådan fungerer det (procesflow)
-     Samme mønster som forsidens "Sådan virker EasyLeave": trin til venstre,
-     produktvindue til højre. Seks trin i to faser – før og efter fødslen.
-     Telefon: tekst over vinduet, pile + swipe, fremdrift delt i to faser.
+     02 — Sådan fungerer det (proces-flow)
      ============================================================ */
-  #fungerer {
-    --pf-emp: #7e5959; --pf-sys: #505d3f; --pf-adm: #3a3835;
-    --pf-muted: #6b6762; --pf-soft: #a19c96; --pf-line: rgba(58,56,53,.09);
-    --pf-beige: #e6ded9; --pf-off: #f5f3f0; --pf-label: #856260; --pf-taupe: #d8beb8;
-    --pf-ease: cubic-bezier(.22,1,.36,1);
-    --pf-baby: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M12 2a9 9 0 0 0-9 9v1.2A2.8 2.8 0 0 0 4.6 17 8.5 8.5 0 0 0 12 22a8.5 8.5 0 0 0 7.4-5A2.8 2.8 0 0 0 21 12.2V11a9 9 0 0 0-9-9zm-3 9.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm6 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm-3 3.6c1.5 0 2.8.7 3.4 1.7a4.4 4.4 0 0 1-6.8 0c.6-1 1.9-1.7 3.4-1.7z'/%3E%3C/svg%3E");
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr 64px 1fr;
+    grid-template-rows: 175px 70px 175px;
+    align-items: center;
+    position: relative;
   }
-  #fungerer [data-actor="emp"] { --c: var(--pf-emp); }
-  #fungerer [data-actor="sys"] { --c: var(--pf-sys); }
-  #fungerer [data-actor="adm"] { --c: var(--pf-adm); }
 
-  .pf { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
+  .box-1 { grid-column: 1; grid-row: 1; }
+  .arrow-1 { grid-column: 2; grid-row: 1; }
+  .box-2 { grid-column: 3; grid-row: 1; }
+  .arrow-2 { grid-column: 4; grid-row: 1; }
+  .box-3 { grid-column: 5; grid-row: 1; }
+  .arrow-down { grid-column: 5; grid-row: 2; }
+  .box-6 { grid-column: 1; grid-row: 3; }
+  .arrow-5 { grid-column: 2; grid-row: 3; }
+  .box-5 { grid-column: 3; grid-row: 3; }
+  .arrow-4 { grid-column: 4; grid-row: 3; }
+  .box-4 { grid-column: 5; grid-row: 3; }
 
-  /* -------- Trin-listen -------- */
-  .pf-steps { display: flex; flex-direction: column; }
-  .pf-phase { display: flex; align-items: baseline; gap: 8px; padding-bottom: 10px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-label); }
-  .pf-phase span { color: var(--pf-soft); font-weight: 600; letter-spacing: .08em; }
-  .pf-birth { position: relative; display: flex; align-items: center; height: 26px; margin: 14px 0 18px; }
-  .pf-birth::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px dashed var(--pf-taupe); }
-  .pf-flag { position: relative; display: inline-flex; align-items: center; gap: 6px; background: var(--pf-emp); color: #fff; border-radius: 999px; padding: 4px 12px 4px 5px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; box-shadow: 0 2px 9px rgba(113,80,80,.3); }
-  .pf-baby { display: block; width: 16px; height: 16px; flex: 0 0 auto; background: #fff; -webkit-mask: var(--pf-baby) center / 13px 13px no-repeat; mask: var(--pf-baby) center / 13px 13px no-repeat; }
-
-  .pf-step { position: relative; display: block; width: 100%; text-align: left; font: inherit; color: inherit; background: none; border: 0; border-top: 1px solid var(--pf-line); padding: 14px 0 14px 26px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .pf-step.last { border-bottom: 1px solid var(--pf-line); }
-  .pf-step:focus-visible { outline: 2px solid var(--pf-emp); outline-offset: 2px; border-radius: 6px; }
-  .pf-step::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--pf-beige); }
-  .pf-step .bar { position: absolute; left: 0; top: 14px; width: 2px; height: 0; border-radius: 2px; background: var(--c); }
-  .pf-step.on .bar { animation: pf-fill var(--dur, 6s) linear forwards; }
-  .pf.manual .pf-step.on .bar { animation: none; height: calc(100% - 28px); }
-  .pf.hold .pf-step.on .bar { animation-play-state: paused; }
-  @keyframes pf-fill { to { height: calc(100% - 28px); } }
-  .pf-who { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-muted); transition: color 300ms; }
-  .pf-who .n { width: 22px; height: 22px; flex: 0 0 auto; border-radius: 50%; background: var(--pf-beige); color: var(--charcoal); font-size: 11px; letter-spacing: 0; display: inline-flex; align-items: center; justify-content: center; transition: background-color 300ms, color 300ms; }
-  .pf-step.on .pf-who { color: var(--c); }
-  .pf-step.on .pf-who .n { background: var(--c); color: #fff; }
-  .pf-step h3 { font-size: 16.5px; font-weight: 700; letter-spacing: -.015em; margin-top: 4px; color: var(--pf-muted); transition: color 300ms; }
-  .pf-step:hover h3, .pf-step.on h3 { color: var(--charcoal); }
-  .pf-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 500ms var(--pf-ease); }
-  .pf-step.on .pf-more { grid-template-rows: 1fr; }
-  .pf-more > span { overflow: hidden; }
-  .pf-more p { font-size: 14px; line-height: 1.6; color: var(--pf-muted); padding-top: 6px; max-width: 44ch; }
-
-  /* -------- Produktvinduet -------- */
-  .pf-stage { position: relative; }
-  .pf-win { position: relative; background: #f7f6f4; border: 1px solid #e8e6e2; border-radius: 16px; box-shadow: 0 2px 4px rgba(74,50,48,.05), 0 24px 48px -16px rgba(74,50,48,.22); overflow: hidden; }
-  .pf-wbar { display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px; background: #efedea; border-bottom: 1px solid #e3e0db; }
-  .pf-wbar > i { width: 9px; height: 9px; border-radius: 50%; background: #d4d0ca; }
-  .pf-wtitle { margin-left: 10px; font-size: 12px; font-weight: 700; letter-spacing: -.01em; color: var(--charcoal); white-space: nowrap; }
-  .pf-wact { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--pf-muted); white-space: nowrap; }
-  .pf-wact::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--pf-emp)); }
-  .pf-screens { position: relative; height: 410px; }
-  .pf-scr { position: absolute; inset: 0; padding: 22px 24px; opacity: 0; transform: translateY(8px) scale(.99); transition: opacity 450ms ease-out, transform 600ms var(--pf-ease); pointer-events: none; }
-  .pf-scr.on { opacity: 1; transform: none; }
-
-  /* fælles app-elementer (farver fra det rigtige produkt) */
-  .pf-app-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .pf-logo { font-size: 17px; font-weight: 800; letter-spacing: -.03em; color: var(--charcoal); }
-  .pf-logo span { color: var(--pf-emp); }
-  .pf-logo small { font-size: 8.5px; font-weight: 600; color: var(--pf-soft); letter-spacing: .06em; margin-left: 3px; }
-  .pf-lang { font-size: 10px; font-weight: 600; color: var(--pf-muted); border: 1px solid var(--pf-line); background: #fff; border-radius: 6px; padding: 3px 8px; }
-  .pf-ico { width: 30px; height: 30px; flex: 0 0 auto; border-radius: 8px; background: var(--pf-emp); color: #fff; display: flex; align-items: center; justify-content: center; }
-  .pf-ico svg { display: block; width: 16px; height: 16px; }
-  .pf-card { background: #fff; border: 1px solid var(--pf-line); border-radius: 12px; padding: 14px 16px; }
-  .pf-cap { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-soft); margin-bottom: 8px; }
-  .pf-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: #fff; background: var(--pf-emp); border-radius: 9px; padding: 9px 16px; white-space: nowrap; }
-  .pf-ok { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 700; color: var(--pf-sys); background: #e9ede2; border-radius: 999px; padding: 4px 12px; }
-  .pf-head { display: flex; gap: 11px; align-items: center; margin-bottom: 14px; }
-  .pf-head b { display: block; font-size: 14px; color: var(--charcoal); }
-  .pf-head small { display: block; font-size: 10.5px; color: var(--pf-muted); }
-  .pf-tick { position: relative; margin-left: auto; width: 18px; height: 18px; flex: 0 0 auto; border-radius: 50%; border: 1.5px solid var(--pf-beige); transition: background-color 300ms, border-color 300ms; }
-  .pf-tick::after { content: ""; position: absolute; inset: 2.5px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 100% 100% no-repeat; transform: scale(0); transition: transform 300ms cubic-bezier(.34,1.56,.64,1); }
-  .pf-scr.on .pf-tick { background: var(--pf-sys); border-color: var(--pf-sys); transition-delay: var(--d, 500ms); }
-  .pf-scr.on .pf-tick::after { transform: scale(1); transition-delay: var(--d, 500ms); }
-  .pf-in { opacity: 0; transform: translateY(6px); transition: opacity 400ms, transform 500ms var(--pf-ease); }
-  .pf-scr.on .pf-in { opacity: 1; transform: none; transition-delay: var(--d, 300ms); }
-
-  /* skærm 1 – adgang: intranet eller QR */
-  .pf-access { display: grid; grid-template-columns: 1.35fr 1fr; gap: 12px; }
-  .pf-crumb { font-size: 10px; color: var(--pf-soft); margin-bottom: 12px; }
-  .pf-crumb b { color: var(--charcoal); font-weight: 600; }
-  .pf-intra h5 { font-size: 15px; font-weight: 700; letter-spacing: -.015em; color: var(--charcoal); line-height: 1.3; }
-  .pf-intra p { font-size: 11px; line-height: 1.5; color: var(--pf-muted); margin: 6px 0 14px; }
-  .pf-intra .pf-btn { position: relative; }
-  .pf-intra .pf-btn::after { content: ""; position: absolute; inset: -4px; border-radius: 12px; border: 2px solid var(--pf-emp); opacity: 0; }
-  .pf-s1.on .pf-intra .pf-btn::after { animation: pf-ping 1.6s ease-out 1.2s 2; }
-  @keyframes pf-ping { 0% { opacity: .6; transform: scale(.96); } 100% { opacity: 0; transform: scale(1.12); } }
-  .pf-qr { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; }
-  .pf-qr svg { display: block; width: 92px; height: 92px; }
-  .pf-qr b { display: block; font-size: 12px; color: var(--charcoal); }
-  .pf-qr small { display: block; font-size: 10.5px; color: var(--pf-muted); }
-  .pf-devices { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .pf-devices > small { font-size: 10.5px; color: var(--pf-muted); margin-right: 2px; }
-  .pf-dev { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--charcoal); background: #fff; border: 1px solid var(--pf-line); border-radius: 999px; padding: 5px 11px 5px 8px; }
-  .pf-dev svg { width: 14px; height: 14px; color: var(--pf-emp); }
-  .pf-note { margin-top: 14px; font-size: 11px; line-height: 1.5; color: var(--pf-muted); }
-
-  /* skærm 2 – varsling (genkendt fra stamdata) */
-  .pf-steps-mini { display: flex; gap: 14px; font-size: 10px; color: var(--pf-soft); margin-bottom: 14px; white-space: nowrap; overflow: hidden; }
-  .pf-steps-mini span { display: inline-flex; align-items: center; gap: 5px; }
-  .pf-steps-mini span::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--pf-beige); }
-  .pf-steps-mini .now { color: var(--charcoal); font-weight: 600; }
-  .pf-steps-mini .now::before { background: var(--pf-emp); border-color: var(--pf-emp); }
-  .pf-intro { display: flex; gap: 12px; align-items: center; background: #fff; border-left: 3px solid var(--pf-emp); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
-  .pf-intro b { display: block; font-size: 13px; color: var(--charcoal); }
-  .pf-intro small { font-size: 11px; color: var(--pf-muted); }
-  .pf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-  .pf-inp { position: relative; background: #fff; border: 1px solid var(--pf-line); border-radius: 9px; padding: 9px 12px; min-height: 50px; }
-  .pf-inp small { display: block; font-size: 9.5px; color: var(--pf-soft); font-weight: 500; }
-  .pf-inp b { display: block; font-size: 12.5px; font-weight: 600; min-height: 18px; color: var(--charcoal); }
-  .pf-inp.auto b { opacity: 0; transition: opacity 350ms; }
-  .pf-s2.on .pf-inp.auto b { opacity: 1; transition-delay: var(--d, 500ms); }
-  .pf-s2.on .pf-inp.auto { animation: pf-flash 900ms ease-out var(--d, 500ms) backwards; }
-  @keyframes pf-flash { 0% { background: #efece8; } 100% { background: #fff; } }
-  .pf-inp.next { transition: border-color 300ms 1200ms, box-shadow 300ms 1200ms; }
-  .pf-s2.on .pf-inp.next { border-color: var(--pf-emp); box-shadow: 0 0 0 3px rgba(126,89,89,.1); }
-  .pf-inp.next b { display: grid; }
-  .pf-inp.next b > span { grid-area: 1 / 1; transition: opacity 300ms; }
-  .pf-inp.next .ph { color: var(--pf-soft); font-weight: 500; }
-  .pf-inp.next .val { opacity: 0; }
-  .pf-s2.on .pf-inp.next .ph { opacity: 0; transition-delay: 2400ms; }
-  .pf-s2.on .pf-inp.next .val { opacity: 1; transition-delay: 2400ms; }
-  .pf-s2-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; }
-  .pf-s2 .pf-send { opacity: .45; transition: opacity 300ms; }
-  .pf-s2.on .pf-send { opacity: 1; transition-delay: 3000ms; }
-
-  /* skærm 3 og 6 – kvitteringer */
-  .pf-done { text-align: center; }
-  .pf-done .pf-ok { transform: scale(.6); opacity: 0; transition: transform 450ms cubic-bezier(.34,1.56,.64,1), opacity 250ms; }
-  .pf-scr.on .pf-done .pf-ok { transform: none; opacity: 1; }
-  .pf-done h4 { font-size: 17px; font-weight: 700; letter-spacing: -.015em; color: var(--charcoal); margin-top: 10px; }
-  .pf-done > p { font-size: 11px; line-height: 1.5; color: var(--pf-muted); margin: 4px auto 14px; max-width: 38ch; }
-  .pf-sent { display: flex; align-items: center; gap: 11px; text-align: left; background: #fff; border: 1px solid var(--pf-line); border-radius: 10px; padding: 8px 12px; margin: 0 auto 7px; max-width: 360px; }
-  .pf-sent .pf-ico { width: 26px; height: 26px; background: var(--pf-off); color: var(--pf-emp); }
-  .pf-sent .pf-ico svg { width: 14px; height: 14px; }
-  .pf-sent b { display: block; font-size: 12px; color: var(--charcoal); }
-  .pf-sent small { display: block; font-size: 10.5px; color: var(--pf-muted); }
-
-  /* skærm 4 – automatisk påmindelse */
-  .pf-s4 .pf-ico { background: var(--pf-sys); }
-  .pf-mail { display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid var(--pf-line); border-radius: 12px; padding: 13px 14px; margin-bottom: 9px; }
-  .pf-av { width: 32px; height: 32px; flex: 0 0 auto; border-radius: 50%; background: #efe6e4; color: var(--pf-emp); font-size: 11.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-  .pf-av.adm { background: #e7e6e3; color: var(--pf-adm); }
-  .pf-mail > div { min-width: 0; flex: 1; }
-  .pf-mail small { display: block; font-size: 10px; color: var(--pf-soft); }
-  .pf-mail b { display: block; font-size: 13px; color: var(--charcoal); margin-top: 1px; }
-  .pf-mail p { font-size: 11px; line-height: 1.5; color: var(--pf-muted); margin-top: 3px; }
-  .pf-mail .pf-btn { margin-top: 10px; padding: 7px 13px; font-size: 11px; }
-  .pf-s4 .pf-mail { opacity: 0; transform: translateY(-10px); transition: opacity 400ms, transform 550ms var(--pf-ease); }
-  .pf-s4.on .pf-mail { opacity: 1; transform: none; transition-delay: var(--d, 400ms); }
-  .pf-auto { display: inline-flex; align-items: center; gap: 7px; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--pf-sys); }
-  .pf-auto::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--pf-sys); box-shadow: 0 0 0 3px rgba(80,93,63,.15); }
-
-  /* skærm 5 – fuldt orlovsforløb */
-  .pf-months { display: grid; grid-template-columns: repeat(10, 1fr); padding-bottom: 5px; border-bottom: 1px solid var(--pf-line); font-size: 10px; font-weight: 500; color: #7c7873; }
-  .pf-plan { position: relative; height: 26px; margin: 26px 0 14px; }
-  .pf-plan i { position: absolute; top: 0; bottom: 0; border-radius: 6px; font-style: normal; font-size: 10px; font-weight: 600; color: #fff; display: flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; clip-path: inset(0 100% 0 0); transition: clip-path 550ms var(--pf-ease); }
-  .pf-s5.on .pf-plan i { clip-path: inset(0 0 0 0); transition-delay: var(--d, 400ms); }
-  .pf-plan .fer { background: repeating-linear-gradient(45deg, #b6b2a4 0 2.5px, #e3e0db 2.5px 6px); }
-  .pf-mk { position: absolute; top: -20px; bottom: -5px; border-left: 1.5px dashed; }
-  .pf-mk b { position: absolute; top: -2px; left: 0; transform: translateX(-50%); font-size: 9.5px; font-weight: 700; color: #fff; border-radius: 999px; padding: 2px 7px; white-space: nowrap; }
-  .pf-mk.birth { left: 9.15%; border-color: #7e5959; }
-  .pf-mk.birth b { background: #7e5959; }
-  .pf-mk.back { left: 92.1%; border-color: #505d3f; opacity: 0; transition: opacity 400ms; }
-  .pf-mk.back b { background: #505d3f; transform: translateX(-80%); }
-  .pf-s5.on .pf-mk.back { opacity: 1; transition-delay: 2200ms; }
-  .pf-rows { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-  .pf-rows li { display: grid; grid-template-columns: minmax(0, 1fr) 54px 104px; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 8px; background: #fff; font-size: 12px; color: var(--charcoal); }
-  .pf-rows span { display: flex; align-items: center; gap: 9px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pf-rows em { width: 9px; height: 9px; border-radius: 2px; flex: 0 0 auto; }
-  .pf-rows small { font-size: 11px; color: var(--pf-muted); text-align: right; white-space: nowrap; }
-  .pf-s5-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
-
-  /* skærm 6 – videre til systemerne */
-  .pf-to { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
-  .pf-to span { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--charcoal); background: #fff; border: 1px solid var(--pf-line); border-radius: 999px; padding: 5px 7px 5px 12px; }
-  .pf-to .pf-tick { margin-left: 0; width: 16px; height: 16px; }
-  .pf-sys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 390px; margin: 0 auto; }
-  .pf-sysbox { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; background: #fff; border: 1px dashed #d4d0ca; border-radius: 12px; padding: 14px 8px 12px; font-size: 11.5px; font-weight: 600; color: var(--charcoal); opacity: 0; transform: translateY(8px); transition: opacity 400ms, transform 500ms var(--pf-ease), border-color 400ms; }
-  .pf-scr.on .pf-sysbox { opacity: 1; transform: none; border-color: var(--pf-line); border-style: solid; transition-delay: var(--d, 900ms); }
-  .pf-sysbox .pf-ico { background: var(--pf-off); color: var(--pf-sys); }
-  .pf-sysbox .pf-tick { position: absolute; top: 7px; right: 7px; margin: 0; width: 15px; height: 15px; }
-  .pf-sysnote { margin-top: 12px; font-size: 10.5px; color: var(--pf-muted); }
-
-  /* -------- Telefon/tablet: tekst over vinduet, pile + swipe under -------- */
-  .pf-mdesc, .pf-nav, .pf-hint { display: none; }
-  @media (max-width: 900px) {
-    .pf { grid-template-columns: 1fr; gap: 14px; justify-items: stretch; }
-    .pf-steps { display: none; }
-    .pf-mdesc { display: grid; order: 1; padding: 0 2px 4px; }
-    .pf-mdesc > div { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 350ms ease-out, visibility 0s 350ms; }
-    .pf-mdesc > div.on { opacity: 1; visibility: visible; transition: opacity 450ms ease-out 100ms, visibility 0s; }
-    .pf-mphase { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pf-soft); }
-    .pf-mphase b { color: var(--pf-label); font-weight: 700; }
-    .pf-mdesc .pf-who { margin-top: 10px; color: var(--c); }
-    .pf-mdesc .pf-who .n { background: var(--c); color: #fff; }
-    .pf-mdesc h3 { font-size: 19px; font-weight: 700; letter-spacing: -.015em; color: var(--charcoal); margin-top: 6px; }
-    .pf-mdesc p.pf-mp { font-size: 14.5px; line-height: 1.6; color: var(--pf-muted); padding-top: 6px; }
-    .pf-stage { order: 2; touch-action: pan-y; }
-    .pf-scr { transform: translateX(var(--from, 28px)); }
-    .pf-scr.on { transform: none; }
-    .pf-nav { order: 3; display: flex; align-items: flex-start; gap: 12px; margin-top: 4px; }
-    .pf-nav button { width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%; border: 1px solid var(--pf-line); background: #fff; color: var(--charcoal); font: inherit; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 1px 4px rgba(58,56,53,.06); -webkit-tap-highlight-color: transparent; }
-    .pf-nav button:active { transform: scale(.94); }
-    .pf-nav .pf-next { background: var(--dark-green); border-color: var(--dark-green); color: #fff; }
-    .pf-bars { flex: 1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 8px; padding-top: 12px; }
-    .pf-grp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-    .pf-grp small { grid-column: 1 / -1; margin-top: 7px; text-align: center; font-size: 10.5px; font-weight: 600; color: var(--pf-muted); white-space: nowrap; }
-    .pf-b { height: 4px; border-radius: 2px; background: var(--pf-beige); overflow: hidden; }
-    .pf-b b { display: block; height: 100%; width: 0; background: var(--dark-green); border-radius: 2px; }
-    .pf-b.done b { width: 100%; }
-    .pf-b.on b { animation: pf-fillx var(--dur, 6s) linear forwards; }
-    .pf.manual .pf-b.on b { animation: none; width: 100%; }
-    .pf.hold .pf-b.on b { animation-play-state: paused; }
-    .pf-bdiv { width: 20px; height: 20px; margin-top: -8px; border-radius: 50%; background: var(--pf-emp); display: flex; align-items: center; justify-content: center; }
-    .pf-hint { order: 4; justify-self: center; display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--pf-off); font-size: 13px; font-weight: 600; color: var(--charcoal); }
-    .pf.touched .pf-hint { display: none; }
-    .pf.live:not(.touched) .pf-hint span { display: inline-block; animation: pf-hintx 1.3s ease-in-out infinite; }
-    .pf.live:not(.touched) .pf-hint span:first-child { animation-direction: reverse; }
+  .step-box {
+    border-radius: 16px;
+    padding: 26px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.45;
+    height: 175px;
+    font-size: 15.5px;
+    color: #ffffff;
+    letter-spacing: -0.005em;
+    cursor: default;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 1px 2px rgba(45, 74, 62, 0.05), 0 6px 18px rgba(45, 74, 62, 0.10);
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease;
   }
-  @keyframes pf-fillx { from { width: 0; } to { width: 100%; } }
-  @keyframes pf-hintx { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-  @media (max-width: 560px) {
-    .pf-screens { height: 408px; }
-    .pf-scr { padding: 18px 16px; }
-    .pf-wact { display: none; }
-    .pf-access { grid-template-columns: 1fr; gap: 10px; }
-    .pf-qr { flex-direction: row; justify-content: flex-start; text-align: left; gap: 14px; padding: 12px 14px; }
-    .pf-qr svg { width: 64px; height: 64px; }
-    .pf-intra p { margin-bottom: 12px; }
-    .pf-devices { margin-top: 12px; gap: 6px; }
-    .pf-devices > small { display: none; }
-    .pf-note { display: none; }
-    .pf-steps-mini span:not(.now) { display: none; }
-    .pf-intro { padding: 9px 12px; margin-bottom: 10px; gap: 10px; }
-    .pf-intro b { font-size: 12px; line-height: 1.35; }
-    .pf-intro small { display: none; }
-    .pf-grid2 { gap: 6px; }
-    .pf-inp { min-height: 44px; padding: 6px 9px; }
-    .pf-inp small, .pf-inp b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .pf-inp b { font-size: 12px; }
-    .pf-s2-foot { flex-direction: column; align-items: flex-start; }
-    .pf-mail { padding: 11px 12px; gap: 10px; }
-    .pf-mail p { display: none; }
-    .pf-months span:nth-child(even) { visibility: hidden; }
-    .pf-plan i { font-size: 9px; }
-    .pf-rows li { grid-template-columns: minmax(0, 1fr) 52px; }
-    .pf-rows small { display: none; }
-    .pf-s5-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .pf-sys { gap: 6px; }
-    .pf-sysbox { font-size: 10.5px; padding: 12px 4px 10px; }
+  .step-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(45, 74, 62, 0.12), 0 12px 28px rgba(45, 74, 62, 0.10);
   }
-  @media (prefers-reduced-motion: reduce) {
-    #fungerer *, #fungerer *::before, #fungerer *::after { transition: none !important; animation: none !important; }
+
+  .step-box.box-1 { background: var(--box-1); }
+  .step-box.box-2 { background: var(--box-2); }
+  .step-box.box-3 { background: var(--box-3); }
+  .step-box.box-4 { background: var(--box-4); }
+  .step-box.box-5 { background: var(--box-5); }
+  .step-box.box-6 { background: var(--box-6); }
+
+  .step-num {
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--green);
+    font-size: 19px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 12px rgba(45, 74, 62, 0.20), 0 0 0 4px rgba(255, 255, 255, 0.55);
+    z-index: 2;
+  }
+
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-left: -22px;
+    margin-right: 0;
+  }
+  .arrow-connector svg { width: 64px; height: 64px; overflow: visible; }
+  .arrow-connector.left { margin-left: 0; margin-right: -22px; }
+
+  .arrow-down-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-top: -22px;
+    margin-bottom: 0;
+  }
+  .arrow-down-container svg { width: 60px; height: 60px; overflow: visible; transform: rotate(0deg); }
+
+  @keyframes wiggle-right {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(10deg); }
+    40%  { transform: rotate(-8deg); }
+    60%  { transform: rotate(5deg); }
+    80%  { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes wiggle-left {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-5deg); }
+    80%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .arrow-connector:not(.left):hover .wiggle-inner,
+  .arrow-connector:not(.left).wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+  .arrow-connector.left:hover .wiggle-inner,
+  .arrow-connector.left.wiggling .wiggle-inner {
+    animation: wiggle-left 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+  .arrow-down-container:hover .wiggle-inner,
+  .arrow-down-container.wiggling .wiggle-inner {
+    animation: wiggle-right 0.55s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+
+  .footer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    margin-top: 32px;
+  }
+  .footer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--box-3);
+    box-shadow: 0 0 0 4px rgba(125, 88, 84, 0.18);
+    flex-shrink: 0;
+    margin-top: 6px;
   }
 
   /* ============================================================
@@ -725,6 +622,34 @@
     font-weight: 400;
   }
 
+  /* -------- Tweaks panel (procesfarver) -------- */
+  .tweaks-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+    display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .tweaks-panel-head h4 { margin: 0; font-size: 13px; font-weight: 600; color: #2D4A3E; letter-spacing: 0.02em; }
+  .tweaks-close { background: none; border: none; cursor: pointer; color: #888; padding: 4px; font-size: 16px; line-height: 1; }
+  .tweaks-label { font-size: 11px; font-weight: 600; color: #6f7770; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .box-color-list { display: flex; flex-direction: column; gap: 7px; }
+  .box-color-row { display: flex; align-items: center; gap: 8px; }
+  .box-color-label { font-size: 11.5px; font-weight: 500; color: #2D4A3E; width: 50px; flex-shrink: 0; }
+  .hex-swatch { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; cursor: pointer; position: relative; overflow: hidden; }
+  .hex-swatch input[type="color"] { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); border: none; background: transparent; cursor: pointer; padding: 0; }
+  .hex-input { flex: 1; font-family: 'Poppins', sans-serif; font-size: 12.5px; font-weight: 500; color: #2D4A3E; padding: 7px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; outline: none; text-transform: uppercase; letter-spacing: 0.02em; }
+  .hex-input:focus { border-color: #7A9E7E; }
+  .tweaks-divider { height: 1px; background: #eee; margin: 14px 0 12px; }
+
   @media (prefers-reduced-motion: reduce) {
     .particle, .unit, .timeline-bar, .timeline-marker { transition: none !important; animation: none !important; }
   }
@@ -736,6 +661,26 @@
     .grid { gap: 24px; }
     .unit { padding: 16px; gap: 16px; }
     .section { margin-top: 60px; }
+  }
+
+  @media (max-width: 880px) {
+    .flow { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
+    .box-1  { grid-column: 1; grid-row: 1; }
+    .arrow-1 { grid-column: 1; grid-row: 2; }
+    .box-2  { grid-column: 1; grid-row: 3; }
+    .arrow-2 { grid-column: 1; grid-row: 4; }
+    .box-3  { grid-column: 1; grid-row: 5; }
+    .arrow-down { grid-column: 1; grid-row: 6; }
+    .box-4  { grid-column: 1; grid-row: 7; }
+    .arrow-4 { grid-column: 1; grid-row: 8; }
+    .box-5  { grid-column: 1; grid-row: 9; }
+    .arrow-5 { grid-column: 1; grid-row: 10; }
+    .box-6  { grid-column: 1; grid-row: 11; }
+    .arrow-connector, .arrow-connector.left, .arrow-down-container { margin: -10px 0; padding: 6px 0; }
+    .step-box { height: auto; min-height: 84px; padding: 18px 18px; font-size: 14.5px; }
+    .arrow-connector:not(.left) svg { width: 50px; height: 50px; transform: rotate(90deg); }
+    .arrow-down-container svg { width: 50px; height: 50px; transform: rotate(0deg); }
+    .arrow-connector.left svg { width: 50px; height: 50px; transform: scaleX(-1) rotate(-90deg); }
   }
 
   @media (max-width: 640px) {
@@ -750,6 +695,14 @@
     .section-label { gap: 12px; }
     .faq-question { padding: 16px 18px; }
     .faq-answer { padding: 0 18px 18px 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .step-box { min-height: 76px; padding: 16px 14px; font-size: 13.8px; }
+    .arrow-connector:not(.left) svg { width: 42px; height: 42px; transform: rotate(90deg); }
+    .arrow-down-container svg       { width: 42px; height: 42px; transform: rotate(0deg); }
+    .arrow-connector.left svg       { width: 42px; height: 42px; transform: scaleX(-1) rotate(-90deg); }
+    .step-num { width: 34px; height: 34px; font-size: 15px; top: -12px; left: -12px; box-shadow: 0 3px 8px rgba(45, 74, 62, 0.22), 0 0 0 3px #ffffff; }
   }
 </style>
 </head>
@@ -774,7 +727,7 @@
       <span class="section-num">03</span>
       <h2>Sådan opleves det</h2>
     </div>
-    <p class="section-sub">To korte videoer der viser varsling og indberetning, sådan som medarbejderen selv oplever dem.</p>
+    <p class="section-sub" style="max-width: 640px;">To korte videoer der viser varsling og indberetning, sådan som medarbejderen selv oplever dem.</p>
 
     <div class="grid">
 
@@ -889,197 +842,98 @@
       <span class="section-num">02</span>
       <h2>Sådan fungerer det</h2>
     </div>
-    <p class="section-sub">Fra varsling før fødslen til fuld indberetning efter – sådan flyder en orlovssag igennem EasyLeave for medarbejder, leder og administration.</p>
+    <p class="section-sub">Fra varsling til fuld indberetning – sådan flyder en orlovssag igennem EasyLeave for medarbejder, leder og administration.</p>
 
-    <div class="pf">
-      <div class="pf-steps" role="tablist" aria-label="Sådan fungerer EasyLeave, trin for trin">
-        <p class="pf-phase">Før fødslen <span>· Varsling</span></p>
-        <button class="pf-step on" role="tab" aria-selected="true" data-actor="emp" data-phase="Før fødslen" data-title="Adgang">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">1</span><span class="t">Medarbejder</span></span>
-          <h3>Åbner EasyLeave</h3>
-          <span class="pf-more"><span><p>Via jeres intranet eller en QR-kode – på mobil, tablet eller computer.</p></span></span>
-        </button>
-        <button class="pf-step" role="tab" aria-selected="false" data-actor="emp" data-phase="Før fødslen" data-title="Varsling">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">2</span><span class="t">Medarbejder</span></span>
-          <h3>Varsler sin orlov</h3>
-          <span class="pf-more"><span><p>Genkendes ud fra jeres stamdata og guides trin for trin – kun med de valg, der gælder netop dem.</p></span></span>
-        </button>
-        <button class="pf-step last" role="tab" aria-selected="false" data-actor="adm" data-phase="Før fødslen" data-title="Kvittering">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">3</span><span class="t">Leder og administration</span></span>
-          <h3>Får besked med det samme</h3>
-          <span class="pf-more"><span><p>Varslingen lander automatisk hos leder og HR/løn, og medarbejderen får en kopi.</p></span></span>
-        </button>
+    <div class="flow">
 
-        <div class="pf-birth" aria-hidden="true"><span class="pf-flag"><span class="pf-baby"></span>Fødsel</span></div>
-
-        <p class="pf-phase">Efter fødslen <span>· Indberetning</span></p>
-        <button class="pf-step" role="tab" aria-selected="false" data-actor="sys" data-phase="Efter fødslen" data-title="Påmindelse">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">4</span><span class="t">EasyLeave</span></span>
-          <h3>Minder om indberetningen</h3>
-          <span class="pf-more"><span><p>Medarbejder og leder får automatisk en påmindelse, når det er tid til at indberette resten af orloven.</p></span></span>
-        </button>
-        <button class="pf-step" role="tab" aria-selected="false" data-actor="emp" data-phase="Efter fødslen" data-title="Indberetning">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">5</span><span class="t">Medarbejder</span></span>
-          <h3>Indberetter hele forløbet</h3>
-          <span class="pf-more"><span><p>Barsel, forældreorlov og ferie lægges i én plan, som tjekkes mod jeres regler, før den sendes.</p></span></span>
-        </button>
-        <button class="pf-step last" role="tab" aria-selected="false" data-actor="adm" data-phase="Efter fødslen" data-title="Overblik">
-          <span class="bar"></span>
-          <span class="pf-who"><span class="n">6</span><span class="t">Leder og administration</span></span>
-          <h3>Har det fulde overblik</h3>
-          <span class="pf-more"><span><p>Leder og HR/løn får hele planen. Med integration flyder data videre til løn-, tids- og refusionssystemer.</p></span></span>
-        </button>
+      <!-- ── ROW 1 ── -->
+      <div class="step-box box-1">
+        <span class="step-num">1</span>
+        Medarbejder tilgår EasyLeave via QR eller intranet
       </div>
 
-      <div class="pf-stage">
-        <div class="pf-win">
-          <div class="pf-wbar"><i></i><i></i><i></i><b class="pf-wtitle">Adgang</b><span class="pf-wact" data-actor="emp">Medarbejder</span></div>
-          <div class="pf-screens" aria-hidden="true">
-
-            <!-- 1 · Adgang -->
-            <div class="pf-scr pf-s1 on">
-              <span class="pf-cap">To veje ind</span>
-              <div class="pf-access">
-                <div class="pf-card pf-intra">
-                  <div class="pf-crumb">Intranet › Personale › <b>Barsel og orlov</b></div>
-                  <h5>Skal du på barsel eller orlov?</h5>
-                  <p>Giv besked og planlæg din orlov direkte i EasyLeave.</p>
-                  <span class="pf-btn">Start i EasyLeave <span aria-hidden="true">→</span></span>
-                </div>
-                <div class="pf-card pf-qr">
-                  <svg viewBox="-1 -1 27 27" shape-rendering="crispEdges"><rect x="-1" y="-1" width="27" height="27" fill="#fff"/><path fill="#3a3835" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM11 0h1v1h-1zM13 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM18 0h1v1h-1zM19 0h1v1h-1zM20 0h1v1h-1zM21 0h1v1h-1zM22 0h1v1h-1zM23 0h1v1h-1zM24 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM15 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM21 2h1v1h-1zM22 2h1v1h-1zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM18 3h1v1h-1zM20 3h1v1h-1zM21 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM15 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM15 6h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM10 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM17 8h1v1h-1zM22 8h1v1h-1zM23 8h1v1h-1zM24 8h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM18 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM0 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM17 10h1v1h-1zM18 10h1v1h-1zM19 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM0 11h1v1h-1zM1 11h1v1h-1zM2 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM8 11h1v1h-1zM10 11h1v1h-1zM15 11h1v1h-1zM16 11h1v1h-1zM17 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM4 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM13 12h1v1h-1zM17 12h1v1h-1zM18 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM0 13h1v1h-1zM3 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM20 13h1v1h-1zM23 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM5 14h1v1h-1zM10 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM1 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM3 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM15 16h1v1h-1zM19 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM22 16h1v1h-1zM23 16h1v1h-1zM24 16h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM0 18h1v1h-1zM1 18h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM4 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM13 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM17 18h1v1h-1zM20 18h1v1h-1zM24 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM24 19h1v1h-1zM0 20h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM8 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM0 21h1v1h-1zM2 21h1v1h-1zM3 21h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM8 21h1v1h-1zM9 21h1v1h-1zM10 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM19 21h1v1h-1zM20 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM0 22h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM9 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM18 22h1v1h-1zM22 22h1v1h-1zM23 22h1v1h-1zM24 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM9 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM23 23h1v1h-1zM0 24h1v1h-1zM1 24h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1z"/></svg>
-                  <div><b>Eller scan QR-koden</b><small>fx fra plakaten på arbejdspladsen</small></div>
-                </div>
-              </div>
-              <div class="pf-devices">
-                <small>Virker på</small>
-                <span class="pf-dev pf-in" style="--d:500ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Mobil</span>
-                <span class="pf-dev pf-in" style="--d:650ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Tablet</span>
-                <span class="pf-dev pf-in" style="--d:800ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>Computer</span>
-              </div>
-              <p class="pf-note">Webbaseret – intet at installere for medarbejderen.</p>
-            </div>
-
-            <!-- 2 · Varsling -->
-            <div class="pf-scr pf-s2">
-              <div class="pf-app-h"><b class="pf-logo">Demo<span>.</span><small>A/S</small></b><span class="pf-lang">DA · EN</span></div>
-              <div class="pf-steps-mini"><span class="now">Personlige oplysninger</span><span>Graviditetsorlov</span><span>Barsel</span><span>Send</span></div>
-              <div class="pf-intro"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="9" r="5"/><path d="M12 14v8M8.5 18.5h7"/></svg></span><div><b>Giv besked om din kommende orlov som mor</b><small>Du guides igennem – trin for trin.</small></div></div>
-              <div class="pf-grid2">
-                <div class="pf-inp auto" style="--d:500ms"><small>Dit fulde navn</small><b>Anne Andersen</b></div>
-                <div class="pf-inp auto" style="--d:620ms"><small>MA-nr.</small><b>1202</b></div>
-                <div class="pf-inp auto" style="--d:740ms"><small>Ansættelsesdato</small><b>01-10-2025</b></div>
-                <div class="pf-inp next"><small>Barnets forventede fødselsdato *</small><b><span class="ph">Vælg dato</span><span class="val">14-03-2027</span></b></div>
-              </div>
-              <div class="pf-s2-foot">
-                <span class="pf-ok pf-in" style="--d:1100ms">✓ Genkendt ud fra jeres stamdata</span>
-                <span class="pf-btn pf-send">Send varsling <span aria-hidden="true">→</span></span>
-              </div>
-            </div>
-
-            <!-- 3 · Varsling modtaget -->
-            <div class="pf-scr pf-s3">
-              <div class="pf-app-h"><b class="pf-logo">Demo<span>.</span><small>A/S</small></b><span class="pf-lang">DA · EN</span></div>
-              <div class="pf-done">
-                <span class="pf-ok">✓ Varsling sendt</span>
-                <h4>Leder og HR/løn har fået besked</h4>
-                <p>Varslingen er registreret, så alle kan planlægge i god tid.</p>
-                <span class="pf-cap">Sendt til</span>
-                <div class="pf-sent"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></span><div><b>HR/løn</b><small>Løn- og HR-afdelingen er orienteret</small></div><i class="pf-tick" style="--d:500ms"></i></div>
-                <div class="pf-sent"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><div><b>Leder</b><small>Nærmeste leder er orienteret</small></div><i class="pf-tick" style="--d:800ms"></i></div>
-                <div class="pf-sent"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><b>Kopi til medarbejderen</b><small>Sendt til egen e-mail</small></div><i class="pf-tick" style="--d:1100ms"></i></div>
-              </div>
-            </div>
-
-            <!-- 4 · Påmindelse -->
-            <div class="pf-scr pf-s4">
-              <div class="pf-head"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></span><div><b>Automatisk påmindelse</b><small>Sendt af EasyLeave, når det er tid til indberetning</small></div></div>
-              <div class="pf-mail" style="--d:400ms">
-                <span class="pf-av">AA</span>
-                <div>
-                  <small>Til: Anne Andersen · medarbejder</small>
-                  <b>Husk at indberette dit orlovsforløb</b>
-                  <p>Planlæg resten af din orlov, så din leder og HR/løn har det fulde overblik.</p>
-                  <span class="pf-btn">Indberet nu <span aria-hidden="true">→</span></span>
-                </div>
-              </div>
-              <div class="pf-mail" style="--d:1000ms">
-                <span class="pf-av adm">MH</span>
-                <div>
-                  <small>Til: Mette Holm · leder</small>
-                  <b>Anne skal indberette sit orlovsforløb</b>
-                  <p>Du får besked, når planen er indberettet.</p>
-                </div>
-              </div>
-              <span class="pf-auto pf-in" style="--d:1600ms">Ingen skal selv holde øje med, hvornår det er tid</span>
-            </div>
-
-            <!-- 5 · Indberetning -->
-            <div class="pf-scr pf-s5">
-              <div class="pf-head"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><div><b>Dit fulde orlovsforløb</b><small>Anne Andersen · mor</small></div></div>
-              <div class="pf-months"><span>Feb</span><span>Mar</span><span>Apr</span><span>Maj</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Okt</span><span>Nov</span></div>
-              <div class="pf-plan">
-                <i style="left:0;width:9%;background:#9c7f7c;--d:300ms">4 u</i>
-                <i style="left:9.3%;width:22.7%;background:#b0919f;--d:700ms">10 uger</i>
-                <i style="left:32.3%;width:36.4%;background:#637052;--d:1100ms">16 uger</i>
-                <i style="left:69%;width:18.2%;background:#987d5a;--d:1500ms">8 uger</i>
-                <i class="fer" style="left:87.5%;width:4.6%;--d:1900ms"></i>
-                <span class="pf-mk birth"><b>Fødsel</b></span>
-                <span class="pf-mk back"><b>Tilbage</b></span>
-              </div>
-              <ul class="pf-rows">
-                <li class="pf-in" style="--d:700ms"><span><em style="background:#b0919f"></em>Barselsorlov</span><b>10 uger</b><small>Fuld løn</small></li>
-                <li class="pf-in" style="--d:1100ms"><span><em style="background:#637052"></em>Forældreorlov</span><b>16 uger</b><small>Fuld løn</small></li>
-                <li class="pf-in" style="--d:1500ms"><span><em style="background:#987d5a"></em>Orlov uden løn</span><b>8 uger</b><small>Barselsdagpenge</small></li>
-                <li class="pf-in" style="--d:1900ms"><span><em class="fer" style="background:repeating-linear-gradient(45deg,#b6b2a4 0 2px,#e3e0db 2px 4px)"></em>Ferie</span><b>2 uger</b><small>Tilbage 1. nov.</small></li>
-              </ul>
-              <div class="pf-s5-foot">
-                <span class="pf-ok pf-in" style="--d:2400ms">✓ Tjekket mod jeres regler</span>
-                <span class="pf-btn pf-in" style="--d:2600ms">Indberet orlovsforløb <span aria-hidden="true">→</span></span>
-              </div>
-            </div>
-
-            <!-- 6 · Overblik og systemer -->
-            <div class="pf-scr pf-s6">
-              <div class="pf-app-h"><b class="pf-logo">Demo<span>.</span><small>A/S</small></b><span class="pf-lang">DA · EN</span></div>
-              <div class="pf-done">
-                <span class="pf-ok">✓ Orlovsforløb modtaget</span>
-                <h4>Hele planen er på plads – hos alle</h4>
-                <p>Leder og HR/løn har det fulde overblik over orloven, fra fødsel til første arbejdsdag.</p>
-                <div class="pf-to">
-                  <span>Leder <i class="pf-tick" style="--d:400ms"></i></span>
-                  <span>HR/løn <i class="pf-tick" style="--d:600ms"></i></span>
-                </div>
-                <span class="pf-cap">Kan flyde videre til</span>
-                <div class="pf-sys">
-                  <div class="pf-sysbox" style="--d:900ms"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span>Løn<i class="pf-tick" style="--d:1300ms"></i></div>
-                  <div class="pf-sysbox" style="--d:1100ms"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>Tid og fravær<i class="pf-tick" style="--d:1500ms"></i></div>
-                  <div class="pf-sysbox" style="--d:1300ms"><span class="pf-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></span>Refusion<i class="pf-tick" style="--d:1700ms"></i></div>
-                </div>
-                <p class="pf-sysnote pf-in" style="--d:1900ms">Med integration – uden dobbeltregistrering.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
+      <div class="arrow-connector arrow-1">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-1)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
       </div>
 
-      <div class="pf-mdesc" aria-live="polite"></div>
-      <div class="pf-nav">
-        <button type="button" class="pf-prev" aria-label="Forrige trin">‹</button>
-        <div class="pf-bars" aria-hidden="true">
-          <div class="pf-grp"><span class="pf-b"><b></b></span><span class="pf-b"><b></b></span><span class="pf-b"><b></b></span><small>Før fødslen</small></div>
-          <span class="pf-bdiv"><span class="pf-baby"></span></span>
-          <div class="pf-grp"><span class="pf-b"><b></b></span><span class="pf-b"><b></b></span><span class="pf-b"><b></b></span><small>Efter fødslen</small></div>
-        </div>
-        <button type="button" class="pf-next" aria-label="Næste trin">›</button>
+      <div class="step-box box-2">
+        <span class="step-num">2</span>
+        Medarbejder varsler orlov i EasyLeave
       </div>
-      <p class="pf-hint"><span aria-hidden="true">←</span> Swipe for at se alle 6 trin <span aria-hidden="true">→</span></p>
+
+      <div class="arrow-connector arrow-2">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(716.82,0) scale(-1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-2)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-3">
+        <span class="step-num">3</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <!-- ── DOWN ARROW (col 5) ── -->
+      <div class="arrow-down-container arrow-down">
+        <svg viewBox="0 0 716.82 711.35" style="width:56px;height:56px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(358.41,355.68) rotate(90) scale(-1,1) translate(-358.41,-355.68)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-3)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ── ROW 2 (right → left) ── -->
+      <div class="step-box box-6">
+        <span class="step-num">6</span>
+        Information sendes til Leder &amp; administration
+      </div>
+
+      <div class="arrow-connector left arrow-5">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-5)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-5">
+        <span class="step-num">5</span>
+        Medarbejder indberetter fuldt orlovsforløb
+      </div>
+
+      <div class="arrow-connector left arrow-4">
+        <svg viewBox="0 0 716.82 711.35" style="width:60px;height:60px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(1,1)">
+            <g class="wiggle-inner">
+              <path fill="var(--box-4)" d="M420.21,187.48c-64.16-50.79-136.54-90.28-211.56-115.74C221.86,7.64,219.43,4.87,217.44,2.71l-2.5-2.71-3.87.45C204.28,1.48,42.18,48.16,9.75,57.51l-9.75,2.81,127.97,167.29,36.62,38.39,2.93-12.44c9.01-38.15,16.49-70.4,22.7-97.71,6.95,2.3,13.83,4.66,20.45,6.97,61.04,22.4,114.99,53.99,160.4,93.97-46.13,80.39-69.57,160.64-69.72,238.87-1.64,81.03,35.34,154.34,96.53,190.84,51.77,35.36,122.62,32.89,167.05-6.79,42.82-39.4,59.74-104.72,45.58-175.01-13.38-86.6-56.08-171.87-130.14-259.07,48.73-60.92,123.19-130.66,219.67-152.32,5.58-1.19,11.17-2.25,16.75-3.17V8.16c-33.46,3.91-64.01,11.62-92.1,23.32-74.43,30.09-143.19,82.54-204.5,156ZM524.27,494.87c10.54,41.33,11.08,75.28,1.42,102.99-4.09,12.04-13.73,22.26-26.54,28.27-7.61,3.56-15.65,5.36-23.43,5.36-5.75,0-11.34-.97-16.51-2.98-47.36-16.3-71.42-67.36-74.68-110.9v-.11c-4.81-60.65,11.02-125.62,48.29-197.81,40.04,45.74,71.36,105.57,91.44,175.17Z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="step-box box-4">
+        <span class="step-num">4</span>
+        Automatisk påmindelse til medarbejder og leder om orlovsindberetning
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      <div class="footer-dot"></div>
+      <span>Mulighed for integration med administrations-, tids- og refusionssystemer, så data flyder automatisk og korrekt.</span>
     </div>
   </section>
 
@@ -1167,6 +1021,16 @@
     </div>
   </section>
 
+</div>
+
+<!-- Tweaks panel (procesfarver) -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <div class="tweaks-panel-head">
+    <h4>Tweaks</h4>
+    <button class="tweaks-close" id="tweaksClose" aria-label="Luk">✕</button>
+  </div>
+  <div class="tweaks-label">Boks-farver (proces)</div>
+  <div class="box-color-list" id="boxColorList"></div>
 </div>
 
 <script>
@@ -1293,108 +1157,28 @@
   }
 })();
 
-  /* -------- Sådan fungerer det: seks trin med produktvindue, der kører af sig selv --------
-     Pause mens musen er over, en finger holder, eller tastaturfokus er i trinene.
-     Klik, pile eller swipe skifter trin. "Reduceret bevægelse": intet automatisk skift. */
-  (function () {
-    var sec = document.getElementById('fungerer');
-    if (!sec) return;
-    var pf = sec.querySelector('.pf'), list = sec.querySelector('.pf-steps');
-    var steps = [].slice.call(sec.querySelectorAll('.pf-step'));
-    var scrs = [].slice.call(sec.querySelectorAll('.pf-scr'));
-    var bars = [].slice.call(sec.querySelectorAll('.pf-b'));
-    var md = sec.querySelector('.pf-mdesc');
-    var wTitle = sec.querySelector('.pf-wtitle'), wAct = sec.querySelector('.pf-wact');
-    var DURS = [6500, 8000, 6500, 7500, 8500, 7500];
-    function mq(q) { return !!(window.matchMedia && window.matchMedia(q).matches); }
-    var still = mq('(prefers-reduced-motion: reduce)');
-    var auto = !still, cur = 0, started = false, onScreen = false, hovering = false, holding = false, focused = false;
-    var timer = null, left = 0, due = 0;
+  /* -------- Proces: wiggle-pile ved hover på boks -------- */
+  var boxArrowMap = {
+    'box-1': 'arrow-1',
+    'box-2': 'arrow-2',
+    'box-3': 'arrow-down-container',
+    'box-4': 'arrow-4',
+    'box-5': 'arrow-5',
+  };
+  function triggerWiggle(arrowClass) {
+    var el = document.querySelector('.' + arrowClass);
+    if (!el) return;
+    el.classList.remove('wiggling');
+    void el.offsetWidth;
+    el.classList.add('wiggling');
+    el.addEventListener('animationend', function() { el.classList.remove('wiggling'); }, { once: true });
+  }
+  document.querySelectorAll('.step-box').forEach(function(box) {
+    var boxClass = Array.prototype.find.call(box.classList, function(c) { return c.indexOf('box-') === 0; });
+    var arrowClass = boxArrowMap[boxClass];
+    if (arrowClass) box.addEventListener('mouseenter', function() { triggerWiggle(arrowClass); });
+  });
 
-    steps.forEach(function (st, n) {
-      var d = document.createElement('div');
-      d.setAttribute('data-actor', st.getAttribute('data-actor'));
-      d.innerHTML = '<p class="pf-mphase"><b>' + st.getAttribute('data-phase') + '</b> · trin ' + (n + 1) + ' af ' + steps.length + '</p>' +
-        '<p class="pf-who"><span class="n">' + (n + 1) + '</span>' + st.querySelector('.t').textContent + '</p>' +
-        '<h3>' + st.querySelector('h3').textContent + '</h3>' +
-        '<p class="pf-mp">' + st.querySelector('.pf-more p').textContent + '</p>';
-      md.appendChild(d);
-      st.tabIndex = n === 0 ? 0 : -1;
-    });
-
-    function paused() { return hovering || holding || focused || !onScreen; }
-    function run() {
-      if (timer || !auto || paused() || left <= 0) return;
-      due = Date.now() + left;
-      timer = setTimeout(function () { timer = null; left = 0; go((cur + 1) % steps.length, 1); }, left);
-    }
-    function hold() { if (!timer) return; clearTimeout(timer); timer = null; left = Math.max(0, due - Date.now()); }
-    function sync() {
-      if (paused()) hold(); else run();
-      pf.classList.toggle('manual', !auto);
-      pf.classList.toggle('hold', auto && !timer);
-    }
-    function go(i, dir) {
-      pf.style.setProperty('--from', (dir < 0 ? -28 : 28) + 'px');
-      pf.style.setProperty('--dur', DURS[i] + 'ms');
-      cur = i;
-      clearTimeout(timer); timer = null; left = auto ? DURS[i] : 0;
-      bars.forEach(function (b, n) { b.classList.remove('on'); b.classList.toggle('done', n < i); if (n === i) { void b.offsetWidth; b.classList.add('on'); } });
-      [].forEach.call(md.children, function (d, n) { d.classList.toggle('on', n === i); });
-      steps.forEach(function (s, n) {
-        var on = n === i;
-        s.classList.remove('on'); s.setAttribute('aria-selected', on); s.tabIndex = on ? 0 : -1;
-        if (on) { void s.offsetWidth; s.classList.add('on'); }
-      });
-      scrs.forEach(function (s, n) { s.classList.remove('on'); if (n === i) { void s.offsetWidth; s.classList.add('on'); } });
-      wTitle.textContent = steps[i].getAttribute('data-title');
-      wAct.textContent = steps[i].querySelector('.t').textContent;
-      wAct.setAttribute('data-actor', steps[i].getAttribute('data-actor'));
-      sync();
-    }
-    function pick(i, dir) { pf.classList.add('touched'); go(i, dir); }
-    function step(d) { pick((cur + d + steps.length) % steps.length, d); }
-
-    steps.forEach(function (s, n) { s.addEventListener('click', function () { pick(n, n < cur ? -1 : 1); }); });
-    list.addEventListener('keydown', function (e) {
-      var n = null, k = e.key;
-      if (k === 'ArrowDown' || k === 'ArrowRight') n = (cur + 1) % steps.length;
-      else if (k === 'ArrowUp' || k === 'ArrowLeft') n = (cur - 1 + steps.length) % steps.length;
-      else if (k === 'Home') n = 0;
-      else if (k === 'End') n = steps.length - 1;
-      if (n === null) return;
-      e.preventDefault(); pick(n, n < cur ? -1 : 1); steps[n].focus();
-    });
-    list.addEventListener('focusin', function () { focused = true; if (started) sync(); });
-    list.addEventListener('focusout', function () { focused = false; if (started) sync(); });
-    pf.addEventListener('mouseenter', function () { if (mq('(hover: hover)')) { hovering = true; if (started) sync(); } });
-    pf.addEventListener('mouseleave', function () { hovering = false; if (started) sync(); });
-    pf.addEventListener('touchstart', function () { holding = true; if (started) sync(); }, { passive: true });
-    function release() { if (!holding) return; holding = false; if (started) sync(); }
-    pf.addEventListener('touchend', release, { passive: true });
-    pf.addEventListener('touchcancel', release, { passive: true });
-
-    sec.querySelector('.pf-prev').addEventListener('click', function () { step(-1); });
-    sec.querySelector('.pf-next').addEventListener('click', function () { step(1); });
-    var x0 = null, y0 = 0;
-    [sec.querySelector('.pf-stage'), md].forEach(function (el) {
-      el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
-      el.addEventListener('touchend', function (e) {
-        if (x0 === null) return;
-        var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) step(dx < 0 ? 1 : -1);
-      }, { passive: true });
-    });
-
-    // Start først, når vinduet er i syne; hold pause, når det forlader skærmen
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es) {
-        onScreen = es[0].isIntersecting;
-        if (!started) { if (onScreen) { started = true; pf.classList.add('live'); go(0); } return; }
-        sync();
-      }, { threshold: 0.4 }).observe(pf);
-    } else { onScreen = true; started = true; pf.classList.add('live'); go(0); }
-  })();
   /* -------- FAQ accordion -------- */
   document.querySelectorAll('.faq-question').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -1408,6 +1192,92 @@
     wrap.addEventListener('transitionend', sendHeight);
   });
 
+  /* -------- Tweaks panel: boksfarver (proces) -------- */
+  function lighten(hex, amt) {
+    var m = hex.match(/^#?([0-9a-f]{6})$/i);
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    var r = (n >> 16) & 0xff, g = (n >> 8) & 0xff, b = n & 0xff;
+    r = Math.min(255, Math.round(r + (255 - r) * amt));
+    g = Math.min(255, Math.round(g + (255 - g) * amt));
+    b = Math.min(255, Math.round(b + (255 - b) * amt));
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  }
+  function isValidHex(v) { return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v); }
+  function normalizeHex(v) {
+    if (!v) return null;
+    v = v.trim();
+    if (v[0] !== '#') v = '#' + v;
+    if (/^#[0-9a-f]{3}$/i.test(v)) v = '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+    return isValidHex(v) ? v.toUpperCase() : null;
+  }
+  var defaultBoxColors = ["#869375", "#576048", "#99716f", "#869375", "#576048", "#99716f"];
+  var currentBoxColors = defaultBoxColors.slice();
+
+  function applyBoxColor(n, hex, opts) {
+    opts = opts || {};
+    var norm = normalizeHex(hex);
+    if (!norm) return;
+    var root = document.documentElement;
+    root.style.setProperty('--box-' + n, norm);
+    root.style.setProperty('--box-' + n + '-top', lighten(norm, 0.18));
+    currentBoxColors[n - 1] = norm;
+    syncBoxColorInputs(n);
+    if (opts.persist) {
+      try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { boxColors: currentBoxColors } }, '*'); } catch(e) {}
+    }
+  }
+  function syncBoxColorInputs(onlyN) {
+    currentBoxColors.forEach(function(hex, idx) {
+      var n = idx + 1;
+      if (onlyN && n === onlyN) return;
+      var sw = document.getElementById('boxSwatch-' + n);
+      var pi = document.getElementById('boxPicker-' + n);
+      var hx = document.getElementById('boxHex-' + n);
+      if (sw) sw.style.background = hex;
+      if (pi) pi.value = hex;
+      if (hx) hx.value = hex;
+    });
+  }
+  function buildBoxColorRows() {
+    var list = document.getElementById('boxColorList');
+    list.innerHTML = '';
+    for (var n = 1; n <= 6; n++) {
+      (function(n) {
+        var row = document.createElement('div');
+        row.className = 'box-color-row';
+        row.innerHTML =
+          '<span class="box-color-label">Boks ' + n + '</span>' +
+          '<label class="hex-swatch" id="boxSwatch-' + n + '"><input type="color" id="boxPicker-' + n + '" aria-label="Vælg farve boks ' + n + '" /></label>' +
+          '<input class="hex-input" id="boxHex-' + n + '" type="text" maxlength="7" spellcheck="false" aria-label="Hex boks ' + n + '" />';
+        list.appendChild(row);
+        var picker = row.querySelector('#boxPicker-' + n);
+        var hex = row.querySelector('#boxHex-' + n);
+        picker.addEventListener('input', function(e) { applyBoxColor(n, e.target.value); });
+        picker.addEventListener('change', function(e) { applyBoxColor(n, e.target.value, { persist: true }); });
+        hex.addEventListener('input', function(e) { var norm = normalizeHex(e.target.value); if (norm) applyBoxColor(n, norm); });
+        hex.addEventListener('change', function(e) {
+          var norm = normalizeHex(e.target.value);
+          if (norm) applyBoxColor(n, norm, { persist: true });
+          else hex.value = currentBoxColors[n - 1] || '';
+        });
+      })(n);
+    }
+    syncBoxColorInputs();
+  }
+  buildBoxColorRows();
+
+  var panel = document.getElementById('tweaksPanel');
+  window.addEventListener('message', function(e) {
+    var d = e.data || {};
+    if (d.type === '__activate_edit_mode')   panel.classList.add('active');
+    if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+  });
+  document.getElementById('tweaksClose').addEventListener('click', function() {
+    panel.classList.remove('active');
+    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
 </script>
 
 </body></html>
