@@ -286,7 +286,7 @@
     .step .who { justify-content: center; }
     .step .who .n { display: none; }
     .step::before, .step h3, .step .more { display: none; }
-    .step .who { font-size: 0; letter-spacing: 0; }
+    .step .who { font-size: 0; letter-spacing: 0; gap: 0; }
     .step .who::after { content: attr(data-short); white-space: pre; font-size: 12px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--muted); }
     .step.on { background: #fff; box-shadow: 0 1px 4px rgba(58,56,53,.08); }
     .step.on .who::after { color: var(--charcoal); }
@@ -570,6 +570,11 @@
     .logo-grid li { height: 50px; }
     .logo-grid img { height: calc(var(--h) * 0.6px); }
   }
+  /* Telefon: hintet forsvinder helt efter første tryk, og mindre luft ned til faktarækken */
+  @media (max-width: 900px) {
+    .show.touched .m-hint { display: none; }
+    .facts { margin-top: 36px; }
+  }
 </style>
 </head>
 <body>
@@ -682,7 +687,7 @@
 
         <div class="stage">
           <div class="win">
-            <div class="win-bar"><i></i><i></i><i></i><button type="button" class="ap" data-mode="pause" aria-label="Sæt gennemgangen på pause"><span class="ap-i" aria-hidden="true"></span><span class="ap-t">Pause</span></button></div>
+            <div class="win-bar"><i></i><i></i><i></i></div>
             <div class="screens" aria-hidden="true">
 
               <div class="scr s1 on">
@@ -878,9 +883,10 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
   img.addEventListener('load', sendHeight);
 });
 
-// "Sådan virker EasyLeave": tre trin med produktvindue.
-// Desktop: ét roligt gennemløb (ca. 3 ord i sekundet), pause ved hover, stop ved tastaturfokus og en synlig pause-knap.
-// Mobil og "reduceret bevægelse": ingen automatisk skift – brugeren swiper eller trykker selv.
+// "Sådan virker EasyLeave": tre trin med produktvindue, der kører i ring af sig selv.
+// Pause, mens musen er over sektionen, mens en finger holder på den, og mens tastaturfokus er i fanerne.
+// Et tryk, swipe eller klik skifter trin, og gennemløbet fortsætter derfra.
+// "Reduceret bevægelse": intet automatisk skift – brugeren skifter selv.
 (function () {
   var sec = document.getElementById('what');
   if (!sec) return;
@@ -890,14 +896,12 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
   var s1 = scrs[0];
   var bars = [].slice.call(sec.querySelectorAll('.m-bars i'));
   var md = sec.querySelector('.m-desc');
-  var ap = sec.querySelector('.ap'), apT = ap.querySelector('.ap-t');
   var DURS = [7000, 10000, 9000];                          // visningstid pr. trin
   var SEQ = [[500, 'picked']];                               // trin 1: stamdata udfyldes
   function mq(q) { return !!(window.matchMedia && window.matchMedia(q).matches); }
   var still = mq('(prefers-reduced-motion: reduce)');
-  var touch = mq('(max-width: 900px)') || mq('(hover: none)');
-  var cur = 0, started = false, onScreen = false, hovering = false, userPaused = false, tourEnded = false;
-  var autoTour = !still && !touch;
+  var cur = 0, started = false, onScreen = false, hovering = false, holding = false, focused = false;
+  var auto = !still;
 
   function Timer() { this.id = null; this.left = 0; this.due = 0; this.fn = null; }
   Timer.prototype.arm = function (ms, fn) { this.clear(); this.left = ms; this.fn = fn; };
@@ -917,22 +921,12 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
     st.tabIndex = n === 0 ? 0 : -1;
   });
 
-  var MODES = { pause: ['Pause', 'Sæt gennemgangen på pause'], play: ['Afspil', 'Fortsæt gennemgangen'],
-                start: ['Afspil', 'Afspil gennemgangen'], replay: ['Se igen', 'Afspil gennemgangen igen'] };
-  function setMode(mode) {
-    if (ap.getAttribute('data-mode') === mode) return;
-    ap.setAttribute('data-mode', mode);
-    apT.textContent = MODES[mode][0];
-    ap.setAttribute('aria-label', MODES[mode][1]);
-  }
+  function paused() { return hovering || holding || focused; }
   function sync() {
-    if (onScreen && !userPaused) seqT.run(); else seqT.hold();
-    if (autoTour && onScreen && !userPaused && !hovering) advT.run(); else advT.hold();
-    show.classList.toggle('manual', !autoTour);
-    show.classList.toggle('hold', autoTour && !advT.id);
-    var busy = !!(seqT.fn || advT.fn);
-    setMode(busy ? (userPaused ? 'play' : 'pause') : (tourEnded || (touch && cur === 0)) ? 'replay' : 'start');
-    ap.hidden = still || (!busy && touch && cur !== 0);
+    if (onScreen) seqT.run(); else seqT.hold();
+    if (auto && onScreen && !paused()) advT.run(); else advT.hold();
+    show.classList.toggle('manual', !auto);
+    show.classList.toggle('hold', auto && !advT.id);
   }
   function seq(k) {
     if (k >= SEQ.length) return;
@@ -952,12 +946,10 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
     seqT.clear(); advT.clear();
     s1.classList.remove('picked');
     if (i === 0) { if (still) s1.classList.add('picked'); else seq(0); }
-    if (autoTour) advT.arm(DURS[i], function () {
-      if (cur < steps.length - 1) go(cur + 1, 1); else { autoTour = false; tourEnded = true; sync(); }
-    });
+    if (auto) advT.arm(DURS[i], function () { go((cur + 1) % steps.length, 1); });
     sync();
   }
-  function pick(i, dir) { autoTour = false; tourEnded = false; userPaused = false; show.classList.add('touched'); go(i, dir); }
+  function pick(i, dir) { show.classList.add('touched'); go(i, dir); }
   function step(d) { pick((cur + d + steps.length) % steps.length, d); }
 
   steps.forEach(function (s, n) { s.addEventListener('click', function () { pick(n, n < cur ? -1 : 1); }); });
@@ -970,18 +962,16 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
     if (n === null) return;
     e.preventDefault(); pick(n, n < cur ? -1 : 1); steps[n].focus();
   });
-  // Tastaturfokus stopper gennemløbet; musen over trin eller vindue holder det på pause
-  list.addEventListener('focusin', function () { if (autoTour) { autoTour = false; advT.clear(); sync(); } });
-  if (!touch) {
-    show.addEventListener('mouseenter', function () { hovering = true; if (started) sync(); });
-    show.addEventListener('mouseleave', function () { hovering = false; if (started) sync(); });
-  }
-  ap.addEventListener('click', function () {
-    var m = ap.getAttribute('data-mode');
-    if (m === 'pause') { userPaused = true; sync(); }
-    else if (m === 'play') { userPaused = false; sync(); }
-    else { userPaused = false; tourEnded = false; autoTour = !still && !touch; show.classList.add('touched'); go(touch ? cur : 0, -1); }
-  });
+  // Pause: mus over sektionen, finger på den, eller tastaturfokus i fanerne
+  list.addEventListener('focusin', function () { focused = true; if (started) sync(); });
+  list.addEventListener('focusout', function () { focused = false; if (started) sync(); });
+  show.addEventListener('mouseenter', function () { if (mq('(hover: hover)')) { hovering = true; if (started) sync(); } });
+  show.addEventListener('mouseleave', function () { hovering = false; if (started) sync(); });
+  show.addEventListener('touchstart', function () { holding = true; if (started) sync(); }, { passive: true });
+  function release() { if (!holding) return; holding = false; if (started) sync(); }
+  show.addEventListener('touchend', release, { passive: true });
+  show.addEventListener('touchcancel', release, { passive: true });
+
   sec.querySelector('.m-prev').addEventListener('click', function () { step(-1); });
   sec.querySelector('.m-next').addEventListener('click', function () { step(1); });
   var x0 = null, y0 = 0;
@@ -993,7 +983,6 @@ document.querySelectorAll('.logo-grid img').forEach(function (img) {
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) step(dx < 0 ? 1 : -1);
     }, { passive: true });
   });
-  if (still) ap.hidden = true;
 
   // Start først, når vinduet er i syne; hold pause, når det forlader skærmen
   if ('IntersectionObserver' in window) {
